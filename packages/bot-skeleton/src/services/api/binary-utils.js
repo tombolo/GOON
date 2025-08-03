@@ -47,16 +47,21 @@ export const parseCandles = candles => {
 
 export const updateTicks = (ticks, newTick) => {
     console.log('[updateTicks] ticks:', ticks, 'newTick:', newTick);
-    const lastTick = getLast(ticks);
+    const safeTicks = Array.isArray(ticks) ? ticks : [];
+    const lastTick = getLast(safeTicks);
     if (!lastTick) {
         console.log('[updateTicks] No lastTick, returning new array');
-        return [...ticks, newTick];
+        return [...safeTicks, newTick];
+    }
+    if (typeof lastTick.epoch === 'undefined' || typeof newTick.epoch === 'undefined') {
+        console.log('[updateTicks] lastTick or newTick missing epoch, returning safeTicks');
+        return safeTicks;
     }
     if (lastTick.epoch >= newTick.epoch) {
-        console.log('[updateTicks] lastTick.epoch >= newTick.epoch, returning ticks');
-        return ticks;
+        console.log('[updateTicks] lastTick.epoch >= newTick.epoch, returning safeTicks');
+        return safeTicks;
     }
-    const updated = [...ticks.slice(1), newTick];
+    const updated = [...safeTicks.slice(1), newTick];
     console.log('[updateTicks] updated:', updated);
     return updated;
 };
