@@ -16,11 +16,14 @@ export default Engine =>
                 this.symbol = symbol;
                 const { ticksService } = this.$scope;
 
+                console.log('[watchTicks] Monitoring symbol:', symbol);
+
                 await ticksService.stopMonitor({
                     symbol,
                     key: tickListenerKey,
                 });
                 const callback = ticks => {
+                    console.log('[watchTicks] Callback ticks:', ticks);
                     if (this.is_proposal_subscription_required) {
                         this.checkProposalReady();
                     }
@@ -37,7 +40,6 @@ export default Engine =>
                 tickListenerKey = key;
             }
         }
-
         checkTicksPromiseExists() {
             return this.$scope.ticksService.ticks_history_promise;
         }
@@ -58,10 +60,12 @@ export default Engine =>
         }
 
         getLastTick(raw, toString = false) {
+            console.log('[getLastTick] Requesting ticks for symbol:', this.symbol);
             return new Promise(resolve =>
                 this.$scope.ticksService
                     .request({ symbol: this.symbol })
                     .then(ticks => {
+                        console.log('[getLastTick] API returned ticks:', ticks);
                         const lastTickObj = getLast(ticks);
                         if (!lastTickObj) {
                             console.warn('[getLastTick] No lastTick found by kiongozi:', ticks);
@@ -75,6 +79,7 @@ export default Engine =>
                         resolve(last_tick);
                     })
                     .catch(e => {
+                        console.error('[getLastTick] API error:', e);
                         if (e.code === 'MarketIsClosed') {
                             globalObserver.emit('Error', e);
                             resolve(e.code);
