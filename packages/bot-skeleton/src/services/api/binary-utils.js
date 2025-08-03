@@ -90,9 +90,11 @@ export const updateCandles = (candles, ohlc) => {
     return updated;
 };
 
+// filepath: c:\Users\Brian\Desktop\deriv-app-new-main\packages\bot-skeleton\src\services\api\binary-utils.js
 export const getType = isCandle => {
     console.log('[getType] isCandle:', isCandle);
-    const type = isCandle ? 'candles' : 'ticks';
+    // Default to 'ticks' if isCandle is undefined or falsy
+    const type = isCandle === true ? 'candles' : 'ticks';
     console.log('[getType] type:', type);
     return type;
 };

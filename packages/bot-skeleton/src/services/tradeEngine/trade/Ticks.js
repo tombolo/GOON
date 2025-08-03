@@ -25,6 +25,10 @@ export default Engine =>
                         this.checkProposalReady();
                     }
                     const lastTick = ticks.slice(-1)[0];
+                    if (!lastTick) {
+                        console.warn('[watchTicks] No lastTick received by Tombolo:', ticks);
+                        return;
+                    }
                     const { epoch } = lastTick;
                     this.store.dispatch({ type: constants.NEW_TICK, payload: epoch });
                 };
@@ -58,7 +62,13 @@ export default Engine =>
                 this.$scope.ticksService
                     .request({ symbol: this.symbol })
                     .then(ticks => {
-                        let last_tick = raw ? getLast(ticks) : getLast(ticks).quote;
+                        const lastTickObj = getLast(ticks);
+                        if (!lastTickObj) {
+                            console.warn('[getLastTick] No lastTick found by kiongozi:', ticks);
+                            resolve(undefined);
+                            return;
+                        }
+                        let last_tick = raw ? lastTickObj : lastTickObj.quote;
                         if (!raw && toString) {
                             last_tick = last_tick.toFixed(this.getPipSize());
                         }
