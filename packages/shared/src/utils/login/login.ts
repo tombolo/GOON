@@ -1,5 +1,6 @@
 import { website_name } from '../config/app-config';
-import { domain_app_ids, getAppId } from '../config/config';
+import { domain_app_ids } from '../config/config';
+import { WebSocketUtils } from '@deriv-com/utils';
 import { CookieStorage, isStorageSupported, LocalStore } from '../storage/storage';
 import { getHubSignupUrl, urlForCurrentDomain } from '../url';
 import { deriv_urls } from '../url/constants';
@@ -33,21 +34,19 @@ export const loginUrl = ({ language }: TLoginUrl) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const date_first_contact_cookie = new (CookieStorage as any)('date_first_contact');
     const date_first_contact = date_first_contact_cookie.get('date_first_contact');
-    const marketing_queries = `${signup_device ? `&signup_device=${signup_device}` : ''}${
-        date_first_contact ? `&date_first_contact=${date_first_contact}` : ''
-    }`;
+    const marketing_queries = `${signup_device ? `&signup_device=${signup_device}` : ''}${date_first_contact ? `&date_first_contact=${date_first_contact}` : ''
+        }`;
 
     const getOAuthUrl = () => {
-        return `https://oauth.${
-            deriv_urls.DERIV_HOST_NAME
-        }/oauth2/authorize?app_id=${change_login_app_id || getAppId()}&l=${language}${marketing_queries}&brand=${website_name.toLowerCase()}`;
+        return `https://oauth.${deriv_urls.DERIV_HOST_NAME
+            }/oauth2/authorize?app_id=${change_login_app_id || WebSocketUtils.getAppId()}&l=${language}${marketing_queries}&brand=${website_name.toLowerCase()}`;
     };
 
     if (server_url && /qa/.test(server_url)) {
-        return `https://${server_url}/oauth2/authorize?app_id=${getAppId()}&l=${language}${marketing_queries}&brand=${website_name.toLowerCase()}`;
+        return `https://${server_url}/oauth2/authorize?app_id=${WebSocketUtils.getAppId()}&l=${language}${marketing_queries}&brand=${website_name.toLowerCase()}`;
     }
 
-    if (getAppId() === domain_app_ids[window.location.hostname as keyof typeof domain_app_ids]) {
+    if (WebSocketUtils.getAppId() === String(domain_app_ids[window.location.hostname as keyof typeof domain_app_ids])) {
         return getOAuthUrl();
     }
     return urlForCurrentDomain(getOAuthUrl());
