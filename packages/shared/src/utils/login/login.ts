@@ -1,9 +1,9 @@
 import { website_name } from '../config/app-config';
-import { domain_app_ids } from '../config/config';
-import { WebSocketUtils } from '@deriv-com/utils';
+import { domain_app_ids, getAppId } from '../config/config';
 import { CookieStorage, isStorageSupported, LocalStore } from '../storage/storage';
 import { getHubSignupUrl, urlForCurrentDomain } from '../url';
 import { deriv_urls } from '../url/constants';
+import { routes } from '../routes/routes';
 
 export const redirectToLogin = (is_logged_in: boolean, language: string, has_params = true, redirect_delay = 0) => {
     if (!is_logged_in && isStorageSupported(sessionStorage)) {
@@ -18,7 +18,14 @@ export const redirectToLogin = (is_logged_in: boolean, language: string, has_par
 };
 
 export const redirectToSignUp = () => {
-    window.open(getHubSignupUrl());
+    const location = window.location.href;
+    const isDtraderRoute = window.location.pathname.includes(routes.trade);
+
+    if (isDtraderRoute) {
+        window.open(getHubSignupUrl());
+    } else {
+        window.open(getHubSignupUrl());
+    }
 };
 
 type TLoginUrl = {
@@ -39,14 +46,14 @@ export const loginUrl = ({ language }: TLoginUrl) => {
 
     const getOAuthUrl = () => {
         return `https://oauth.${deriv_urls.DERIV_HOST_NAME
-            }/oauth2/authorize?app_id=${change_login_app_id || WebSocketUtils.getAppId()}&l=${language}${marketing_queries}&brand=${website_name.toLowerCase()}`;
+            }/oauth2/authorize?app_id=${change_login_app_id || getAppId()}&l=${language}${marketing_queries}&brand=${website_name.toLowerCase()}`;
     };
 
     if (server_url && /qa/.test(server_url)) {
-        return `https://${server_url}/oauth2/authorize?app_id=${WebSocketUtils.getAppId()}&l=${language}${marketing_queries}&brand=${website_name.toLowerCase()}`;
+        return `https://${server_url}/oauth2/authorize?app_id=${getAppId()}&l=${language}${marketing_queries}&brand=${website_name.toLowerCase()}`;
     }
 
-    if (WebSocketUtils.getAppId() === String(domain_app_ids[window.location.hostname as keyof typeof domain_app_ids])) {
+    if (getAppId() === domain_app_ids[window.location.hostname as keyof typeof domain_app_ids]) {
         return getOAuthUrl();
     }
     return urlForCurrentDomain(getOAuthUrl());
