@@ -51,34 +51,7 @@ export const isLocal = () => /localhost(:\d+)?$/i.test(window.location.hostname)
 /**
  * @deprecated Please use 'WebSocketUtils.getAppId' from '@deriv-com/utils' instead of this.
  */
-export const getAppId = () => {
-    let app_id = null;
-    const user_app_id = '70344';
-    const config_app_id = window.localStorage.getItem('config.app_id');
-    const current_domain = getCurrentProductionDomain() || '';
-    window.localStorage.removeItem('config.platform');
-    const platform = window.sessionStorage.getItem('config.platform');
-    const is_bot = isBot();
-
-    if (platform && platform_app_ids[platform as keyof typeof platform_app_ids]) {
-        app_id = platform_app_ids[platform as keyof typeof platform_app_ids];
-    } else if (config_app_id) {
-        app_id = config_app_id;
-    } else if (user_app_id.length) {
-        window.localStorage.setItem('config.default_app_id', user_app_id);
-        app_id = user_app_id;
-    } else if (isStaging()) {
-        window.localStorage.removeItem('config.default_app_id');
-        app_id = is_bot ? 70344 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 70344;
-    } else if (/localhost/i.test(window.location.hostname)) {
-        app_id = 70344;
-    } else {
-        window.localStorage.removeItem('config.default_app_id');
-        app_id = is_bot ? 70344 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 70344;
-    }
-
-    return app_id;
-};
+export const getAppId = () => WebSocketUtils.getAppId();
 
 // ✅ UPDATED TO USE CORRECT WEBSOCKET BASE ENDPOINT
 export const getSocketURL = () => {
