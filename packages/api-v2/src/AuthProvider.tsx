@@ -1,7 +1,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
-import { getAccountsFromLocalStorage, getActiveLoginIDFromLocalStorage, getToken } from '@deriv/utils';
+import { getAccountsFromLocalStorage, getToken } from '@deriv/utils';
 import { AppIDConstants } from '@deriv-com/utils';
+import { WebSocketUtils } from '@deriv-com/utils';
 
 import { TSocketRequestPayload, TSocketResponseData, TSocketSubscribableEndpointNames } from '../types';
 
@@ -65,7 +66,7 @@ function waitForLoginAndTokenWithTimeout(
         resolve: (value: { loginId: string; token: string }) => void,
         reject: (reason?: string) => void
     ) => {
-        const loginId = getActiveLoginIDFromLocalStorage(loginIDKey);
+        const loginId = WebSocketUtils.getActiveLoginid();
         const token = getToken(loginId as string);
         const storedAccounts = getAccountsFromLocalStorage();
         if (loginId && token) {
