@@ -83,9 +83,7 @@ const DefaultHeader = observer(() => {
                     {!isDesktop ? (
                         <React.Fragment>
                             <ToggleMenuDrawer platform_config={filterPlatformsForClients(platform_config)} />
-                            {header_extension && is_logged_in && (
-                                <div className='header__menu-left-extensions'>{header_extension}</div>
-                            )}
+                            
                             <DerivShortLogo />
                         </React.Fragment>
                     ) : (
