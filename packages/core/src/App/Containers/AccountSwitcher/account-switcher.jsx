@@ -137,6 +137,9 @@ const AccountSwitcher = observer(({ history, is_mobile, is_visible }) => {
     const doSwitch = async loginid => {
         closeAccountsDialog();
         if (account_loginid === loginid) return;
+        // Update storages so APIProvider can detect the change
+        localStorage.setItem('active_loginid', loginid);
+        sessionStorage.setItem('active_loginid', loginid);
         await switchAccount(loginid);
     };
 
