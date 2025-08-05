@@ -148,9 +148,24 @@ type TAPIProviderProps = {
 const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIProviderProps>) => {
     const WS = useWS();
     const [reconnect, setReconnect] = useState(false);
-    const activeLoginid =
-        window.sessionStorage.getItem('active_loginid') || window.localStorage.getItem('active_loginid');
+    const [activeLoginid, setActiveLoginid] = useState(
+        window.sessionStorage.getItem('active_loginid') || window.localStorage.getItem('active_loginid')
+    );
     const [environment, setEnvironment] = useState(getEnvironment(activeLoginid));
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const newLoginid =
+                window.sessionStorage.getItem('active_loginid') || window.localStorage.getItem('active_loginid');
+            if (newLoginid !== activeLoginid) {
+                console.log('[APIProvider] Detected loginid change:', newLoginid);
+                setActiveLoginid(newLoginid);
+                setEnvironment(getEnvironment(newLoginid));
+            }
+        }, 500); // check every 500ms
+
+        return () => clearInterval(interval);
+    }, [activeLoginid]);
+
     const standaloneDerivAPI = useRef(standalone ? initializeDerivAPI(() => setReconnect(true)) : null);
     const subscriptions = useRef<Record<string, DerivAPIBasic['subscribe']>>();
 
@@ -243,7 +258,7 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
 
         return () => clearTimeout(reconnectTimerId);
     }, [environment, reconnect, standalone]);
-    
+
     return (
         <APIContext.Provider
             value={{
