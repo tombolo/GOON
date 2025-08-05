@@ -157,15 +157,18 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
         const interval = setInterval(() => {
             const newLoginid =
                 window.sessionStorage.getItem('active_loginid') || window.localStorage.getItem('active_loginid');
-            if (newLoginid !== activeLoginid) {
-                console.log('[APIProvider] Detected loginid change:', newLoginid);
-                setActiveLoginid(newLoginid);
-                setEnvironment(getEnvironment(newLoginid));
-            }
-        }, 500); // check every 500ms
+            setActiveLoginid(prevLoginid => {
+                if (newLoginid !== prevLoginid) {
+                    console.log('[APIProvider] Detected loginid change:', newLoginid);
+                    setEnvironment(getEnvironment(newLoginid));
+                    return newLoginid;
+                }
+                return prevLoginid;
+            });
+        }, 500);
 
         return () => clearInterval(interval);
-    }, [activeLoginid]);
+    }, []);
 
     const standaloneDerivAPI = useRef(standalone ? initializeDerivAPI(() => setReconnect(true)) : null);
     const subscriptions = useRef<Record<string, DerivAPIBasic['subscribe']>>();
