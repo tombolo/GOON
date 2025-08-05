@@ -136,8 +136,9 @@ const getEnvironment = (loginid: string | null | undefined) => {
     const customServerURL = window.localStorage.getItem('config.server_url');
     if (customServerURL) return 'custom';
 
-    if (loginid && !/^(VRT|VRW)/.test(loginid)) return 'real';
-    return 'demo';
+    // If loginid starts with VRT or VRW, it's demo. Otherwise, real.
+    if (loginid && /^(VRT|VRW)/.test(loginid)) return 'demo';
+    return 'real';
 };
 
 type TAPIProviderProps = {
