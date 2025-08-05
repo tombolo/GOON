@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import { FaWhatsapp, FaInstagram, FaTelegramPlane, FaTiktok } from 'react-icons/fa';
+//import { FaWhatsapp, FaInstagram, FaTelegramPlane, FaTiktok } from 'react-icons/fa';
 import { useRemoteConfig } from '@deriv/api';
 import { Div100vhContainer, Icon, MobileDrawer, ToggleSwitch } from '@deriv/components';
 import {
@@ -27,6 +27,7 @@ import ServerTime from 'App/Containers/server-time.jsx';
 import { MenuTitle, MobileLanguageMenu } from './Components/ToggleMenu';
 import MenuLink from './menu-link';
 import PlatformSwitcher from './platform-switcher';
+import DerivShortLogo from 'App/Containers/Layout/header/deriv-short-logo';
 
 const ToggleMenuDrawer = observer(({ platform_config }) => {
     const { common, ui, client, traders_hub, modules } = useStore();
@@ -324,6 +325,7 @@ const ToggleMenuDrawer = observer(({ platform_config }) => {
             <a id='dt_mobile_drawer_toggle' onClick={toggleDrawer} className='header__mobile-drawer-toggle'>
                 <Icon icon='IcHamburger' width='16px' height='16px' className='header__mobile-drawer-icon' />
             </a>
+            <DerivShortLogo />
             <MobileDrawer
                 alignment='left'
                 icon_class='header__menu-toggle'
@@ -373,43 +375,11 @@ const ToggleMenuDrawer = observer(({ platform_config }) => {
                                         is_active={route === routes.traders_hub}
                                     />
                                 </MobileDrawer.Item>
-                                <MobileDrawer.Item>
-                                    <a
-                                        href='https://www.instagram.com/gletraders?igsh=MXdqdTRyYmx4OTR6OQ=='
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        className='header__menu-mobile-link'
-                                    >
-                                        <FaInstagram className='header__menu-mobile-link-icon' />
-                                        <span className='header__menu-mobile-link-text'>Instagram</span>
-                                    </a>
-                                </MobileDrawer.Item>
+                                
 
-                                {/* Telegram */}
-                                <MobileDrawer.Item>
-                                    <a
-                                        href='https://t.me/+9aI3zpSwoJw0ZDM0'
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        className='header__menu-mobile-link'
-                                    >
-                                        <FaTelegramPlane className='header__menu-mobile-link-icon' />
-                                        <span className='header__menu-mobile-link-text'>Telegram</span>
-                                    </a>
-                                </MobileDrawer.Item>
+                                
 
-                                {/* TikTok */}
-                                <MobileDrawer.Item>
-                                    <a
-                                        href='https://www.tiktok.com/@gletraders.com?_t=ZM-8wvMYf6TO00&_r=1'
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        className='header__menu-mobile-link'
-                                    >
-                                        <FaTiktok className='header__menu-mobile-link-icon' />
-                                        <span className='header__menu-mobile-link-text'>TikTok</span>
-                                    </a>
-                                </MobileDrawer.Item>
+                                
 
                                 {primary_routes_config.map((route_config, idx) =>
                                     getRoutesWithSubMenu(route_config, idx)
@@ -446,43 +416,11 @@ const ToggleMenuDrawer = observer(({ platform_config }) => {
                                             }
                                         ></MobileDrawer.Item>
 
-                                        <MobileDrawer.Item>
-                                            <a
-                                                href='https://www.instagram.com/gletraders?igsh=MXdqdTRyYmx4OTR6OQ=='
-                                                target='_blank'
-                                                rel='noopener noreferrer'
-                                                className='header__menu-mobile-link'
-                                            >
-                                                <FaInstagram className='header__menu-mobile-link-icon' />
-                                                <span className='header__menu-mobile-link-text'>Instagram</span>
-                                            </a>
-                                        </MobileDrawer.Item>
+                                        
 
-                                        {/* Telegram */}
-                                        <MobileDrawer.Item>
-                                            <a
-                                                href='https://t.me/+9aI3zpSwoJw0ZDM0'
-                                                target='_blank'
-                                                rel='noopener noreferrer'
-                                                className='header__menu-mobile-link'
-                                            >
-                                                <FaTelegramPlane className='header__menu-mobile-link-icon' />
-                                                <span className='header__menu-mobile-link-text'>Telegram</span>
-                                            </a>
-                                        </MobileDrawer.Item>
+                                        
 
-                                        {/* TikTok */}
-                                        <MobileDrawer.Item>
-                                            <a
-                                                href='https://www.tiktok.com/@gletraders.com?_t=ZM-8wvMYf6TO00&_r=1'
-                                                target='_blank'
-                                                rel='noopener noreferrer'
-                                                className='header__menu-mobile-link'
-                                            >
-                                                <FaTiktok className='header__menu-mobile-link-icon' />
-                                                <span className='header__menu-mobile-link-text'>TikTok</span>
-                                            </a>
-                                        </MobileDrawer.Item>
+                                    
 
                                         {should_show_regulatory_information && (
                                             <MobileDrawer.Item className='header__menu-mobile-theme--trader-hub'>
