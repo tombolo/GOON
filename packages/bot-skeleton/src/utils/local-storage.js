@@ -9,14 +9,14 @@ import OverUnderBot from './bots/over_under_bot_by_GLE.xml';
 const STATIC_BOTS = {
     deriv_miner_pro: {
         id: 'auto_robot_by_GLE1',
-        name: 'Auto robot by GLE1',
+        name: 'Auto robot',
         xml: AutoRobot,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
     dollar_flipper: {
         id: 'over_under_bot_by_GLE',
-        name: 'Over under bot by GLE',
+        name: 'Over&under bot',
         xml: OverUnderBot,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,

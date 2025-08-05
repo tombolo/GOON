@@ -42,7 +42,7 @@ const TradersHubHomeButton = observer(() => {
         >
             
             <Text className='traders-hub-header__tradershub--text'>
-                <Localize i18n_default_text="GLE Trading Hub" />
+                <Localize i18n_default_text="Smart Traders" />
             </Text>
         </div>
     );

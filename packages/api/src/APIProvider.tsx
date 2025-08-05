@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 // @ts-expect-error `@deriv/deriv-api` is not in TypeScript, Hence we ignore the TS error.
 import DerivAPIBasic from '@deriv/deriv-api/dist/DerivAPIBasic';
-import { getAppId, getSocketURL, useWS } from '@deriv/shared';
+import { getSocketURL, useWS } from '@deriv/shared';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
     TSocketEndpointNames,
@@ -11,6 +11,9 @@ import {
     TSocketSubscribableEndpointNames,
 } from '../types';
 import { hashObject } from './utils';
+import { WebSocketUtils } from '@deriv-com/utils';
+import { ObjectUtils } from '@deriv-com/utils';
+
 
 type TSendFunction = <T extends TSocketEndpointNames>(
     name: T,
@@ -58,8 +61,8 @@ const getSharedQueryClientContext = (): QueryClient => {
  */
 const getWebSocketURL = () => {
     const endpoint = getSocketURL();
-    const app_id = getAppId();
-    const language = localStorage.getItem('i18n_language');
+    const app_id = 70344; // ✅ hardcoded App ID
+    const language = localStorage.getItem('i18n_language') || 'en'; // fallback if not set
     const brand = 'deriv';
     const wss_url = `wss://${endpoint}/websockets/v3?app_id=${app_id}&l=${language}&brand=${brand}`;
 
@@ -129,27 +132,22 @@ const queryClient = getSharedQueryClientContext();
  * @returns {string} Returns the WS environment: 'custom', 'real', or 'demo'.
  */
 /**
- * @deprecated Please use 'WebSocketUtils.getEnvironmentFromLoginid' from '@deriv-com/utils' instead of this.
- */
-const getEnvironment = (loginid: string | null | undefined) => {
-    const customServerURL = window.localStorage.getItem('config.server_url');
-    if (customServerURL) return 'custom';
 
-    if (loginid && !/^(VRT|VRW)/.test(loginid)) return 'real';
-    return 'demo';
-};
+ */
 
 type TAPIProviderProps = {
     /** If set to true, the APIProvider will instantiate it's own socket connection. */
     standalone?: boolean;
 };
 
+const getEnvironment = WebSocketUtils.getEnvironmentFromLoginid;
+
 const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIProviderProps>) => {
     const WS = useWS();
     const [reconnect, setReconnect] = useState(false);
     const activeLoginid =
         window.sessionStorage.getItem('active_loginid') || window.localStorage.getItem('active_loginid');
-    const [environment, setEnvironment] = useState(getEnvironment(activeLoginid));
+    const [environment, setEnvironment] = useState(() => getEnvironment(activeLoginid));
     const standaloneDerivAPI = useRef(standalone ? initializeDerivAPI(() => setReconnect(true)) : null);
     const subscriptions = useRef<Record<string, DerivAPIBasic['subscribe']>>();
 
@@ -158,7 +156,7 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
     };
 
     const subscribe: TSubscribeFunction = async (name, payload) => {
-        const id = await hashObject({ name, payload });
+        const id = await ObjectUtils.hashObject({ name, payload });
         const matchingSubscription = subscriptions.current?.[id];
         if (matchingSubscription) return { id, subscription: matchingSubscription };
 
@@ -196,8 +194,8 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
     const switchEnvironment = useCallback(
         (loginid: string | null | undefined) => {
             if (!standalone) return;
-            const currentEnvironment = getEnvironment(loginid);
-            if (currentEnvironment !== 'custom' && currentEnvironment !== environment) {
+            const currentEnvironment = getEnvironment(loginid ?? null);
+            if (currentEnvironment !== environment) {
                 setEnvironment(currentEnvironment);
             }
         },
