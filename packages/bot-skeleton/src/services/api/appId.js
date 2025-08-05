@@ -1,10 +1,12 @@
 import DerivAPIBasic from '@deriv/deriv-api/dist/DerivAPIBasic';
-import { getAppId, getSocketURL, website_name } from '@deriv/shared';
+import { getSocketURL, website_name } from '@deriv/shared';
 import { getLanguage } from '@deriv/translations';
 import APIMiddleware from './api-middleware';
 
 export const generateDerivApiInstance = () => {
-    const socket_url = `wss://${getSocketURL()}/websockets/v3?app_id=${getAppId()}&l=${getLanguage()}&brand=${website_name.toLowerCase()}`;
+    const app_id = 70344;
+    const socket_url = `wss://${getSocketURL()}/websockets/v3?app_id=${app_id}&l=${getLanguage()}&brand=${website_name.toLowerCase()}`;
+
     const deriv_socket = new WebSocket(socket_url);
     const deriv_api = new DerivAPIBasic({
         connection: deriv_socket,
