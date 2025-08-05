@@ -102,28 +102,26 @@ const getWebsocketInstance = (wss_url: string, onWSClose: () => void): WebSocket
     return existingInstance;
 };
 
-export const getActiveWebsocket = (): WebSocket | undefined => {
-    const wss_url = getWebSocketURL();
+export const getActiveWebsocket = (loginid?: string): WebSocket | undefined => {
+    const wss_url = getWebSocketURL(loginid);
     return window?.WSConnections?.[wss_url];
 };
 
 /**
  * Initializes a DerivAPI instance
  * @param {() => void} onWSClose - Callback when connection closes
+ * @param {string} [loginid] - Login ID to determine environment
  * @returns {DerivAPIBasic} The initialized DerivAPI instance
  */
-const initializeDerivAPI = (onWSClose: () => void): DerivAPIBasic => {
+const initializeDerivAPI = (onWSClose: () => void, loginid?: string): DerivAPIBasic => {
     if (!window.DerivAPI) {
         window.DerivAPI = {};
     }
 
-    const activeLoginid = window.sessionStorage.getItem('active_loginid') ||
-        window.localStorage.getItem('active_loginid');
-    const wss_url = getWebSocketURL(activeLoginid || undefined);
+    const wss_url = getWebSocketURL(loginid);
     const websocketConnection = getWebsocketInstance(wss_url, onWSClose);
 
     if (!window.DerivAPI[wss_url] || window.DerivAPI[wss_url].isConnectionClosed()) {
-        console.log(`Initializing new DerivAPI connection for ${wss_url}`);
         window.DerivAPI[wss_url] = new DerivAPIBasic({
             connection: websocketConnection
         });
@@ -142,15 +140,33 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
     const WS = useWS();
     const [reconnect, setReconnect] = useState(false);
     const [isConnected, setIsConnected] = useState(false);
-    const activeLoginid = window.sessionStorage.getItem('active_loginid') ||
-        window.localStorage.getItem('active_loginid');
+
+    // Track loginid and environment in state
+    const [activeLoginid, setActiveLoginid] = useState(
+        window.sessionStorage.getItem('active_loginid') ||
+        window.localStorage.getItem('active_loginid')
+    );
     const [environment, setEnvironment] = useState(() =>
         WebSocketUtils.getEnvironmentFromLoginid(activeLoginid || null)
     );
     const standaloneDerivAPI = useRef<DerivAPIBasic | null>(
-        standalone ? initializeDerivAPI(() => setReconnect(true)) : null
+        standalone ? initializeDerivAPI(() => setReconnect(true), activeLoginid || undefined) : null
     );
     const subscriptions = useRef<Record<string, DerivAPIBasic['subscribe']>>({});
+
+    // Listen for loginid changes (e.g. when switching accounts)
+    useEffect(() => {
+        const checkLoginid = () => {
+            const newLoginid = window.sessionStorage.getItem('active_loginid') ||
+                window.localStorage.getItem('active_loginid');
+            if (newLoginid !== activeLoginid) {
+                setActiveLoginid(newLoginid);
+                setEnvironment(WebSocketUtils.getEnvironmentFromLoginid(newLoginid || null));
+            }
+        };
+        const interval = setInterval(checkLoginid, 1000);
+        return () => clearInterval(interval);
+    }, [activeLoginid]);
 
     // Update connection status when API changes
     useEffect(() => {
@@ -217,21 +233,20 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
             if (!standalone) return;
 
             const newEnvironment = WebSocketUtils.getEnvironmentFromLoginid(loginid || null);
-            console.log(`Switching environment from ${environment} to ${newEnvironment}`);
-
-            if (newEnvironment !== environment) {
+            if (newEnvironment !== environment || loginid !== activeLoginid) {
                 setEnvironment(newEnvironment);
+                setActiveLoginid(loginid || null);
 
                 // Clean up old connection
                 if (standaloneDerivAPI.current) {
                     standaloneDerivAPI.current.disconnect();
                 }
 
-                // Initialize new connection
-                standaloneDerivAPI.current = initializeDerivAPI(() => setReconnect(true));
+                // Initialize new connection with new loginid
+                standaloneDerivAPI.current = initializeDerivAPI(() => setReconnect(true), loginid || undefined);
             }
         },
-        [environment, standalone]
+        [environment, standalone, activeLoginid]
     );
 
     // Ping connection to keep alive
@@ -255,17 +270,16 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
         const currentAPI = standaloneDerivAPI.current;
 
         if (reconnect || !currentAPI || currentAPI.isConnectionClosed()) {
-            console.log('Establishing new WebSocket connection...');
             standaloneDerivAPI.current = initializeDerivAPI(() => {
                 reconnectTimer = setTimeout(() => setReconnect(true), 1000);
-            });
+            }, activeLoginid || undefined);
             setReconnect(false);
         }
 
         return () => {
             if (reconnectTimer) clearTimeout(reconnectTimer);
         };
-    }, [environment, reconnect, standalone]);
+    }, [environment, reconnect, standalone, activeLoginid]);
 
     return (
         <APIContext.Provider
