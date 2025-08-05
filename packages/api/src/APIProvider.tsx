@@ -64,9 +64,10 @@ const getWebSocketURL = () => {
     const brand = 'deriv';
     const wss_url = `wss://${endpoint}/websockets/v3?app_id=${app_id}&l=${language}&brand=${brand}`;
 
+    // Add log for WebSocket URL
+    console.log('[APIProvider] getWebSocketURL:', wss_url);
     return wss_url;
 };
-
 /**
  * Retrieves or initializes a WebSocket instance based on the provided URL.
  * @param {string} wss_url - The WebSocket URL.
@@ -153,11 +154,21 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
     const standaloneDerivAPI = useRef(standalone ? initializeDerivAPI(() => setReconnect(true)) : null);
     const subscriptions = useRef<Record<string, DerivAPIBasic['subscribe']>>();
 
+    useEffect(() => {
+        console.log('[APIProvider] Mount: activeLoginid:', activeLoginid, 'environment:', environment);
+    }, []);
+
+    useEffect(() => {
+        console.log('[APIProvider] Environment changed:', environment, 'activeLoginid:', activeLoginid);
+    }, [environment, activeLoginid]);
+
     const send: TSendFunction = (name, payload) => {
+        console.log('[APIProvider] send:', name, payload);
         return standaloneDerivAPI.current?.send({ [name]: 1, ...payload });
     };
 
     const subscribe: TSubscribeFunction = async (name, payload) => {
+        console.log('[APIProvider] subscribe:', name, payload);
         const id = await ObjectUtils.hashObject({ name, payload });
         const matchingSubscription = subscriptions.current?.[id];
         if (matchingSubscription) return { id, subscription: matchingSubscription };
@@ -175,6 +186,7 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
     };
 
     const unsubscribe: TUnsubscribeFunction = id => {
+        console.log('[APIProvider] unsubscribe:', id);
         const matchingSubscription = subscriptions.current?.[id];
         if (matchingSubscription) matchingSubscription.unsubscribe();
     };
@@ -184,6 +196,7 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
         const currentSubscriptions = subscriptions.current;
 
         return () => {
+            console.log('[APIProvider] Cleanup: disconnecting API and unsubscribing.');
             if (currentSubscriptions) {
                 Object.keys(currentSubscriptions).forEach(key => {
                     currentSubscriptions[key].unsubscribe();
@@ -197,6 +210,7 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
         (loginid: string | null | undefined) => {
             if (!standalone) return;
             const currentEnvironment = getEnvironment(loginid);
+            console.log('[APIProvider] switchEnvironment called with loginid:', loginid, 'currentEnvironment:', currentEnvironment, 'prevEnvironment:', environment);
             if (currentEnvironment !== 'custom' && currentEnvironment !== environment) {
                 setEnvironment(currentEnvironment);
             }
@@ -208,7 +222,10 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
         let interval_id: ReturnType<typeof setInterval>;
 
         if (standalone) {
-            interval_id = setInterval(() => standaloneDerivAPI.current?.send({ ping: 1 }), 10000);
+            interval_id = setInterval(() => {
+                console.log('[APIProvider] Sending ping to keep connection alive.');
+                standaloneDerivAPI.current?.send({ ping: 1 });
+            }, 10000);
         }
 
         return () => clearInterval(interval_id);
@@ -217,6 +234,7 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
     useEffect(() => {
         let reconnectTimerId: NodeJS.Timeout;
         if (standalone || reconnect) {
+            console.log('[APIProvider] Re-initializing DerivAPI for environment:', environment, 'activeLoginid:', activeLoginid);
             standaloneDerivAPI.current = initializeDerivAPI(() => {
                 reconnectTimerId = setTimeout(() => setReconnect(true), 500);
             });
@@ -225,7 +243,7 @@ const APIProvider = ({ children, standalone = false }: PropsWithChildren<TAPIPro
 
         return () => clearTimeout(reconnectTimerId);
     }, [environment, reconnect, standalone]);
-
+    
     return (
         <APIContext.Provider
             value={{
