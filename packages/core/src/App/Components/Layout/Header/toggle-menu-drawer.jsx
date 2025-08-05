@@ -325,7 +325,7 @@ const ToggleMenuDrawer = observer(({ platform_config }) => {
             <a id='dt_mobile_drawer_toggle' onClick={toggleDrawer} className='header__mobile-drawer-toggle'>
                 <Icon icon='IcHamburger' width='16px' height='16px' className='header__mobile-drawer-icon' />
             </a>
-            {is_logging_in && <DerivShortLogo />}
+            
             <MobileDrawer
                 alignment='left'
                 icon_class='header__menu-toggle'
