@@ -324,6 +324,7 @@ const ToggleMenuDrawer = observer(({ platform_config }) => {
         <React.Fragment>
             <a id='dt_mobile_drawer_toggle' onClick={toggleDrawer} className='header__mobile-drawer-toggle'>
                 <Icon icon='IcHamburger' width='16px' height='16px' className='header__mobile-drawer-icon' />
+                <DerivShortLogo />
             </a>
             
             <MobileDrawer
