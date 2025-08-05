@@ -71,20 +71,10 @@ export const getSavedWorkspaces = async () => {
         const saved = JSON.parse(LZString.decompress(await localForage.getItem('saved_workspaces'))) || [];
         const staticBots = getStaticBots();
 
-        // Merge strategies, giving priority to saved versions
-        const merged = Object.values(staticBots).map(staticBot => {
-            const savedVersion = saved.find(s => s.id === staticBot.id);
-            return savedVersion || staticBot;
-        });
-
-        // Add saved strategies that aren't static bots
-        saved.forEach(savedStrategy => {
-            if (!staticBots[savedStrategy.id]) {
-                merged.push(savedStrategy);
-            }
-        });
-
-        return merged.sort((a, b) => b.timestamp - a.timestamp);
+        // Return static bots first, followed by user-saved workspaces
+        return [...Object.values(staticBots), ...saved.filter(savedStrategy => !staticBots[savedStrategy.id])].sort(
+            (a, b) => b.timestamp - a.timestamp
+        );
     } catch (e) {
         console.error('Error loading saved workspaces:', e);
         return Object.values(getStaticBots());
