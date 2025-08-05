@@ -23,7 +23,7 @@ import Finesttool from '../finesttool';
 import RiskManagementCalculator from '../riskManagementCalculator';
 import Strategy from '../strategy';
 import Copytrading from '../copytrading';
-import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt } from 'react-icons/fa';
+import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt } from 'react-icons/fa';
 
 
 const AppWrapper = observer(() => {
@@ -271,6 +271,8 @@ const AppWrapper = observer(() => {
                                 <Strategy />
                             </div>
                         </div>
+
+                        
 
 
                     </Tabs>
