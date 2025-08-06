@@ -31,6 +31,8 @@ import AppContent from './AppContent';
 
 import 'Sass/app.scss';
 
+const MIN_LOADING_TIME = 10000; // 10 seconds
+
 const AppWithoutTranslation = ({ root_store }) => {
     const i18nInstance = initializeI18n({
         cdnUrl: `${process.env.CROWDIN_URL}/${process.env.ACC_TRANSLATION_PATH}`, // https://translations.deriv.com/deriv-app-accounts/staging/translations
@@ -39,6 +41,13 @@ const AppWithoutTranslation = ({ root_store }) => {
     const base = l.pathname.split('/')[1];
     const has_base = /^\/(br_)/.test(l.pathname);
     const [is_translation_loaded] = useOnLoadTranslation();
+    const [min_loading_done, setMinLoadingDone] = React.useState(false);
+
+    React.useEffect(() => {
+        const timer = setTimeout(() => setMinLoadingDone(true), MIN_LOADING_TIME);
+        return () => clearTimeout(timer);
+    }, []);
+
     const initCashierStore = () => {
         root_store.modules.attachModule('cashier', new CashierStore(root_store, WS));
         root_store.modules.cashier.general_store.init();
@@ -146,7 +155,7 @@ const AppWithoutTranslation = ({ root_store }) => {
 
     return (
         <>
-            {is_translation_loaded ? (
+            {is_translation_loaded && min_loading_done ? (
                 <Router basename={has_base ? `/${base}` : null}>
                     <StoreProvider store={root_store}>
                         <BreakpointProvider>
