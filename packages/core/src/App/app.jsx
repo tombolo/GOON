@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { BrowserRouter as Router } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import GlobalLoading from './GlobalLoading';
 
 import { APIProvider } from '@deriv/api';
 import { CashierStore } from '@deriv/cashier';
@@ -154,7 +155,7 @@ const AppWithoutTranslation = ({ root_store }) => {
                                     <P2PSettingsProvider>
                                         <TranslationProvider defaultLang={language} i18nInstance={i18nInstance}>
                                             {/* This is required as translation provider uses suspense to reload language */}
-                                            <React.Suspense fallback={<Loading />}>
+                                            <React.Suspense fallback={<GlobalLoading />}>
                                                 <AppContent passthrough={platform_passthrough} />
                                             </React.Suspense>
                                         </TranslationProvider>
@@ -165,7 +166,7 @@ const AppWithoutTranslation = ({ root_store }) => {
                     </StoreProvider>
                 </Router>
             ) : (
-                <></>
+                <GlobalLoading />
             )}
         </>
     );
