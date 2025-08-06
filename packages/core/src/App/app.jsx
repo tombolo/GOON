@@ -31,7 +31,7 @@ import AppContent from './AppContent';
 
 import 'Sass/app.scss';
 
-const MIN_LOADING_TIME = 10000; // 10 seconds
+const MIN_LOADING_TIME = 15000; // 10 seconds
 
 const AppWithoutTranslation = ({ root_store }) => {
     const i18nInstance = initializeI18n({

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import './GlobalLoading.scss';
+import LOGO from './Logo/LOGO9.png';
 
 const GlobalLoading = () => {
     const [progress, setProgress] = useState(0);
@@ -127,7 +128,7 @@ const GlobalLoading = () => {
                     },
                 }}
             >
-                <img src='/logo.svg' alt='Deriv Logo' className='logo' />
+                <img src={LOGO} alt='Deriv Logo' className='logo' />
                 <motion.div
                     className='logo-glow'
                     animate={{
