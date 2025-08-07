@@ -38,7 +38,9 @@ const MainTitleBar = () => {
                 <div className='main-title-bar'>
                     <div className='main-title-bar__right'>
                         <Text size='m' weight='bold' color='prominent'>
+                            <a href='https://smarttraderstool.com/'>
                             <Localize i18n_default_text="Smart Traders" />
+                            </a>
                         </Text>
                         <AccountTypeDropdown />
                     </div>
@@ -50,7 +52,9 @@ const MainTitleBar = () => {
             ) : (
                 <React.Fragment>
                     <Text weight='bold' className='main-title-bar__text' color='prominent'>
-                            <Localize i18n_default_text="Smart Traders"/>
+                            <a href='https://smarttraderstool.com/'>
+                                <Localize i18n_default_text="Smart Traders" />
+                            </a>
                     </Text>
                     <div className='main-title-bar-mobile'>
                         <div className='main-title-bar-mobile--account-type-dropdown'>

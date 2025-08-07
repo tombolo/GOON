@@ -2,6 +2,7 @@ import { deriv_urls } from './constants';
 import { getPlatformFromUrl } from './helpers';
 import { getCurrentProductionDomain } from '../config/config';
 import { routes } from '../routes';
+import { URLUtils } from '@deriv-com/utils';
 
 type TOption = {
     query_string?: string;
@@ -51,7 +52,7 @@ export const params = (href?: string | URL) => {
 };
 
 /**
- * @deprecated Please use 'URLUtils.normalizePath' from '@deriv-com/utils' instead of this.
+
  */
 export const normalizePath = (path: string) => (path ? path.replace(/(^\/|\/$|[^a-zA-Z0-9-_./()#])/g, '') : '');
 

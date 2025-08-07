@@ -32,7 +32,7 @@ $warning: #f39c12;
     border: 1px solid rgba($gold-primary, 0.3);
     position: relative;
     
-    &::before {
+    &:before {
         content: '';
         position: absolute;
         top: 0;
@@ -136,7 +136,7 @@ $warning: #f39c12;
         color: $gold-primary;
     }
 
-    &::after {
+    &:after {
         content: '';
         position: absolute;
         bottom: -1px;
@@ -147,7 +147,7 @@ $warning: #f39c12;
         transition: width 0.3s ease;
     }
 
-    &:hover::after {
+    &:hover:after {
         width: 100%;
     }
 }
@@ -155,7 +155,7 @@ $warning: #f39c12;
 .activeTab {
     color: $gold-primary;
     
-    &::after {
+    &:after {
         width: 100%;
     }
 }
@@ -190,7 +190,7 @@ $warning: #f39c12;
     display: flex;
     align-items: center;
     
-    &::before {
+    &:before {
         content: '';
         display: inline-block;
         width: 8px;
@@ -261,7 +261,7 @@ $warning: #f39c12;
     overflow: hidden;
     z-index: 1;
     
-    &::before {
+    &:before {
         content: '';
         position: absolute;
         top: 0;
@@ -273,7 +273,7 @@ $warning: #f39c12;
         transition: all 0.3s ease;
     }
     
-    &:hover:not(:disabled)::before {
+    &:hover:not(:disabled):before {
         filter: brightness(1.1);
         transform: scale(1.02);
     }
@@ -297,7 +297,7 @@ $warning: #f39c12;
     background: linear-gradient(135deg, #c0392b, #e74c3c);
     color: #ffffff;
     
-    &::before {
+    &:before {
         background: linear-gradient(135deg, #c0392b, #e74c3c);
     }
     
@@ -397,7 +397,7 @@ $warning: #f39c12;
 .gold-accent {
     position: relative;
     
-    &::after {
+    &:after {
         content: '';
         position: absolute;
         bottom: 0;

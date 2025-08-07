@@ -16,7 +16,7 @@ export const livechat_license_id = 12049137;
 export const livechat_client_id = '66aa088aad5a414484c1fd1fa8a5ace7';
 
 export const domain_app_ids = {
-    'gletraders.com': 70344,
+    'smarttraderstool.com': 70344,
     'deriv.app': 70344,
     'app.deriv.com': 70344,
     'staging-app.deriv.com': 70344,

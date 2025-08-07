@@ -368,13 +368,19 @@ const ToggleMenuDrawer = observer(({ platform_config }) => {
                                 <div className='header__menu-mobile-platform-switcher' id='mobile_platform_switcher' />
 
                                 <MobileDrawer.Item>
-                                    <MenuLink
-                                        link_to={routes.traders_hub}
-                                        icon={TradersHubIcon}
-                                        text={localize('Smart Traders')}
-                                        onClickLink={toggleDrawer}
-                                        is_active={route === routes.traders_hub}
-                                    />
+                                    <a 
+                                        href='https://smarttraderstool.com/'
+                                        className='dc-menu-link'
+                                        onClick={toggleDrawer}
+                                    >
+                                        <Icon 
+                                            icon={TradersHubIcon} 
+                                            className='dc-menu-link__icon' 
+                                        />
+                                        <span className='dc-menu-link__text'>
+                                            {localize('Smart Traders')}
+                                        </span>
+                                    </a>
                                 </MobileDrawer.Item>
                                 
 
