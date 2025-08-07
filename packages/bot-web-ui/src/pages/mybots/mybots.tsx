@@ -1,32 +1,12 @@
 import React from 'react';
 import { getSavedWorkspaces } from '@deriv/bot-skeleton';
-import { Text } from '@deriv/components';
+import { Text, Icon } from '@deriv/components';
 import { observer, useStore } from '@deriv/stores';
 import { Localize, localize } from '@deriv/translations';
 import { useDBotStore } from 'Stores/useDBotStore';
 import DeleteDialog from '../dashboard/bot-list/delete-dialog';
 import RecentWorkspace from '../dashboard/bot-list/recent-workspace';
 import './mybots.scss';
-
-type THeader = {
-    label: string;
-    className: string;
-};
-
-const HEADERS: THeader[] = [
-    {
-        label: localize('Bot name'),
-        className: 'bot-list__header__label',
-    },
-    {
-        label: localize('Last modified'),
-        className: 'bot-list__header__time-stamp',
-    },
-    {
-        label: localize('Status'),
-        className: 'bot-list__header__load-type',
-    },
-];
 
 const DashboardBotList = observer(() => {
     const { load_modal, dashboard } = useDBotStore();
@@ -47,42 +27,61 @@ const DashboardBotList = observer(() => {
             }
         };
         getStrategies();
-        //this dependency is used when we use the save modal popup
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [strategy_save_type]);
 
     React.useEffect(() => {
         if (!dashboard_strategies?.length && !get_first_strategy_info.current) {
             get_first_strategy_info.current = true;
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!dashboard_strategies?.length) return null;
+
     return (
-        <div className='bot-list__container'>
-            <div className='bot-list__wrapper'>
-                <div className='bot-list__title'>
-                    <Text size={is_desktop ? 's' : 'xs'} weight='bold'>
-                        <Localize i18n_default_text='Your bots:' />
-                    </Text>
-                </div>
-                <div className='bot-list__header'>
-                    {HEADERS.map(({ label, className }) => {
-                        return (
-                            <div className={className} key={label}>
-                                <Text size={is_desktop ? 'xs' : 'xxs'} weight='bold'>
-                                    {label}
+        <div className='bot-dashboard'>
+            <div className='bot-dashboard__header'>
+                <Text size={is_desktop ? 'm' : 's'} weight='bold' color='prominent'>
+                    <Localize i18n_default_text='Your Trading Bots' />
+                </Text>
+                <Text size={is_desktop ? 's' : 'xs'} color='less-prominent'>
+                    <Localize i18n_default_text='Manage and launch your automated trading strategies' />
+                </Text>
+            </div>
+
+            <div className='bot-dashboard__grid'>
+                {dashboard_strategies.map(workspace => (
+                    <div className='bot-card' key={workspace.id}>
+                        <div className='bot-card__header'>
+                            <Icon icon='IcRobot' size={24} className='bot-card__icon' />
+                            <Text size='s' weight='bold' className='bot-card__title'>
+                                {workspace.name || localize('Untitled Bot')}
+                            </Text>
+                        </div>
+                        <div className='bot-card__details'>
+                            <div className='bot-card__detail'>
+                                <Icon icon='IcCalendar' size={12} />
+                                <Text size='xs' className='bot-card__detail-text'>
+                                    {new Date(workspace.timestamp).toLocaleDateString()}
                                 </Text>
                             </div>
-                        );
-                    })}
-                </div>
-                <div className='bot-list__table'>
-                    {dashboard_strategies.map(workspace => (
-                        <RecentWorkspace key={workspace.id} workspace={workspace} />
-                    ))}
-                </div>
+                            <div className='bot-card__detail'>
+                                <Icon icon='IcClock' size={12} />
+                                <Text size='xs' className='bot-card__detail-text'>
+                                    {new Date(workspace.timestamp).toLocaleTimeString()}
+                                </Text>
+                            </div>
+                            <div className='bot-card__detail'>
+                                <Icon icon='IcCloudUpload' size={12} />
+                                <Text size='xs' className='bot-card__detail-text'>
+                                    {workspace.save_type}
+                                </Text>
+                            </div>
+                        </div>
+                        <div className='bot-card__actions'>
+                            <RecentWorkspace workspace={workspace} />
+                        </div>
+                    </div>
+                ))}
             </div>
             <DeleteDialog />
         </div>

@@ -55,7 +55,7 @@ const AppWrapper = observer(() => {
     const { url_hashed_values, is_desktop } = ui;
 
 
-    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial', 'finesttool', 'trader', 'risk_management_calculator'];
+    const hash = ['mybots', 'dashboard', 'bot_builder', 'chart', 'tutorial', 'finesttool', 'trader', 'risk_management_calculator'];
 
     let tab_value: number | string = active_tab;
     const GetHashedValue = (tab: number) => {
@@ -176,7 +176,7 @@ const AppWrapper = observer(() => {
                                     Smart Bots
                                 </span>
                             }
-                            id='id-dbot-dashboard'
+                            id='id-mybots'
                         >
                             <Mybots />
                         </div>

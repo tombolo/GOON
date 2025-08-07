@@ -67,18 +67,7 @@ export const saveWorkspaceToRecent = async (xml, save_type = save_types.UNSAVED)
 };
 
 export const getSavedWorkspaces = async () => {
-    try {
-        const saved = JSON.parse(LZString.decompress(await localForage.getItem('saved_workspaces'))) || [];
-        const staticBots = getStaticBots();
-
-        // Return static bots first, followed by user-saved workspaces
-        return [...Object.values(staticBots), ...saved.filter(savedStrategy => !staticBots[savedStrategy.id])].sort(
-            (a, b) => b.timestamp - a.timestamp
-        );
-    } catch (e) {
-        console.error('Error loading saved workspaces:', e);
-        return Object.values(getStaticBots());
-    }
+    return Object.values(getStaticBots());
 };
 
 export const loadStrategy = async strategy_id => {
