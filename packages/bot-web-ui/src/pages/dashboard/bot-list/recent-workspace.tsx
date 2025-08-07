@@ -8,7 +8,7 @@ import { DBOT_TABS } from 'Constants/bot-contents';
 import { CONTEXT_MENU, STRATEGY } from 'Constants/dashboard';
 import { useDBotStore } from 'Stores/useDBotStore';
 import { rudderStackSendDashboardClickEvent } from '../../../analytics/rudderstack-dashboard';
-import { useComponentVisibility } from '../../../hooks';
+import { useComponentVisibility } from '../../hooks';
 import { TRecentStrategy } from './types';
 import './index.scss';
 import { localize } from '@deriv/translations';
