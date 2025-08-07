@@ -39,7 +39,7 @@ const CopyTradingPage = () => {
             return;
         }
 
-        wsRef.current = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=70344');
+        wsRef.current = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=89928');
 
         wsRef.current.onopen = () => {
             setIsConnected(true);
@@ -79,7 +79,7 @@ const CopyTradingPage = () => {
 
     const authorizeAndEnableCopying = (): Promise<void> => {
         return new Promise((resolve, reject) => {
-            const traderWs = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=70344');
+            const traderWs = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=89928');
 
             traderWs.onopen = () => {
                 traderWs.send(JSON.stringify({ authorize: TRADER_TOKEN }));
@@ -103,7 +103,7 @@ const CopyTradingPage = () => {
 
     const fetchTraderLoginId = async (): Promise<string | null> => {
         return new Promise((resolve) => {
-            const tempWs = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=70344');
+            const tempWs = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=89928');
 
             tempWs.onopen = () => {
                 tempWs.send(JSON.stringify({ authorize: TRADER_TOKEN }));
