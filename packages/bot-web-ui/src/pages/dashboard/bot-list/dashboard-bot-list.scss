@@ -1,0 +1,38 @@
+.dashboard-bot-list {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 16px;
+    box-sizing: border-box;
+
+    &__header {
+        margin-bottom: 24px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border-normal);
+    }
+
+    &__content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+    }
+
+    // Empty state styling
+    &__empty {
+        text-align: center;
+        padding: 40px 20px;
+        background-color: var(--general-section-1);
+        border-radius: 8px;
+        margin-top: 20px;
+
+        &-text {
+            color: var(--text-less-prominent);
+            margin-top: 8px;
+        }
+    }
+}

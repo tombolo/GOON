@@ -6,27 +6,7 @@ import { Localize, localize } from '@deriv/translations';
 import { useDBotStore } from 'Stores/useDBotStore';
 import DeleteDialog from './delete-dialog';
 import RecentWorkspace from './recent-workspace';
-import './index.scss';
-
-type THeader = {
-    label: string;
-    className: string;
-};
-
-const HEADERS: THeader[] = [
-    {
-        label: localize('Bot name'),
-        className: 'bot-list__header__label',
-    },
-    {
-        label: localize('Last modified'),
-        className: 'bot-list__header__time-stamp',
-    },
-    {
-        label: localize('Status'),
-        className: 'bot-list__header__load-type',
-    },
-];
+import './dashboard-bot-list.scss';
 
 const DashboardBotList = observer(() => {
     const { load_modal, dashboard } = useDBotStore();
@@ -47,36 +27,25 @@ const DashboardBotList = observer(() => {
             }
         };
         getStrategies();
-        //this dependency is used when we use the save modal popup
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [strategy_save_type]);
-
-    React.useEffect(() => {
-        if (!dashboard_strategies?.length && !get_first_strategy_info.current) {
-            get_first_strategy_info.current = true;
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [strategy_save_type, setDashboardStrategies, setStrategySaveType]);
 
     if (!dashboard_strategies?.length) return null;
-    return (
-        <div className='bot-list__container'>
-            <div className='bot-list__wrapper'>
-                <div className='bot-list__title'>
-                    
-                </div>
-                <div className='bot-list__header'>
-                    {HEADERS.map(({ label, className }) => {
-                        return (
-                            <div className={className} key={label}>
-                               
-                            </div>
-                        );
-                    })}
-                </div>
 
+    return (
+        <div className="dashboard-bot-list">
+            <div className="dashboard-bot-list__header">
+                <Text size={is_desktop ? 'm' : 's'} weight="bold" color="prominent">
+                    <Localize i18n_default_text="Your Recent Bots" />
+                </Text>
             </div>
-            
+
+            <div className="dashboard-bot-list__content">
+                {dashboard_strategies.map(workspace => (
+                    <RecentWorkspace key={workspace.id} workspace={workspace} />
+                ))}
+            </div>
+
+            <DeleteDialog />
         </div>
     );
 });
