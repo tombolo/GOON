@@ -19,21 +19,21 @@ const RecentWorkspace = observer(({ workspace, index }: { workspace: TRecentStra
 
     return (
         <div
-            className="bot-card"
+            className="recent-workspace-card"
             onClick={handleClick}
             data-index={index}
         >
-            <div className="bot-card__emoji">{randomEmoji}</div>
-            <div className="bot-card__content">
-                <div className="bot-card__name">
+            <div className="recent-workspace-card__emoji">{randomEmoji}</div>
+            <div className="recent-workspace-card__content">
+                <div className="recent-workspace-card__name">
                     {workspace.name || 'Untitled Bot'}
                 </div>
-                <button className="bot-card__action">
+                <button className="recent-workspace-card__action">
                     <span>Load</span>
-                    <div className="bot-card__arrow">→</div>
+                    <div className="recent-workspace-card__arrow">→</div>
                 </button>
             </div>
-            <div className="bot-card__shine"></div>
+            <div className="recent-workspace-card__shine"></div>
         </div>
     );
 });

@@ -1,7 +1,7 @@
 /* recent-workspace.scss */
 $bot-emojis: '🤖', '👾', '🦾', '🧠', '⚡', '💻', '🔮', '🎮';
 
-.bot-card {
+.recent-workspace-card {
     --hover-color: #FF444F;
     position: relative;
     background: #ffffff;
@@ -13,7 +13,7 @@ $bot-emojis: '🤖', '👾', '🦾', '🧠', '⚡', '💻', '🔮', '🎮';
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
     transform: translateY(0);
     opacity: 0;
-    animation: cardEntrance 0.5s ease-out forwards;
+    animation: recent-card-entrance 0.5s ease-out forwards;
     border: 1px solid rgba(0, 0, 0, 0.05);
 
     @media (max-width: 768px) {
@@ -24,18 +24,18 @@ $bot-emojis: '🤖', '👾', '🦾', '🧠', '⚡', '💻', '🔮', '🎮';
         transform: translateY(-5px) scale(1.02);
         box-shadow: 0 8px 25px rgba(255, 68, 79, 0.15);
 
-        .bot-card__action {
+        .recent-workspace-card__action {
             background: var(--hover-color);
             color: #ffffff;
             width: 90px;
 
-            .bot-card__arrow {
+            .recent-workspace-card__arrow {
                 transform: translateX(3px);
                 opacity: 1;
             }
         }
 
-        .bot-card__shine {
+        .recent-workspace-card__shine {
             opacity: 1;
             transform: skewX(20deg) translateX(300px);
         }
@@ -45,7 +45,7 @@ $bot-emojis: '🤖', '👾', '🦾', '🧠', '⚡', '💻', '🔮', '🎮';
         font-size: 1.5rem;
         margin-bottom: 0.5rem;
         display: inline-block;
-        animation: pulse 2s infinite;
+        animation: recent-emoji-pulse 2s infinite;
 
         @each $emoji in $bot-emojis {
             &:nth-child(#{index($bot-emojis, $emoji)})::before {
@@ -130,12 +130,12 @@ $bot-emojis: '🤖', '👾', '🦾', '🧠', '⚡', '💻', '🔮', '🎮';
     }
 }
 
-@keyframes cardEntrance {
+@keyframes recent-card-entrance {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes pulse {
+@keyframes recent-emoji-pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }

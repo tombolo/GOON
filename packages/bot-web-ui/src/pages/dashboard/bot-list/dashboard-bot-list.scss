@@ -1,5 +1,5 @@
 /* dashboard-bot-list.scss */
-.bot-dashboard {
+.dbot-recent-bots {
     --animation-delay: 0.1s;
     max-width: 800px;
     margin: 0 auto;
@@ -21,11 +21,11 @@
             width: 50px;
             height: 2px;
             background: linear-gradient(90deg, #FF444F, #FF6444);
-            animation: headerUnderline 2s infinite alternate;
+            animation: dbot-header-underline 2s infinite alternate;
         }
 
         &-emoji {
-            animation: float 3s ease-in-out infinite;
+            animation: dbot-emoji-float 3s ease-in-out infinite;
         }
     }
 
@@ -40,12 +40,12 @@
     }
 }
 
-@keyframes headerUnderline {
+@keyframes dbot-header-underline {
     0% { width: 50px; opacity: 0.7; }
     100% { width: 120px; opacity: 1; }
 }
 
-@keyframes float {
+@keyframes dbot-emoji-float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-5px); }
 }

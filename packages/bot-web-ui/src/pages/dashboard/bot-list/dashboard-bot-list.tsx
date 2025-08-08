@@ -22,15 +22,15 @@ const DashboardBotList = observer(() => {
     }, []);
 
     return (
-        <div className="bot-dashboard">
-            <div className="bot-dashboard__header">
+        <div className="dbot-recent-bots">
+            <div className="dbot-recent-bots__header">
                 <Text size={is_mobile ? 'xs' : 's'} weight="bold" color="prominent">
                     <Localize i18n_default_text="🤖 Your Bot Army" />
                 </Text>
-                <div className="bot-dashboard__header-emoji">✨</div>
+                <div className="dbot-recent-bots__header-emoji">✨</div>
             </div>
 
-            <div className="bot-dashboard__grid">
+            <div className="dbot-recent-bots__grid">
                 {load_modal.dashboard_strategies?.map((workspace, index) => (
                     <RecentWorkspace
                         key={workspace.id}
