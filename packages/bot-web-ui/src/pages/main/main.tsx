@@ -24,7 +24,7 @@ import RiskManagementCalculator from '../riskManagementCalculator';
 import Strategy from '../strategy';
 import Copytrading from '../copytrading';
 import Mybots from '../mybots';
-import BotBuilder from '../bot-builder';
+
 import { FaChartBar, FaChartLine, FaCogs, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt } from 'react-icons/fa';
 
 
@@ -57,11 +57,10 @@ const AppWrapper = observer(() => {
 
 
     const hash = [
-        'mybots',
         'dashboard',
         'bot_builder',
         'charts',
-        'tutorials',
+        'mybots',
         'analysis-tool',
         'copy-trading',
         'risk-management',
@@ -179,18 +178,7 @@ const AppWrapper = observer(() => {
                         top
                     >
 
-                        <div
-
-                            label={
-                                <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
-                                    <FaCogs size={14} />
-                                    Smart Bots
-                                </span>
-                            }
-                            id='id-mybots'
-                        >
-                            <Mybots />
-                        </div>
+                        
 
                         <div
 
@@ -213,9 +201,7 @@ const AppWrapper = observer(() => {
                                 </span>
                             }
                             id='id-bot-builder'
-                        >
-                            <BotBuilder />
-                        </div>
+                        />
                         <div
                             label={
                                 <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
@@ -232,17 +218,16 @@ const AppWrapper = observer(() => {
                             <Chart show_digits_stats={false} />
                         </div>
                         <div
+
                             label={
                                 <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
-                                    <FaChessKnight size={14} />
-                                    Tutorial
+                                    <FaCogs size={14} />
+                                    Smart Bots
                                 </span>
                             }
-                            id='id-tutorials'
+                            id='id-mybots'
                         >
-                            <div className='tutorials-wrapper'>
-                                <Tutorial handleTabChange={handleTabChange} />
-                            </div>
+                            <Mybots />
                         </div>
 
 
