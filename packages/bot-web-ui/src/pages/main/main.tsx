@@ -55,7 +55,17 @@ const AppWrapper = observer(() => {
     const { url_hashed_values, is_desktop } = ui;
 
 
-    const hash = ['mybots', 'dashboard', 'bot_builder', 'chart', 'tutorial', 'finesttool', 'trader', 'risk_management_calculator'];
+    const hash = [
+        'mybots',
+        'dashboard',
+        'bot_builder',
+        'charts',
+        'tutorials',
+        'analysis-tool',
+        'copy-trading',
+        'risk-management',
+        'strategy'
+    ];
 
     let tab_value: number | string = active_tab;
     const GetHashedValue = (tab: number) => {
@@ -240,7 +250,7 @@ const AppWrapper = observer(() => {
                                     Analysis Tool
                                 </span>
                             }
-                            id='id-dbot-dashboard'
+                            id='id-analysis-tool'
                         >
                             <Finesttool />
                         </div>
@@ -252,7 +262,7 @@ const AppWrapper = observer(() => {
                                     Copy Trading
                                 </span>
                             }
-                            id='id-dbot-dashboard'
+                            id='id-copy-trading'
                         >
                             <Copytrading />
                         </div>
