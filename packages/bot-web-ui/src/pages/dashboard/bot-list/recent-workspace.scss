@@ -1,8 +1,10 @@
 /* recent-workspace.scss */
+$bot-emojis: '🤖', '👾', '🦾', '🧠', '⚡', '💻', '🔮', '🎮';
+
 .bot-card {
     --hover-color: #FF444F;
     position: relative;
-    background: #ffffff;
+    background: white;
     border-radius: 12px;
     padding: 1rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -24,7 +26,7 @@
 
         .bot-card__action {
             background: var(--hover-color);
-            color: #ffffff;
+            color: white;
             width: 90px;
 
             .bot-card__arrow {
@@ -44,6 +46,12 @@
         margin-bottom: 0.5rem;
         display: inline-block;
         animation: pulse 2s infinite;
+
+        @each $emoji in $bot-emojis {
+            &:nth-child(#{index($bot-emojis, $emoji)})::before {
+                content: $emoji;
+            }
+        }
     }
 
     &__content {
@@ -113,6 +121,13 @@
         opacity: 0;
         transition: all 0.6s ease;
     }
+
+    /* Staggered animation */
+    @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+            animation-delay: $i * 0.1s;
+        }
+    }
 }
 
 @keyframes cardEntrance {
@@ -124,13 +139,4 @@
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
-}
-
-/* Staggered animation */
-.bot-card {
-    @for $i from 1 through 10 {
-        &:nth-child(#{$i}) {
-            animation-delay: $i * 0.1s;
-        }
-    }
 }
