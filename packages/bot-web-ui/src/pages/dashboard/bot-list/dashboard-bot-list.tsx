@@ -1,4 +1,3 @@
-// DashboardBotList.jsx
 import React, { useEffect } from 'react';
 import { getSavedWorkspaces } from '@deriv/bot-skeleton';
 import { Text } from '@deriv/components';

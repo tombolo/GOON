@@ -1,4 +1,3 @@
-// RecentWorkspace.jsx
 import React from 'react';
 import { observer } from '@deriv/stores';
 import { useDBotStore } from 'Stores/useDBotStore';
@@ -18,22 +17,19 @@ const RecentWorkspace = observer(({ workspace, index }: { workspace: TRecentStra
     const randomEmoji = BOT_EMOJIS[index % BOT_EMOJIS.length];
 
     return (
-        <div
-            className="recent-workspace-card"
-            onClick={handleClick}
-            data-index={index}
-        >
-            <div className="recent-workspace-card__emoji">{randomEmoji}</div>
-            <div className="recent-workspace-card__content">
-                <div className="recent-workspace-card__name">
+        <div className="dbot-workspace-card" onClick={handleClick} data-index={index}>
+            <div className="dbot-workspace-card__border-light"></div>
+            <div className="dbot-workspace-card__emoji">{randomEmoji}</div>
+            <div className="dbot-workspace-card__content">
+                <div className="dbot-workspace-card__name">
                     {workspace.name || 'Untitled Bot'}
                 </div>
-                <button className="recent-workspace-card__action">
+                <button className="dbot-workspace-card__action">
                     <span>Load</span>
-                    <div className="recent-workspace-card__arrow">→</div>
+                    <div className="dbot-workspace-card__arrow">→</div>
                 </button>
             </div>
-            <div className="recent-workspace-card__shine"></div>
+            <div className="dbot-workspace-card__shine"></div>
         </div>
     );
 });

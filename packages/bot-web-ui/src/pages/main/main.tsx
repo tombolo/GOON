@@ -292,7 +292,12 @@ const AppWrapper = observer(() => {
                     <TradingViewModal />
                 </>
             ) : (
-                !is_open && active_tab !== 4 && <RunPanel />
+                    !is_open && active_tab !== 4 && active_tab !== 0 && (
+                        <>
+                            <RunStrategy />
+                            <RunPanel />
+                        </>
+                    )
             )}
             <Dialog
                 cancel_button_text={cancel_button_text || localize('Cancel')}
