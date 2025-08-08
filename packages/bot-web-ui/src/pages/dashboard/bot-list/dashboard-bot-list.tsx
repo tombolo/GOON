@@ -1,54 +1,44 @@
-import React from 'react';
+// DashboardBotList.jsx
+import React, { useEffect } from 'react';
 import { getSavedWorkspaces } from '@deriv/bot-skeleton';
 import { Text } from '@deriv/components';
 import { observer, useStore } from '@deriv/stores';
-import { Localize, localize } from '@deriv/translations';
+import { Localize } from '@deriv/translations';
 import { useDBotStore } from 'Stores/useDBotStore';
-import DeleteDialog from './delete-dialog';
 import RecentWorkspace from './recent-workspace';
 import './dashboard-bot-list.scss';
 
 const DashboardBotList = observer(() => {
     const { load_modal, dashboard } = useDBotStore();
-    const { setDashboardStrategies, dashboard_strategies } = load_modal;
-    const { setStrategySaveType, strategy_save_type } = dashboard;
     const { ui } = useStore();
-    const { is_desktop } = ui;
+    const { is_mobile } = ui;
 
-    React.useEffect(() => {
-        setStrategySaveType('');
-        const getStrategies = async () => {
-            const recent_strategies = await getSavedWorkspaces();
-            setDashboardStrategies(recent_strategies);
+    useEffect(() => {
+        const loadStrategies = async () => {
+            const strategies = await getSavedWorkspaces();
+            load_modal.setDashboardStrategies(strategies);
         };
-        getStrategies();
-    }, [strategy_save_type, setDashboardStrategies, setStrategySaveType]);
-
-    if (!dashboard_strategies?.length) {
-        return (
-            <div className="dashboard-bot-list__empty">
-                <Text size={is_desktop ? 's' : 'xs'} color="less-prominent">
-                    <Localize i18n_default_text="No recent bots found" />
-                </Text>
-            </div>
-        );
-    }
+        loadStrategies();
+    }, []);
 
     return (
-        <div className="dashboard-bot-list">
-            <div className="dashboard-bot-list__header">
-                <Text size={is_desktop ? 's' : 'xs'} weight="bold" color="prominent">
-                    <Localize i18n_default_text="Your Recent Bots" />
+        <div className="bot-dashboard">
+            <div className="bot-dashboard__header">
+                <Text size={is_mobile ? 'xs' : 's'} weight="bold" color="prominent">
+                    <Localize i18n_default_text="🤖 Your Bot Army" />
                 </Text>
+                <div className="bot-dashboard__header-emoji">✨</div>
             </div>
 
-            <div className="dashboard-bot-list__content">
-                {dashboard_strategies.map(workspace => (
-                    <RecentWorkspace key={workspace.id} workspace={workspace} />
+            <div className="bot-dashboard__grid">
+                {load_modal.dashboard_strategies?.map((workspace, index) => (
+                    <RecentWorkspace
+                        key={workspace.id}
+                        workspace={workspace}
+                        index={index}
+                    />
                 ))}
             </div>
-
-            <DeleteDialog />
         </div>
     );
 });
