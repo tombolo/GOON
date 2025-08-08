@@ -24,6 +24,7 @@ import RiskManagementCalculator from '../riskManagementCalculator';
 import Strategy from '../strategy';
 import Copytrading from '../copytrading';
 import Mybots from '../mybots';
+import BotBuilder from '../bot-builder';
 import { FaChartBar, FaChartLine, FaCogs, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt } from 'react-icons/fa';
 
 
@@ -212,7 +213,9 @@ const AppWrapper = observer(() => {
                                 </span>
                             }
                             id='id-bot-builder'
-                        />
+                        >
+                            <BotBuilder />
+                        </div>
                         <div
                             label={
                                 <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
