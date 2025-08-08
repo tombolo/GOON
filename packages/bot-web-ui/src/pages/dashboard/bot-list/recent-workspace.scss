@@ -4,7 +4,7 @@ $bot-emojis: '🤖', '👾', '🦾', '🧠', '⚡', '💻', '🔮', '🎮';
 .bot-card {
     --hover-color: #FF444F;
     position: relative;
-    background: white;
+    background: #ffffff;
     border-radius: 12px;
     padding: 1rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -26,7 +26,7 @@ $bot-emojis: '🤖', '👾', '🦾', '🧠', '⚡', '💻', '🔮', '🎮';
 
         .bot-card__action {
             background: var(--hover-color);
-            color: white;
+            color: #ffffff;
             width: 90px;
 
             .bot-card__arrow {
