@@ -137,7 +137,7 @@ const OverUnderStrategy = ({ tickData }) => {
                             <div className={styles.probabilityIndicator} data-probability="78%"></div>
                         </li>
                         <li>
-                            <span className={styles.highlight}>Entry point:</span> Optimal when volatility index < 30
+                            <span className={styles.highlight}>Entry point:</span> Optimal when volatility index &lt; 30
                             <div className={styles.probabilityIndicator} data-probability="92%"></div>
                         </li>
                     </ul>
