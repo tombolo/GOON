@@ -4,20 +4,36 @@ import DBotStore from '../scratch/dbot-store';
 import { save_types } from '../constants/save-type';
 import AutoRobot from './bots/auto_robot_by_GLE1.xml';
 import OverUnderBot from './bots/over_under_bot_by_GLE.xml';
+import Derivminer from './bots/deriv_miner_pro.xml';
+import Derivflipper from './bots/dollar_flipper.xml';
 
 // Static bot configurations
 const STATIC_BOTS = {
-    deriv_miner_pro: {
+    auto_robot: {
         id: 'auto_robot_by_GLE1',
         name: 'Auto robot',
         xml: AutoRobot,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
-    dollar_flipper: {
+    over_under: {
         id: 'over_under_bot_by_GLE',
         name: 'Over&under bot',
         xml: OverUnderBot,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    deriv_miner_pro: {
+        id: 'deriv_miner_pro',
+        name: 'Deriv Miner Pro',
+        xml: Derivminer,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    dollar_flipper: {
+        id: 'dollar_flipper',
+        name: 'Deriv Flipper',
+        xml: Derivflipper,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },

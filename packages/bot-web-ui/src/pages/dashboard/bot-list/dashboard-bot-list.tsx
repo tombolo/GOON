@@ -14,27 +14,30 @@ const DashboardBotList = observer(() => {
     const { setStrategySaveType, strategy_save_type } = dashboard;
     const { ui } = useStore();
     const { is_desktop } = ui;
-    const get_first_strategy_info = React.useRef(false);
-    const get_instacee = React.useRef(false);
 
     React.useEffect(() => {
         setStrategySaveType('');
         const getStrategies = async () => {
             const recent_strategies = await getSavedWorkspaces();
             setDashboardStrategies(recent_strategies);
-            if (!get_instacee.current) {
-                get_instacee.current = true;
-            }
         };
         getStrategies();
     }, [strategy_save_type, setDashboardStrategies, setStrategySaveType]);
 
-    if (!dashboard_strategies?.length) return null;
+    if (!dashboard_strategies?.length) {
+        return (
+            <div className="dashboard-bot-list__empty">
+                <Text size={is_desktop ? 's' : 'xs'} color="less-prominent">
+                    <Localize i18n_default_text="No recent bots found" />
+                </Text>
+            </div>
+        );
+    }
 
     return (
         <div className="dashboard-bot-list">
             <div className="dashboard-bot-list__header">
-                <Text size={is_desktop ? 'm' : 's'} weight="bold" color="prominent">
+                <Text size={is_desktop ? 's' : 'xs'} weight="bold" color="prominent">
                     <Localize i18n_default_text="Your Recent Bots" />
                 </Text>
             </div>
