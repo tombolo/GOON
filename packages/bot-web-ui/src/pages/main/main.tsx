@@ -49,7 +49,7 @@ const AppWrapper = observer(() => {
     const { is_open } = quick_strategy;
     const { cancel_button_text, ok_button_text, title, message } = dialog_options as { [key: string]: string };
     const { clear } = summary_card;
-    const { MYBOTS, DASHBOARD, BOT_BUILDER } = DBOT_TABS;
+    const { DASHBOARD, BOT_BUILDER } = DBOT_TABS;
     const init_render = React.useRef(true);
     const { ui } = useStore();
     const { url_hashed_values, is_desktop } = ui;
@@ -158,7 +158,7 @@ const AppWrapper = observer(() => {
             <div className='main'>
                 <div
                     className={classNames('main__container', {
-                        'main__container--active': active_tour && active_tab === MYBOTS && !is_desktop,
+                        'main__container--active': active_tour && active_tab === DASHBOARD && !is_desktop,
                     })}
                 >
                     <Tabs
