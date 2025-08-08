@@ -23,9 +23,7 @@ import Finesttool from '../finesttool';
 import RiskManagementCalculator from '../riskManagementCalculator';
 import Strategy from '../strategy';
 import Copytrading from '../copytrading';
-import Mybots from '../mybots';
-
-import { FaChartBar, FaChartLine, FaCogs, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt } from 'react-icons/fa';
+import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt } from 'react-icons/fa';
 
 
 const AppWrapper = observer(() => {
@@ -56,16 +54,7 @@ const AppWrapper = observer(() => {
     const { url_hashed_values, is_desktop } = ui;
 
 
-    const hash = [
-        'dashboard',
-        'bot_builder',
-        'charts',
-        'mybots',
-        'analysis-tool',
-        'copy-trading',
-        'risk-management',
-        'strategy'
-    ];
+    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial', 'finesttool', 'copytrading', 'risk_management_calculator', 'strategy'];
 
     let tab_value: number | string = active_tab;
     const GetHashedValue = (tab: number) => {
@@ -177,9 +166,6 @@ const AppWrapper = observer(() => {
                         onTabItemClick={handleTabChange}
                         top
                     >
-
-                        
-
                         <div
 
                             label={
@@ -218,16 +204,17 @@ const AppWrapper = observer(() => {
                             <Chart show_digits_stats={false} />
                         </div>
                         <div
-
                             label={
                                 <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
-                                    <FaCogs size={14} />
-                                    Smart Bots
+                                    <FaChessKnight size={14} />
+                                    Tutorial
                                 </span>
                             }
-                            id='id-mybots'
+                            id='id-tutorials'
                         >
-                            <Mybots />
+                            <div className='tutorials-wrapper'>
+                                <Tutorial handleTabChange={handleTabChange} />
+                            </div>
                         </div>
 
 
@@ -238,7 +225,7 @@ const AppWrapper = observer(() => {
                                     Analysis Tool
                                 </span>
                             }
-                            id='id-analysis-tool'
+                            id='id-dbot-dashboard'
                         >
                             <Finesttool />
                         </div>
@@ -250,7 +237,7 @@ const AppWrapper = observer(() => {
                                     Copy Trading
                                 </span>
                             }
-                            id='id-copy-trading'
+                            id='id-dbot-dashboard'
                         >
                             <Copytrading />
                         </div>
@@ -285,7 +272,7 @@ const AppWrapper = observer(() => {
                             </div>
                         </div>
 
-                        
+
 
 
                     </Tabs>
