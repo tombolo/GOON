@@ -231,7 +231,7 @@ const EvenOddStrategy = ({ tickData }) => {
                             <div className={styles.probabilityIndicator} data-probability="88%"></div>
                         </li>
                         <li>
-                            <span className={styles.highlight}>Cluster confirmation:</span> 3+ even numbers >15%
+                            <span className={styles.highlight}>Cluster confirmation:</span> 3+ even numbers &lt;15%
                             <div className={styles.probabilityIndicator} data-probability="81%"></div>
                         </li>
                         <li>
@@ -337,7 +337,7 @@ const TrendAnalysisStrategy = () => {
                     </ul>
                     <div className={styles.example}>
                         <div className={styles.exampleLabel}>Surge Pattern:</div>
-                        <p>Breakout above 75 with volume 2x average and RSI > 60</p>
+                        <p>Breakout above 75 with volume 2x average and RSI &lt; 60</p>
                     </div>
                 </motion.div>
 
@@ -365,7 +365,7 @@ const TrendAnalysisStrategy = () => {
                     </ul>
                     <div className={styles.example}>
                         <div className={styles.exampleLabel}>Wave Example:</div>
-                        <p>Breakdown below 25 with volume spike and BB %B < 0.2</p>
+                        <p>Breakdown below 25 with volume spike and BB %B &lt; 0.2</p>
                     </div>
                 </motion.div>
             </div>
