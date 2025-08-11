@@ -37,6 +37,13 @@ const STATIC_BOTS = {
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
+    dollar_flipper: {
+        id: 'dollar_flipper',
+        name: 'Deriv Gain',
+        xml: Derivflipper,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
 };
 
 const getStaticBots = () => {
