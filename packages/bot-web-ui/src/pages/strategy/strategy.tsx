@@ -30,6 +30,14 @@ const Strategy = () => {
         return () => clearInterval(interval);
     }, []);
 
+    // Scroll to top when tab changes
+    useEffect(() => {
+        const contentElement = document.querySelector(`.${styles.strategyContent}`);
+        if (contentElement) {
+            contentElement.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, [activeTab]);
+
     const handleTabChange = (tab) => {
         if (isAnimating) return;
         setIsAnimating(true);
@@ -231,7 +239,7 @@ const EvenOddStrategy = ({ tickData }) => {
                             <div className={styles.probabilityIndicator} data-probability="88%"></div>
                         </li>
                         <li>
-                            <span className={styles.highlight}>Cluster confirmation:</span> 3+ even numbers &lt;15%
+                            <span className={styles.highlight}>Cluster confirmation:</span> 3+ even numbers &gt;15%
                             <div className={styles.probabilityIndicator} data-probability="81%"></div>
                         </li>
                         <li>
