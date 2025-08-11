@@ -14,6 +14,12 @@
   --highlight-color: #f59e0b;
 }
 
+html, body {
+  height: auto;
+  min-height: 100%;
+  overflow-y: auto;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -21,18 +27,19 @@
 }
 
 .container {
-  min-height: 70vh;
+  min-height: 100%;
   width: 100%;
   background-color: var(--dark-bg);
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   position: relative;
-  overflow-y: auto;
+  height: auto;      // allow it to grow with content
+  overflow-y: auto; 
   padding: 2rem 0;
 }
 
 .backgroundAnimation {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
