@@ -292,7 +292,7 @@ const AppWrapper = observer(() => {
                     <TradingViewModal />
                 </>
             ) : (
-                    !is_open && active_tab !== 4 && active_tab !== 0 && (
+                !is_desktop && !is_open && active_tab !== 4 &&  (
                         <>
                             <RunStrategy />
                         </>
