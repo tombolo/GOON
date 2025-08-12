@@ -281,7 +281,7 @@ const AppWrapper = observer(() => {
             {is_desktop ? (
                 <>
                     <div className='main__run-strategy-wrapper'>
-                        {active_tab !== 5 && (
+                        {active_tab !== 4 && (
                             <>
                                 <RunStrategy />
                                 <RunPanel />
@@ -292,11 +292,7 @@ const AppWrapper = observer(() => {
                     <TradingViewModal />
                 </>
             ) : (
-                !is_desktop && !is_open && active_tab !== 4 &&  (
-                        <>
-                            <RunStrategy />
-                        </>
-                    )
+                !is_open && active_tab !== 4 && <RunPanel />
             )}
             <Dialog
                 cancel_button_text={cancel_button_text || localize('Cancel')}
