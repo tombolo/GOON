@@ -13,12 +13,15 @@
   --text-secondary: #64748b;
   --highlight-color: #f59e0b;
 }
-
-html, body {
-  height: auto;
+html, body, #__next {
   min-height: 100%;
-  overflow-y: auto;
+  height: auto;
 }
+
+body {
+  overflow-y: scroll; // Always show scrollbar
+}
+
 
 * {
   box-sizing: border-box;
@@ -27,15 +30,15 @@ html, body {
 }
 
 .container {
-  min-height: 100%;
   width: 100%;
   background-color: var(--dark-bg);
   color: #ffffff;
   font-family: 'Inter', sans-serif;
-  position: relative;
-  height: auto;      // allow it to grow with content
+  position: relative;   // allow it to grow with content
   overflow-y: auto; 
   padding: 2rem 0;
+  min-height: auto; // let content dictate height
+  height: auto;
 }
 
 .backgroundAnimation {
