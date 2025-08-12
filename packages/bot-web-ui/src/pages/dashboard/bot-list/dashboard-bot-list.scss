@@ -1,12 +1,25 @@
 .dbot-recent-bots {
     --animation-delay: 0.1s;
+    --hover-color: #FF444F;
+    --border-light-color: rgba(100, 217, 255, 0.7);
+    
     max-width: 800px;
     margin: 0 auto;
     padding: 1rem;
-    height: 100%;
     display: flex;
     flex-direction: column;
-    flex: 1;
+    background-color: transparent;
+
+    /* Desktop layout - no scrolling needed */
+    @media (min-width: 769px) {
+        height: auto;
+    }
+
+    /* Mobile layout - with scrolling */
+    @media (max-width: 768px) {
+        height: 100vh;
+        padding: 0.5rem;
+    }
 
     &__header {
         display: flex;
@@ -31,56 +44,85 @@
         &-emoji {
             animation: dbot-emoji-float 3s ease-in-out infinite;
         }
+
+        @media (max-width: 768px) {
+            margin-bottom: 1rem;
+            padding: 0.5rem 0.5rem 0.5rem 0;
+        }
     }
 
     &__scroll-container {
-        flex: 1;
-        overflow-y: auto;
-        min-height: 0;
-        background-color: transparent;
-        border-radius: 12px;
-        padding: 4px; // gives space for box-shadow to show
-        margin: -4px; // counteracts the padding to maintain layout
-    }
+        /* Desktop - no scrolling */
+        @media (min-width: 769px) {
+            overflow: visible;
+            height: auto;
+        }
 
-    &__grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 1.5rem;
-        padding: 1rem;
-        background-color: transparent;
+        /* Mobile - with scrolling */
+        @media (max-width: 768px) {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            min-height: 0; /* Crucial for flex scrolling */
+            padding: 4px;
+            margin: -4px;
+        }
 
-        // Custom scrollbar
+        /* Custom scrollbar - mobile only */
         scrollbar-width: thin;
-        scrollbar-color: #FF444F rgba(0, 0, 0, 0.05);
+        scrollbar-color: var(--hover-color) rgba(0, 0, 0, 0.05);
 
         &::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
+            height: 4px;
         }
 
         &::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.05);
-            border-radius: 10px;
         }
 
         &::-webkit-scrollbar-thumb {
-            background-color: #FF444F;
-            border-radius: 10px;
+            background-color: var(--hover-color);
+            border-radius: 2px;
+        }
+    }
+
+    &__grid {
+        display: grid;
+        gap: 1.5rem;
+        padding: 1rem;
+        background-color: transparent;
+
+        /* Desktop grid */
+        @media (min-width: 769px) {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            overflow: visible;
         }
 
+        /* Mobile grid */
         @media (max-width: 768px) {
             grid-template-columns: 1fr;
             gap: 1rem;
+            padding: 0.5rem;
+            min-height: min-content;
         }
     }
-}
 
-@keyframes dbot-header-underline {
-    0% { width: 50px; opacity: 0.7; }
-    100% { width: 120px; opacity: 1; }
-}
+    /* Animation keyframes */
+    @keyframes dbot-header-underline {
+        0% { width: 50px; opacity: 0.7; }
+        100% { width: 120px; opacity: 1; }
+    }
 
-@keyframes dbot-emoji-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
+    @keyframes dbot-emoji-float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+
+    /* Card entrance animations */
+    @for $i from 1 through 10 {
+        .dbot-workspace-card:nth-child(#{$i}) {
+            animation-delay: $i * 0.1s;
+        }
+    }
 }

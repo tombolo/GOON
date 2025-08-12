@@ -30,14 +30,16 @@ const DashboardBotList = observer(() => {
             </div>
 
             <div className="dbot-recent-bots__scroll-container">
-                <div className="dbot-recent-bots__grid">
-                    {load_modal.dashboard_strategies?.map((workspace, index) => (
-                        <RecentWorkspace
-                            key={workspace.id}
-                            workspace={workspace}
-                            index={index}
-                        />
-                    ))}
+                <div className="dbot-recent-bots__grid-container">
+                    <div className="dbot-recent-bots__grid">
+                        {load_modal.dashboard_strategies?.map((workspace, index) => (
+                            <RecentWorkspace
+                                key={workspace.id}
+                                workspace={workspace}
+                                index={index}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
