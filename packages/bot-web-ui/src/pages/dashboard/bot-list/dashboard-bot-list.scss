@@ -2,30 +2,15 @@
     --animation-delay: 0.1s;
     --hover-color: #FF444F;
     --border-light-color: rgba(100, 217, 255, 0.7);
-    
+
     max-width: 800px;
     margin: 0 auto;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     background-color: transparent;
-    position: relative;
-    overflow-y: auto;
-
-    /* Desktop layout - no scrolling needed */
-    @media (min-width: 769px) {
-        height: auto;
-        position: relative;
-        overflow-y: auto;
-    }
-
-    /* Mobile layout - with scrolling */
-    @media (max-width: 768px) {
-        height: 100vh;
-        padding: 0.5rem;
-        position: relative;
-        overflow-y: auto;
-    }
+    height: 100vh; /* Fill viewport */
+    min-height: 0; /* Flex scroll fix */
 
     &__header {
         display: flex;
@@ -34,7 +19,6 @@
         margin-bottom: 1.5rem;
         position: relative;
         padding-bottom: 0.5rem;
-        overflow-y: auto;
 
         &::after {
             content: '';
@@ -50,48 +34,27 @@
         &-emoji {
             animation: dbot-emoji-float 3s ease-in-out infinite;
         }
-
-        @media (max-width: 768px) {
-            margin-bottom: 1rem;
-            padding: 0.5rem 0.5rem 0.5rem 0;
-        }
     }
 
     &__scroll-container {
-        /* Desktop - no scrolling */
-        @media (min-width: 769px) {
-            position: relative;
-            height: auto;
-            overflow-y: auto;
-        }
-
-        /* Mobile - with scrolling */
-        @media (max-width: 768px) {
-            position: relative;
-            flex: 1;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-            min-height: 0; /* Crucial for flex scrolling */
-            padding: 4px;
-            margin: -4px;
-        }
-
-        /* Custom scrollbar - mobile only */
+        flex: 1; /* Fill remaining space */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        min-height: 0; /* Crucial for flex layouts */
+        max-height: 100%; /* Stay inside parent */
+        
         scrollbar-width: thin;
         scrollbar-color: var(--hover-color) rgba(0, 0, 0, 0.05);
 
         &::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
+            width: 6px;
         }
-
         &::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.05);
         }
-
         &::-webkit-scrollbar-thumb {
             background-color: var(--hover-color);
-            border-radius: 2px;
+            border-radius: 3px;
         }
     }
 
@@ -99,28 +62,18 @@
         display: grid;
         gap: 1.5rem;
         padding: 1rem;
-        background-color: transparent;
-        position: relative;
-        overflow-y: auto;
+        background-color: blue;
 
-        /* Desktop grid */
         @media (min-width: 769px) {
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            overflow: visible;
         }
-
-        /* Mobile grid */
         @media (max-width: 768px) {
-            position: relative;
-            overflow-y: auto;
             grid-template-columns: 1fr;
             gap: 1rem;
             padding: 0.5rem;
-            min-height: min-content;
         }
     }
 
-    /* Animation keyframes */
     @keyframes dbot-header-underline {
         0% { width: 50px; opacity: 0.7; }
         100% { width: 120px; opacity: 1; }
@@ -131,7 +84,6 @@
         50% { transform: translateY(-5px); }
     }
 
-    /* Card entrance animations */
     @for $i from 1 through 10 {
         .dbot-workspace-card:nth-child(#{$i}) {
             animation-delay: $i * 0.1s;
