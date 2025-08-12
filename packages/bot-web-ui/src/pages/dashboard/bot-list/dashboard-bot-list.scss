@@ -1,6 +1,6 @@
 .dbot-recent-bots {
     --animation-delay: 0.1s;
-    --hover-color: #FF444F;
+    --hover-color: #e40e1c;
     --border-light-color: rgba(100, 217, 255, 0.7);
 
     max-width: 800px;
@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     background-color: transparent;
-    height: 40vh; 
+    height: 35vh; 
     min-height: 0;
 
     &__header {
@@ -53,7 +53,7 @@
             background: rgba(0, 0, 0, 0.05);
         }
         &::-webkit-scrollbar-thumb {
-            background-color: var(--hover-color);
+            background-color: rgba(0, 0, 0, 0.05);
             border-radius: 3px;
         }
     }
@@ -62,7 +62,7 @@
         display: grid;
         gap: 1.5rem;
         padding: 1rem;
-        background-color: #64D9FF;
+        background-color: transparent;
 
         @media (min-width: 769px) {
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
