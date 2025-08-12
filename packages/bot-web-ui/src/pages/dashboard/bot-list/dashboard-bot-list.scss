@@ -9,16 +9,22 @@
     display: flex;
     flex-direction: column;
     background-color: transparent;
+    position: relative;
+    overflow-y: auto;
 
     /* Desktop layout - no scrolling needed */
     @media (min-width: 769px) {
         height: auto;
+        position: relative;
+        overflow-y: auto;
     }
 
     /* Mobile layout - with scrolling */
     @media (max-width: 768px) {
         height: 100vh;
         padding: 0.5rem;
+        position: relative;
+        overflow-y: auto;
     }
 
     &__header {
@@ -28,7 +34,7 @@
         margin-bottom: 1.5rem;
         position: relative;
         padding-bottom: 0.5rem;
-        flex-shrink: 0;
+        overflow-y: auto;
 
         &::after {
             content: '';
@@ -54,12 +60,14 @@
     &__scroll-container {
         /* Desktop - no scrolling */
         @media (min-width: 769px) {
-            overflow: visible;
+            position: relative;
             height: auto;
+            overflow-y: auto;
         }
 
         /* Mobile - with scrolling */
         @media (max-width: 768px) {
+            position: relative;
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
@@ -92,6 +100,8 @@
         gap: 1.5rem;
         padding: 1rem;
         background-color: transparent;
+        position: relative;
+        overflow-y: auto;
 
         /* Desktop grid */
         @media (min-width: 769px) {
@@ -101,6 +111,8 @@
 
         /* Mobile grid */
         @media (max-width: 768px) {
+            position: relative;
+            overflow-y: auto;
             grid-template-columns: 1fr;
             gap: 1rem;
             padding: 0.5rem;
