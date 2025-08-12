@@ -294,7 +294,7 @@ const AppWrapper = observer(() => {
             ) : (
                     !is_open && active_tab !== 4 && active_tab !== 0 && (
                         <>
-                            <RunPanel />
+                            <RunStrategy />
                         </>
                     )
             )}
