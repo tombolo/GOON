@@ -152,7 +152,7 @@ body {
   color: #e2e8f0;
   position: relative;
   
-  &::after {
+  &:after {
     content: '';
     display: block;
     width: 50px;
@@ -296,7 +296,7 @@ body {
   position: relative;
   overflow: hidden;
   
-  &::before {
+  &:before {
     content: '';
     position: absolute;
     top: 0;
@@ -309,7 +309,7 @@ body {
     background: rgba(16, 185, 129, 0.1);
     border: 1px solid rgba(16, 185, 129, 0.3);
     
-    &::before {
+    &:before {
       background: var(--success-gradient);
     }
   }
@@ -318,7 +318,7 @@ body {
     background: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.3);
     
-    &::before {
+    &:before {
       background: var(--danger-gradient);
     }
   }
@@ -327,7 +327,7 @@ body {
     background: rgba(59, 130, 246, 0.1);
     border: 1px solid rgba(59, 130, 246, 0.3);
     
-    &::before {
+    &:before {
       background: var(--info-gradient);
     }
   }
@@ -336,7 +336,7 @@ body {
     background: rgba(139, 92, 246, 0.1);
     border: 1px solid rgba(139, 92, 246, 0.3);
     
-    &::before {
+    &:before {
       background: var(--purple-gradient);
     }
   }
@@ -345,7 +345,7 @@ body {
     background: rgba(16, 185, 129, 0.1);
     border: 1px solid rgba(16, 185, 129, 0.3);
     
-    &::before {
+    &:before {
       background: var(--success-gradient);
     }
   }
@@ -354,7 +354,7 @@ body {
     background: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.3);
     
-    &::before {
+    &:before {
       background: var(--danger-gradient);
     }
   }
@@ -388,7 +388,7 @@ body {
     line-height: 1.6;
     color: #e2e8f0;
     
-    &::before {
+    &:before {
       content: '→';
       position: absolute;
       left: 0;
@@ -403,7 +403,7 @@ body {
   font-weight: 600;
   position: relative;
   
-  &::after {
+  &:after {
     content: '';
     position: absolute;
     bottom: -2px;
@@ -416,7 +416,7 @@ body {
     transition: transform 0.3s ease;
   }
   
-  &:hover::after {
+  &:hover:after {
     transform: scaleX(1);
     transform-origin: left;
   }
@@ -430,7 +430,7 @@ body {
   position: relative;
   overflow: hidden;
   
-  &::after {
+  &:after {
     content: attr(data-probability);
     position: absolute;
     right: 0;
@@ -439,7 +439,7 @@ body {
     color: #94a3b8;
   }
   
-  &::before {
+  &:before {
     content: '';
     position: absolute;
     top: 0;
