@@ -16,13 +16,13 @@
     --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
 
     position: relative;
-    min-height: 100vh;
+    min-height: 90vh;
     width: 100%;
     padding: 2rem;
     background-color: var(--darker);
     color: var(--text);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    overflow: hidden;
+    overflow-y: auto;
 
     .particles {
         position: absolute;
