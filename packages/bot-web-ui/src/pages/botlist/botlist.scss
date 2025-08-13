@@ -137,7 +137,7 @@
             border-radius: var(--border-radius-sm);
             font-size: 0.9rem;
             transition: var(--transition);
-            background-color: white;
+            background-color: #ffffff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 
             &:focus {
@@ -175,7 +175,7 @@
     }
 
     &__skeleton-card {
-        background: white;
+        background: #ffffff;
         border-radius: var(--border-radius);
         padding: 1.5rem;
         box-shadow: var(--card-shadow);
@@ -220,7 +220,7 @@
         justify-content: center;
         padding: 4rem 2rem;
         text-align: center;
-        background: white;
+        background: #ffffff;
         border-radius: var(--border-radius);
         box-shadow: var(--card-shadow);
         animation: fadeIn 0.5s ease-out;

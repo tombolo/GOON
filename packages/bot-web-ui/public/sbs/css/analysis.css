@@ -3,7 +3,7 @@ html,
 body {
   height: 100%;
   overflow-y: auto;
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', 'sans-serif';
   background-color: #0a192f;
   color: #ffffff;
   /* Changed text to white */
@@ -203,12 +203,7 @@ body {
   /* Changed text to white */
 }
 
-.button-grid button {
-  font-family: 'Poppins', ghetto;
-  font-weight: bold;
-  font-size: 14px;
-  color: black;
-}
+
 
 .progress {
   display: flex;
@@ -243,16 +238,7 @@ body {
   background-color: #FFCDD2;
 }
 
-.panel-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-  gap: 10px;
-  flex-wrap: wrap;
-  border-top: 0.01px solid #6a00ff;
-  padding-top: 5px;
-}
+
 
 .panel-controls label {
   display: flex;
@@ -279,7 +265,7 @@ body {
 .panel-controls button {
   padding: 6px 12px;
   background-color: #ff0000;
-  color: white;
+  color: #ffffff;
   border: none;
   border-radius: 5px;
   /* Increased border radius */
@@ -390,7 +376,7 @@ body {
 
 .dialog button {
   background-color: #6a00ff;
-  color: white;
+  color: #ffffff;
   border: none;
   padding: 8px 15px;
   border-radius: 5px;
@@ -481,7 +467,7 @@ body {
   top: 0px;
   height: 80%;
   width: 30%;
-  background: white;
+  background: #ffffff;
   box-shadow: 0 0 5px #6a00ff;
   z-index: 2;
   transition: transform 0.4s ease;
