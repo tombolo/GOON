@@ -1,92 +1,303 @@
-.dbot-recent-bots {
-    --animation-delay: 0.1s;
-    --hover-color: #e40e1c;
-    --border-light-color: rgba(100, 217, 255, 0.7);
+// botlist.scss
+.dbot-bot-army {
+    --primary-color: #FF444F;
+    --secondary-color: #FF6444;
+    --accent-color: #4D8DFF;
+    --dark-color: #2A3052;
+    --light-color: #F8FAFC;
+    --text-color: #2E3338;
+    --text-light: #6E7A8A;
+    --card-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --border-radius: 12px;
+    --border-radius-sm: 8px;
+    --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    background-color: transparent;
-    height: 35vh; 
-    min-height: 0;
+    position: relative;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background-color: var(--light-color);
+    overflow: hidden;
+    color: var(--text-color);
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    &__particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    &__particle {
+        position: absolute;
+        background: linear-gradient(135deg, rgba(77, 141, 255, 0.2), rgba(255, 68, 79, 0.2));
+        border-radius: 50%;
+        width: var(--size);
+        height: var(--size);
+        top: var(--y);
+        left: var(--x);
+        animation: float var(--duration) var(--delay) infinite ease-in-out;
+        opacity: 0.6;
+    }
+
+    &__container {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+        z-index: 1;
+    }
 
     &__header {
+        margin-bottom: 2.5rem;
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 1.5rem;
-        position: relative;
-        padding-bottom: 0.5rem;
+        flex-direction: column;
+        gap: 1.5rem;
 
-        &:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 2px;
-            background: linear-gradient(90deg, #FF444F, #FF6444);
-            animation: dbot-header-underline 2s infinite alternate;
-        }
-
-        &-emoji {
-            animation: dbot-emoji-float 3s ease-in-out infinite;
+        @media (min-width: 768px) {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-end;
         }
     }
 
-    &__scroll-container {
-        flex: 1; /* Fill remaining space */
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        min-height: 0; /* Crucial for flex layouts */
-        max-height: 100%; /* Stay inside parent */
-        
-        scrollbar-width: thin;
-        scrollbar-color: var(--hover-color) rgba(0, 0, 0, 0.05);
+    &__title-container {
+        position: relative;
+    }
 
-        &::-webkit-scrollbar {
-            width: 6px;
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--dark-color);
+        line-height: 1.2;
+
+        @media (min-width: 768px) {
+            font-size: 2.5rem;
         }
-        &::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
+    }
+
+    &__title-text {
+        position: relative;
+        display: inline-block;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+            transform-origin: left;
+            animation: underline-grow 1.5s ease-out forwards;
         }
-        &::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.05);
-            border-radius: 3px;
+    }
+
+    &__emoji {
+        display: inline-block;
+        animation: bounce 2s infinite;
+    }
+
+    &__subtitle {
+        margin: 0.5rem 0 0;
+        font-size: 1rem;
+        color: var(--text-light);
+        font-weight: 400;
+    }
+
+    &__search {
+        position: relative;
+        width: 100%;
+        max-width: 350px;
+        margin-top: 1rem;
+
+        @media (min-width: 768px) {
+            margin-top: 0;
         }
+
+        &-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        &-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius-sm);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+
+            &:focus {
+                outline: none;
+                border-color: var(--accent-color);
+                box-shadow: 0 0 0 3px rgba(77, 141, 255, 0.2);
+            }
+
+            &::placeholder {
+                color: var(--text-light);
+            }
+        }
+    }
+
+    &__content {
+        position: relative;
     }
 
     &__grid {
         display: grid;
         gap: 1.5rem;
-        padding: 1rem;
-        background-color: transparent;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        padding: 0.5rem;
 
-        @media (min-width: 769px) {
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        }
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
             grid-template-columns: 1fr;
-            gap: 1rem;
-            padding: 0.5rem;
         }
     }
 
-    @keyframes dbot-header-underline {
-        0% { width: 50px; opacity: 0.7; }
-        100% { width: 120px; opacity: 1; }
+    &__loader {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        padding: 0.5rem;
     }
 
-    @keyframes dbot-emoji-float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
+    &__skeleton-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+        position: relative;
+        height: 180px;
     }
 
-    @for $i from 1 through 10 {
-        .dbot-workspace-card:nth-child(#{$i}) {
-            animation-delay: $i * 0.1s;
+    &__skeleton-image {
+        width: 100%;
+        height: 100px;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        border-radius: var(--border-radius-sm);
+        animation: shimmer 1.5s infinite linear;
+        margin-bottom: 1rem;
+    }
+
+    &__skeleton-text {
+        height: 16px;
+        width: 70%;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        border-radius: 4px;
+        animation: shimmer 1.5s infinite linear;
+        margin-bottom: 0.5rem;
+    }
+
+    &__skeleton-text-sm {
+        height: 12px;
+        width: 50%;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        border-radius: 4px;
+        animation: shimmer 1.5s infinite linear;
+    }
+
+    &__empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 2rem;
+        text-align: center;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--card-shadow);
+        animation: fadeIn 0.5s ease-out;
+
+        &-icon {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            opacity: 0.5;
+        }
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translate(0, 0);
+        }
+        50% {
+            transform: translate(calc(var(--size) * 2), calc(var(--size) * 2));
+        }
+    }
+
+    @keyframes underline-grow {
+        0% {
+            transform: scaleX(0);
+        }
+        100% {
+            transform: scaleX(1);
+        }
+    }
+
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+        100% {
+            background-position: 200% 0;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes cardEnter {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    // Animation for each bot card
+    .dbot-workspace-card {
+        animation: cardEnter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+        
+        @for $i from 1 through 10 {
+            &:nth-child(#{$i}) {
+                animation-delay: $i * 0.1s;
+            }
         }
     }
 }
