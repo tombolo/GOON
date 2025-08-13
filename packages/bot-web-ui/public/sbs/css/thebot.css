@@ -8,7 +8,6 @@ body {
   font-family: 'Poppins', sans-serif;
   background-color: #0a192f;
   color: #ffffff;
-  height: 100%;
   display: flex;
   flex-direction: column;
   padding-bottom: 10% !important;
@@ -373,9 +372,6 @@ th {
     margin: 0 auto;
   }
 
-  .right-side {
-    order: -1;
-  }
 
   .summary {
     gap: 0.3rem;
