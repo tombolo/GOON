@@ -1,29 +1,185 @@
 .container {
-    width: 100%;
-    position: relative;
-    background: transparent;
-    overflow: hidden;
-    transition: all 0.3s ease;
-
-    // Optional: Add some responsive padding
-    padding: 0;
-    @media (min-width: 768px) {
-        padding: 0 1rem;
-    }
-    @media (min-width: 1200px) {
-        padding: 0 2rem;
-    }
+  background-color: #121212;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 400;
+  margin-bottom: 300px;
+  padding: 1rem;
+  padding-bottom: 50rem;
+  overflow-y: auto;
+  min-height: 100vh;
 }
 
-.iframe {
-    width: 100%;
-    border: none;
-    min-height: 300px; // Minimum height for mobile devices
-    background: transparent;
-    display: block;
-    transition: height 0.3s ease-out;
+.card {
+  background-color: #1f1f1f;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  padding: 1rem;
+}
 
-    // Optional: Add some subtle styling
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.btn {
+  color: #ffffff;
+  font-weight: 400;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 0.75rem;
+
+  &-green {
+    background-color: #28a745;
+
+    &:hover {
+      background-color: #218838;
+    }
+  }
+
+  &-red {
+    background-color: #ff0000;
+  }
+
+  &-blue {
+    background-color: #007bff;
+  }
+
+  &-cyan {
+    background-color: #00e5ff;
+    color: #000000;
+
+    &:hover {
+      background-color: #00bcd4;
+    }
+  }
+}
+
+.replicatorToken {
+  background-color: #1a3b73;
+  color: #ffffff;
+  font-weight: 400;
+  padding: 15px 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.formControl {
+  background-color: #2b2b2b;
+  color: #ffffff;
+  border: 1px solid #444444;
+  font-size: 0.85rem;
+  font-weight: 400;
+  padding: 0.5rem;
+  border-radius: 4px;
+  width: 100%;
+}
+
+h5, h6 {
+  color: #e0e0e0;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.textMuted {
+  color: #aaaaaa !important;
+  font-size: 0.75rem;
+  font-weight: 400;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.youtubeIcon {
+  text-align: center;
+
+  img {
+    width: 32px;
+    height: 32px;
+    filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.7));
+  }
+
+  div {
+    font-size: 0.65rem;
+    color: #cccccc;
+  }
+}
+
+.statusMsg {
+  color: #008000;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  margin: 4px 0 0;
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  &.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tokenTable {
+  color: #ffffff;
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #444444;
+  }
+
+  th {
+    background-color: #6a00ff;
+    color: #ffffff;
+  }
+}
+
+.deleteBtn {
+  color: #ff0000;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.inputGroup {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.youtubeSmall {
+  filter: drop-shadow(0 0 4px rgba(255, 0, 0, 0.6));
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .inputGroup {
+    flex-direction: column;
+  }
 }

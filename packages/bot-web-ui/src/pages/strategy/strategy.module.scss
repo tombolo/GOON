@@ -13,14 +13,6 @@
   --text-secondary: #64748b;
   --highlight-color: #f59e0b;
 }
-html, body, #__next {
-  min-height: 100%;
-  height: auto;
-}
-
-body {
-  overflow-y: scroll; // Always show scrollbar
-}
 
 
 * {
