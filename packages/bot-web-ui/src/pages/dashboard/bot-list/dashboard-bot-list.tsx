@@ -22,16 +22,8 @@ const DashboardBotList = observer(() => {
 
     return (
         <div className="dbot-recent-bots">
-            <div className="dbot-recent-bots__header">
-                
-                <div className="dbot-recent-bots__header-emoji">✨</div>
-            </div>
 
-            <div className="dbot-recent-bots__scroll-container">
-                <div className="dbot-recent-bots__grid-container">
-                    
-                </div>
-            </div>
+    
         </div>
     );
 });

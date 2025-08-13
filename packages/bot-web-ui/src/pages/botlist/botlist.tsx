@@ -68,16 +68,7 @@ const DashboardBotList = observer(() => {
                         </p>
                     </div>
 
-                    <div className={styles.search}>
-                        <Icon icon="IcSearch" className={styles.searchIcon} />
-                        <input
-                            type="text"
-                            placeholder="Search bots..."
-                            className={styles.searchInput}
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
+                   
                 </div>
 
                 <div className={styles.content}>
