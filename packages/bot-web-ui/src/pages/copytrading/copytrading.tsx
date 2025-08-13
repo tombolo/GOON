@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './CopyTradingDashboard.module.scss';
+import styles from './CopyTradingPage.module.scss';
 
 const CopyTradingDashboard: React.FC = () => {
     const [isDemoToReal, setIsDemoToReal] = useState(false);
@@ -70,7 +70,7 @@ const CopyTradingDashboard: React.FC = () => {
             const keys = Object.keys(accountsList);
             const key = keys[0];
             const value = accountsList[key];
-            let storedArray = JSON.parse(localStorage.getItem('copyTokensArray') || []);
+            let storedArray = JSON.parse(localStorage.getItem('copyTokensArray') || '[]');
             storedArray = storedArray.filter((token: string) => token !== value);
             localStorage.setItem('copyTokensArray', JSON.stringify(storedArray));
             setTokens(storedArray);
