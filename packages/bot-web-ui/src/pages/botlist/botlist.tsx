@@ -5,7 +5,7 @@ import { observer, useStore } from '@deriv/stores';
 import { Localize } from '@deriv/translations';
 import { useDBotStore } from 'Stores/useDBotStore';
 import RecentWorkspace from '../dashboard/bot-list/recent-workspace';
-import styles from './DashboardBotList.module.scss';
+import styles from './botList.module.scss';
 
 const DashboardBotList = observer(() => {
     const { load_modal } = useDBotStore();

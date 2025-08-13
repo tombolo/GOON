@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './CopyTradingDashboard.module.scss';
+import styles from './CopyTradingPage.module.scss';
 
 const CopyTradingDashboard: React.FC = () => {
     const [isDemoToReal, setIsDemoToReal] = useState(false);
