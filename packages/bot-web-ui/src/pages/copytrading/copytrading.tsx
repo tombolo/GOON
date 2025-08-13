@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './CopyTradingPage.module.scss';
+import styles from './CopyTradingDashboard.module.scss';
 
 const CopyTradingDashboard: React.FC = () => {
     const [isDemoToReal, setIsDemoToReal] = useState(false);
@@ -9,8 +9,8 @@ const CopyTradingDashboard: React.FC = () => {
     const [balance, setBalance] = useState('0.00 USD');
     const [statusMessage, setStatusMessage] = useState('');
     const [statusMessage2, setStatusMessage2] = useState('');
-    const [statusColor, setStatusColor] = useState('green');
-    const [statusColor2, setStatusColor2] = useState('green');
+    const [statusColor, setStatusColor] = useState('#4CAF50');
+    const [statusColor2, setStatusColor2] = useState('#4CAF50');
     const [tokenInput, setTokenInput] = useState('');
 
     useEffect(() => {
@@ -29,10 +29,10 @@ const CopyTradingDashboard: React.FC = () => {
     const showMessage = (message: string, isError = false, isPrimary = true) => {
         if (isPrimary) {
             setStatusMessage(message);
-            setStatusColor(isError ? 'red' : 'green');
+            setStatusColor(isError ? '#FF444F' : '#4CAF50');
         } else {
             setStatusMessage2(message);
-            setStatusColor2(isError ? 'red' : 'green');
+            setStatusColor2(isError ? '#FF444F' : '#4CAF50');
         }
 
         setTimeout(() => {
@@ -176,100 +176,105 @@ const CopyTradingDashboard: React.FC = () => {
     };
 
     return (
-        <div className={styles.container}>
-            <div className={styles.topBar}>
-                <button
-                    className={`${styles.btn} ${isDemoToReal ? styles.btnRed : styles.btnGreen}`}
-                    onClick={handleDemoToReal}
-                >
-                    {isDemoToReal ? 'Stop Demo to Real Copy Trading' : 'Start Demo to Real Copy Trading'}
-                </button>
-                <div className={styles.youtubeIcon}>
-                    <img src="https://img.icons8.com/ios-filled/50/fa314a/youtube-play.png" alt="Tutorial" />
-                    <div>Tutorial</div>
-                </div>
-            </div>
-
-            <div className={styles.replicatorToken}>
-                <span>
-                    <h5>{loginId}</h5>
-                    <p
-                        className={`${styles.statusMsg} ${statusMessage ? styles.show : ''}`}
-                        style={{ color: statusColor }}
-                    >
-                        {statusMessage}
-                    </p>
-                </span>
-                <span style={{ color: 'gold' }}>{balance}</span>
-            </div>
-
-            <h5>Add tokens to Replicator</h5>
-
-            <div className={styles.card}>
-                <div className={styles.inputGroup}>
-                    <input
-                        type="text"
-                        className={styles.formControl}
-                        placeholder="Enter Client token"
-                        value={tokenInput}
-                        onChange={(e) => setTokenInput(e.target.value)}
-                    />
+        <div className={styles.pageWrapper}>
+            <div className={styles.backgroundEffect}></div>
+            <div className={styles.container}>
+                <div className={styles.topBar}>
                     <button
-                        className={`${styles.btn} ${isCopyTrading ? styles.btnRed : styles.btnGreen}`}
-                        onClick={handleCopyTrading}
+                        className={`${styles.btn} ${isDemoToReal ? styles.btnRed : styles.btnGreen}`}
+                        onClick={handleDemoToReal}
                     >
-                        {isCopyTrading ? 'Stop Copy Trading' : 'Start Copy Trading'}
+                        {isDemoToReal ? 'Stop Demo to Real Copy Trading' : 'Start Demo to Real Copy Trading'}
                     </button>
+                    <div className={styles.youtubeIcon}>
+                        <img src="https://img.icons8.com/ios-filled/50/fa314a/youtube-play.png" alt="Tutorial" />
+                        <div>Tutorial</div>
+                    </div>
                 </div>
-                <div className={styles.buttonGroup}>
-                    <button className={`${styles.btn} ${styles.btnCyan}`} onClick={handleAddToken}>
-                        Add
-                    </button>
-                    <button className={`${styles.btn} ${styles.btnCyan}`} onClick={() => { }}>
-                        Sync &#x21bb;
-                    </button>
-                    <img
-                        src="https://img.icons8.com/ios-filled/24/fa314a/youtube-play.png"
-                        alt="yt"
-                        className={styles.youtubeSmall}
-                    />
-                </div>
-                <p
-                    className={`${styles.statusMsg} ${statusMessage2 ? styles.show : ''}`}
-                    style={{ color: statusColor2 }}
-                >
-                    {statusMessage2}
-                </p>
-            </div>
 
-            <div className={styles.card}>
-                <h6>Total Clients added: {tokens.length}</h6>
-                <small className={styles.textMuted}>
-                    {tokens.length === 0 ? 'No tokens added yet' : ''}
-                </small>
-                <table className={styles.tokenTable}>
-                    <thead>
-                        <tr>
-                            <th>Token</th>
-                            <th>Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tokens.map((token, index) => (
-                            <tr key={index}>
-                                <td>{token}</td>
-                                <td>
-                                    <span
-                                        className={styles.deleteBtn}
-                                        onClick={() => handleDeleteToken(index)}
-                                    >
-                                        X
-                                    </span>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className={styles.replicatorToken}>
+                    <span>
+                        <h5>{loginId}</h5>
+                        <p
+                            className={`${styles.statusMsg} ${statusMessage ? styles.show : ''}`}
+                            style={{ color: statusColor }}
+                        >
+                            {statusMessage}
+                        </p>
+                    </span>
+                    <span style={{ color: '#FFD700' }}>{balance}</span>
+                </div>
+
+                <h5 className={styles.sectionTitle}>Add tokens to Replicator</h5>
+
+                <div className={styles.card}>
+                    <div className={styles.inputGroup}>
+                        <input
+                            type="text"
+                            className={styles.formControl}
+                            placeholder="Enter Client token"
+                            value={tokenInput}
+                            onChange={(e) => setTokenInput(e.target.value)}
+                        />
+                        <button
+                            className={`${styles.btn} ${isCopyTrading ? styles.btnRed : styles.btnGreen}`}
+                            onClick={handleCopyTrading}
+                        >
+                            {isCopyTrading ? 'Stop Copy Trading' : 'Start Copy Trading'}
+                        </button>
+                    </div>
+                    <div className={styles.buttonGroup}>
+                        <button className={`${styles.btn} ${styles.btnCyan}`} onClick={handleAddToken}>
+                            Add
+                        </button>
+                        <button className={`${styles.btn} ${styles.btnCyan}`} onClick={() => { }}>
+                            Sync &#x21bb;
+                        </button>
+                        <img
+                            src="https://img.icons8.com/ios-filled/24/fa314a/youtube-play.png"
+                            alt="yt"
+                            className={styles.youtubeSmall}
+                        />
+                    </div>
+                    <p
+                        className={`${styles.statusMsg} ${statusMessage2 ? styles.show : ''}`}
+                        style={{ color: statusColor2 }}
+                    >
+                        {statusMessage2}
+                    </p>
+                </div>
+
+                <div className={styles.card}>
+                    <h6 className={styles.sectionSubtitle}>Total Clients added: {tokens.length}</h6>
+                    <small className={styles.textMuted}>
+                        {tokens.length === 0 ? 'No tokens added yet' : ''}
+                    </small>
+                    <div className={styles.tableContainer}>
+                        <table className={styles.tokenTable}>
+                            <thead>
+                                <tr>
+                                    <th>Token</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tokens.map((token, index) => (
+                                    <tr key={index}>
+                                        <td>{token}</td>
+                                        <td>
+                                            <span
+                                                className={styles.deleteBtn}
+                                                onClick={() => handleDeleteToken(index)}
+                                            >
+                                                X
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     );
