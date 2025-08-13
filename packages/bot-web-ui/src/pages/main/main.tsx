@@ -24,7 +24,7 @@ import RiskManagementCalculator from '../riskManagementCalculator';
 import Strategy from '../strategy';
 import Copytrading from '../copytrading';
 import Botlist from '../botlist';
-import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt } from 'react-icons/fa';
+import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt, FaCopy, FaLightbulb } from 'react-icons/fa';
 
 
 const AppWrapper = observer(() => {
@@ -222,7 +222,7 @@ const AppWrapper = observer(() => {
                         <div
                             label={
                                 <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
-                                    <FaChartBar size={14} />
+                                    <FaExchangeAlt size={14} />
                                     Free Bots
                                 </span>
                             }
@@ -246,7 +246,7 @@ const AppWrapper = observer(() => {
                         <div
                             label={
                                 <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
-                                    <FaChartBar size={14} />
+                                    <FaCopy size={14} />
                                     Copy Trading
                                 </span>
                             }
@@ -274,7 +274,7 @@ const AppWrapper = observer(() => {
                         <div
                             label={
                                 <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
-                                    <FaChessKnight size={14} />
+                                    <FaLightbulb size={14} />
                                     Strategy
                                 </span>
                             }
