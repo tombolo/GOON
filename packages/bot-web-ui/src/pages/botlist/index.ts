@@ -1,4 +1,4 @@
 import Botlist from './botlist';
-import './botlist.scss';
+import './botlist.module.scss';
 
 export default Botlist;
