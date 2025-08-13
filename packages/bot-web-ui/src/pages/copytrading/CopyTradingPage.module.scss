@@ -82,6 +82,8 @@ $card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    color: white;
+    min-width: 200px;
 
     &::before {
         content: '';
@@ -113,6 +115,11 @@ $card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         background: linear-gradient(135deg, $accent, darken($accent, 10%));
         color: #000;
         box-shadow: 0 4px 15px rgba($accent, 0.3);
+    }
+
+    &-primary {
+        background: linear-gradient(135deg, $primary, darken($primary, 10%));
+        box-shadow: 0 4px 15px rgba($primary, 0.3);
     }
 }
 
@@ -185,6 +192,11 @@ $card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     @media (max-width: 768px) {
         flex-direction: column;
     }
+
+    .btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
 }
 
 .formControl {
@@ -216,6 +228,11 @@ $card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     gap: 1rem;
     align-items: center;
     margin-bottom: 1rem;
+
+    .btn {
+        min-width: auto;
+        padding: 0.5rem 1rem;
+    }
 }
 
 .youtubeIcon {
@@ -333,6 +350,11 @@ $card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     @media (max-width: 768px) {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .btn {
+        flex: 1;
+        max-width: 400px;
     }
 }
 

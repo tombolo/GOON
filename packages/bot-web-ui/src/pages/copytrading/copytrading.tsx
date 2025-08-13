@@ -184,7 +184,7 @@ const CopyTradingDashboard: React.FC = () => {
                         className={`${styles.btn} ${isDemoToReal ? styles.btnRed : styles.btnGreen}`}
                         onClick={handleDemoToReal}
                     >
-                        {isDemoToReal ? 'Stop Demo to Real Copy Trading' : 'Start Demo to Real Copy Trading'}
+                        {isDemoToReal ? 'Stop Demo to Real' : 'Start Demo to Real'}
                     </button>
                     <div className={styles.youtubeIcon}>
                         <img src="https://img.icons8.com/ios-filled/50/fa314a/youtube-play.png" alt="Tutorial" />

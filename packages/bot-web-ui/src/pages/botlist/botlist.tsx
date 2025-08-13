@@ -67,8 +67,6 @@ const DashboardBotList = observer(() => {
                             <Localize i18n_default_text="Command your automated trading forces" />
                         </p>
                     </div>
-
-                   
                 </div>
 
                 <div className={styles.content}>
