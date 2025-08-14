@@ -1,6 +1,5 @@
 // src/pages/copy-trading/copy-trading.tsx
 import React, { useState, useEffect, useRef } from 'react';
-import { getAppId } from '../../../../shared/src/utils/config/config';
 import { observer } from 'mobx-react-lite';
 import './copy-trading.scss';
 import { initializeApp } from 'firebase/app';
@@ -32,7 +31,7 @@ const saveAccountTokens = async (loginId: string, tokens: any[]) => {
 
 const updateTokenStatus = async (loginId: string, token: string, status: string) => {
   const tokens = await getAccountTokens(loginId);
-  const updatedTokens = tokens.map(t => 
+  const updatedTokens = tokens.map((t: { token: string; status: string }) => 
     t.token === token ? { ...t, status } : t
   );
   await saveAccountTokens(loginId, updatedTokens);
@@ -66,7 +65,7 @@ const CopyTrading1 = observer(() => {
       setTraderTokens(tokens);
       
       // Verify any pending tokens
-      tokens.forEach(tokenObj => {
+      tokens.forEach((tokenObj: { token: string; status: string }) => {
         if (tokenObj.status === 'pending') {
           const reqId = Date.now();
           websocket?.send(JSON.stringify({
@@ -182,7 +181,7 @@ const CopyTrading1 = observer(() => {
   
       // 2. Proceed with adding token and starting copy trading
       const existingTokens = await getAccountTokens(currentLoginId);
-      if (existingTokens.some(t => t.token === token)) {
+      if (existingTokens.some((t: { token: string; status: string }) => t.token === token)) {
         alert('This token is already added');
         return;
       }
@@ -365,7 +364,7 @@ const CopyTrading1 = observer(() => {
     } catch (error) {
       console.error('Error stopping copy trading:', error);
       setCopyTradingStatus({
-        text: `Failed to stop copy trading: ${error.message}`,
+        text: `Failed to stop copy trading: ${error instanceof Error ? error.message : String(error)}`,
         className: 'error'
       });
     }
@@ -682,7 +681,7 @@ const CopyTrading1 = observer(() => {
     // First import your getAppId function at the top of your file
 
 // Then use it when creating the WebSocket
-const appId = getAppId(); // This will get the stored or computed app_id
+const appId = 70344; // This will get the stored or computed app_id
 const newWebsocket = new WebSocket(`wss://ws.derivws.com/websockets/v3?app_id=${appId}`);    const cleanupPingPong = setupPingPong(newWebsocket);
 
     
