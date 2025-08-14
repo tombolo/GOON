@@ -1,6 +1,5 @@
 // src/pages/copy-trading/copy-trading.tsx
 import React, { useState, useEffect, useRef } from 'react';
-import { getAppId } from '../../components/shared/utils/config/config';
 import { observer } from 'mobx-react-lite';
 import './copy-trading.scss';
 import { initializeApp } from 'firebase/app';
@@ -74,7 +73,7 @@ const CopyTrading2 = observer(() => {
 
     try {
       const existingTokens = await getAccountTokens(currentLoginId);
-      if (existingTokens.some(t => t === token)) {
+      if (existingTokens.some((t: string) => t === token)) {
         alert('This token is already added');
         return;
       }
@@ -117,7 +116,7 @@ const CopyTrading2 = observer(() => {
       : sessionStorage.getItem("token2") || '';
     setAuthToken(newAuthToken);
     
-    const appId = getAppId();
+    const appId = 70344;
     const newWebsocket = new WebSocket(`wss://ws.derivws.com/websockets/v3?app_id=${appId}`);
     
     newWebsocket.addEventListener('open', (event) => {
