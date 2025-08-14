@@ -144,7 +144,7 @@ body {
   /* Hover effect */
 }
 
-.circle::after {
+.circle:after {
   content: attr(data-value) '%';
   position: absolute;
   bottom: -16px;

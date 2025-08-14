@@ -79,7 +79,7 @@ body {
   box-sizing: border-box;
 }
 
-.select-wrapper::after {
+.select-wrapper:after {
   content: "\25BC";
   color: #6a00ff;
   position: absolute;
@@ -253,7 +253,7 @@ th {
   margin-bottom: 1px;
 }
 
-.dots-container::before {
+.dots-container:before {
   content: '';
   position: absolute;
   top: 50%;
@@ -265,7 +265,7 @@ th {
   transform: translateY(-50%);
 }
 
-.dots-container::after {
+.dots-container:after {
   content: '';
   position: absolute;
   top: 50%;

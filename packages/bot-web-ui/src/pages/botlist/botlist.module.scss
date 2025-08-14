@@ -22,7 +22,7 @@
     background-color: var(--darker);
     color: var(--text);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    overflow: hidden;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
 
@@ -60,6 +60,23 @@
         flex: 1;
         display: flex;
         flex-direction: column;
+        min-height: 0; // Important for proper scrolling
+    }
+
+    .header {
+        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        width: 100%;
+        flex-shrink: 0;
+    }
+
+    .contentWrapper {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
         overflow-y: auto;
         padding-bottom: 2rem;
         
@@ -78,14 +95,13 @@
         }
     }
 
-    .header {
-        margin-bottom: 3rem;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
+    .content {
+        position: relative;
         width: 100%;
+        flex: 1;
     }
 
+    /* Rest of your existing styles... */
     .titleContainer {
         position: relative;
         max-width: 800px;
@@ -122,7 +138,7 @@
         -webkit-text-fill-color: transparent;
         padding-right: 1rem;
 
-        &::before {
+        &:before {
             content: '';
             position: absolute;
             bottom: -5px;
@@ -143,7 +159,7 @@
             transform: translateY(-3px);
             text-shadow: 0 6px 25px rgba(110, 68, 255, 0.7);
 
-            &::before {
+            &:before {
                 opacity: 1;
                 filter: blur(8px);
             }
@@ -178,7 +194,7 @@
         position: relative;
         padding-left: 1rem;
 
-        &::before {
+        &:before {
             content: '';
             position: absolute;
             left: 0;
@@ -188,15 +204,6 @@
             background: linear-gradient(to bottom, var(--primary), var(--accent));
             border-radius: 3px;
         }
-    }
-
-    .content {
-        position: relative;
-        margin-top: 2rem;
-        width: 100%;
-        flex: 1;
-        overflow-y: auto;
-        padding-bottom: 2rem;
     }
 
     .grid {
@@ -315,7 +322,7 @@
         position: relative;
         overflow: hidden;
 
-        &::before {
+        &:before {
             content: '';
             position: absolute;
             top: 0;

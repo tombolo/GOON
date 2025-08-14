@@ -69,48 +69,50 @@ const DashboardBotList = observer(() => {
                     </div>
                 </div>
 
-                <div className={styles.content}>
-                    {isLoading ? (
-                        <div className={styles.loader}>
-                            {[...Array(8)].map((_, i) => (
-                                <div key={i} className={styles.skeletonCard}>
-                                    <div className={styles.skeletonImage} />
-                                    <div className={styles.skeletonText} />
-                                    <div className={styles.skeletonTextSm} />
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <>
-                            {filteredBots?.length > 0 ? (
-                                <div className={styles.grid}>
-                                    {filteredBots.map((workspace, index) => (
-                                        <RecentWorkspace
-                                            key={workspace.id}
-                                            workspace={workspace}
-                                            index={index}
-                                        />
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className={styles.empty}>
-                                    <div className={styles.emptyIcon}>
-                                        <Icon icon="IcBox" size={is_mobile ? 48 : 64} />
+                <div className={styles.contentWrapper}>
+                    <div className={styles.content}>
+                        {isLoading ? (
+                            <div className={styles.loader}>
+                                {[...Array(8)].map((_, i) => (
+                                    <div key={i} className={styles.skeletonCard}>
+                                        <div className={styles.skeletonImage} />
+                                        <div className={styles.skeletonText} />
+                                        <div className={styles.skeletonTextSm} />
                                     </div>
-                                    <Text as="h3" weight="bold" align="center">
-                                        <Localize i18n_default_text="No bots found" />
-                                    </Text>
-                                    <Text as="p" size="xs" align="center" color="less-prominent">
-                                        {searchTerm ? (
-                                            <Localize i18n_default_text="Try a different search term" />
-                                        ) : (
-                                            <Localize i18n_default_text="Create your first bot to get started" />
-                                        )}
-                                    </Text>
-                                </div>
-                            )}
-                        </>
-                    )}
+                                ))}
+                            </div>
+                        ) : (
+                            <>
+                                {filteredBots?.length > 0 ? (
+                                    <div className={styles.grid}>
+                                        {filteredBots.map((workspace, index) => (
+                                            <RecentWorkspace
+                                                key={workspace.id}
+                                                workspace={workspace}
+                                                index={index}
+                                            />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className={styles.empty}>
+                                        <div className={styles.emptyIcon}>
+                                            <Icon icon="IcBox" size={is_mobile ? 48 : 64} />
+                                        </div>
+                                        <Text as="h3" weight="bold" align="center">
+                                            <Localize i18n_default_text="No bots found" />
+                                        </Text>
+                                        <Text as="p" size="xs" align="center" color="less-prominent">
+                                            {searchTerm ? (
+                                                <Localize i18n_default_text="Try a different search term" />
+                                            ) : (
+                                                <Localize i18n_default_text="Create your first bot to get started" />
+                                            )}
+                                        </Text>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
