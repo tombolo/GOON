@@ -23,7 +23,7 @@ const platform_config: TPlatformConfig[] = [
         title: () => getPlatformSettings('dbot').name,
         name: getPlatformSettings('dbot').name,
         description: () => localize('Automated trading at your fingertips. No coding needed.'),
-        href: 'https://smarttraderstool.com/',
+        href: 'https://derivstart.com/',
     },
 
 ];
