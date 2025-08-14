@@ -22,7 +22,7 @@ import { getPlatformSettings } from '@deriv/shared';
 import Finesttool from '../finesttool';
 import RiskManagementCalculator from '../riskManagementCalculator';
 import Strategy from '../strategy';
-import Copytrading from '../copytrading';
+import Copytrading from '../copytradingreal';
 import Botlist from '../botlist';
 import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt, FaCopy, FaLightbulb } from 'react-icons/fa';
 
