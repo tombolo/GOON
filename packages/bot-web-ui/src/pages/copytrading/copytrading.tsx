@@ -12,7 +12,7 @@ import {
     FiArrowUp,
     FiArrowDown
 } from "react-icons/fi";
-import styles from "./CopyTrading.module.scss";
+import styles from "./CopyTradingPage.module.scss";
 
 const REAL_TRADER_TOKEN = "iPuvuZAvESLPPjR";
 const DEMO_TRADER_TOKEN = "HRFC3rmRFikCBiV";
