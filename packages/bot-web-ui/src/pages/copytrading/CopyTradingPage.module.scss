@@ -1,10 +1,10 @@
 .copyTrading {
   padding: 2rem;
-  max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   color: #1a1a1a;
-  min-height: 100vh;
+  height: 100vh;
   background: linear-gradient(135deg, #f5f7fa 0%, #eef2f6 100%);
 
   &__header {
