@@ -44,9 +44,9 @@
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 12px;
-    background: white;
+    background: #ffffff;
     color: #4b5563;
-    font-size: 0.9375rem;
+    font-size: 0.938rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -61,7 +61,7 @@
 
     &Active {
       background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-      color: white;
+      color: #ffffff;
       border-color: transparent;
       box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
 
@@ -92,7 +92,7 @@
   }
 
   &__card {
-    background: white;
+    background: #ffffff;
     border-radius: 16px;
     padding: 1.75rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
@@ -146,11 +146,11 @@
     &:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      background: white;
+      background: #ffffff;
     }
     
     h4 {
-      font-size: 0.8125rem;
+      font-size: 0.813rem;
       font-weight: 600;
       color: #6b7280;
       margin: 0 0 0.75rem 0;
@@ -184,7 +184,7 @@
       padding: 1rem;
       border: 1px solid #e5e7eb;
       border-radius: 12px;
-      font-size: 0.9375rem;
+      font-size: 0.938rem;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       background: rgba(249, 250, 251, 0.8);
       
@@ -192,7 +192,7 @@
         outline: none;
         border-color: #2563eb;
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        background: white;
+        background: #ffffff;
       }
       
       &::placeholder {
@@ -261,7 +261,7 @@
     border: none;
     border-radius: 12px;
     background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-    color: white;
+    color: #ffffff;
     font-size: 1rem;
     font-weight: 600;
     display: flex;
@@ -364,7 +364,7 @@
       transition: all 0.3s ease;
       
       &:hover {
-        background: white;
+        background: #ffffff;
         transform: translateY(-2px);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
       }
@@ -378,7 +378,7 @@
       span:last-child {
         color: #111827;
         font-weight: 600;
-        font-size: 0.9375rem;
+        font-size: 0.938rem;
       }
     }
   }
@@ -469,7 +469,7 @@
       width: 20px;
       height: 20px;
       border: 2px solid rgba(255, 255, 255, 0.2);
-      border-top: 2px solid white;
+      border-top: 2px solid #ffffff;
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin-left: auto;
@@ -549,7 +549,6 @@
     animation: pulseError 1.5s infinite;
   }
 
-  // Keyframes remain the same
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -603,7 +602,7 @@
       }
       
       p {
-        font-size: 0.9375rem;
+        font-size: 0.938rem;
       }
     }
     
