@@ -1,478 +1,748 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styles from './CopyTradingPage.module.scss';
+"use client";
+import React, { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+    FiCopy,
+    FiTrendingUp,
+    FiDollarSign,
+    FiUsers,
+    FiClock,
+    FiActivity,
+    FiAlertCircle,
+    FiArrowUp,
+    FiArrowDown
+} from "react-icons/fi";
+import styles from "./CopyTrading.module.scss";
 
-interface TradeData {
-    contract_id: number;
-    buy_price: number;
-    currency: string;
-    symbol: string;
+const REAL_TRADER_TOKEN = "iPuvuZAvESLPPjR";
+const DEMO_TRADER_TOKEN = "HRFC3rmRFikCBiV";
+const APP_ID = 70344;
+const PING_INTERVAL = 20000;
+const RECONNECT_DELAY = 3000;
+const MINIMUM_BALANCE = 1;
+
+// Hardcoded stats for real account
+const HARDCODED_REAL_STATS = {
+    active_since: Math.floor(Date.now() / 1000) - 86400 * 180, // 6 months ago
+    avg_duration: 5.2,
+    avg_loss: -12.5,
+    avg_profit: 18.7,
+    copiers: 42,
+    total_trades: 287,
+    trades_profitable: 198,
+    trader_loginid: "CR12345678",
+    allow_copiers: true
+};
+
+// Hardcoded stats for demo account
+const HARDCODED_DEMO_STATS = {
+    active_since: Math.floor(Date.now() / 1000) - 86400 * 90, // 3 months ago
+    avg_duration: 4.8,
+    avg_loss: -10.2,
+    avg_profit: 15.3,
+    copiers: 87,
+    total_trades: 412,
+    trades_profitable: 265,
+    trader_loginid: "VR98765432",
+    allow_copiers: true
+};
+
+type CopyStats = {
+    active_since?: number;
+    avg_duration?: number;
+    avg_loss?: number;
+    avg_profit?: number;
+    copiers?: number;
+    last_12months_profitable_trades?: number;
+    monthly_profitable_trades?: Record<string, string>;
+    performance_probability?: number;
+    total_trades?: number;
+    trades_breakdown?: Record<string, any>;
+    trades_profitable?: number;
+    yearly_profitable_trades?: Record<string, number>;
+    trader_loginid?: string;
+    allow_copiers?: boolean;
+};
+
+type TradingMode = 'real' | 'demo';
+
+type ContractParameters = {
+    amount: number;
+    basis: string;
     contract_type: string;
+    currency: string;
     duration: number;
     duration_unit: string;
-    amount: number;
-}
+    symbol: string;
+};
 
-const CopyTradingDashboard: React.FC = () => {
-    const [isDemoToReal, setIsDemoToReal] = useState(false);
-    const [isCopyTrading, setIsCopyTrading] = useState(false);
-    const [tokens, setTokens] = useState<string[]>([]);
-    const [loginId, setLoginId] = useState('---');
-    const [balance, setBalance] = useState('0.00 USD');
-    const [statusMessage, setStatusMessage] = useState('');
-    const [statusMessage2, setStatusMessage2] = useState('');
-    const [statusColor, setStatusColor] = useState('#4CAF50');
-    const [statusColor2, setStatusColor2] = useState('#4CAF50');
-    const [tokenInput, setTokenInput] = useState('');
-    const [masterToken, setMasterToken] = useState('');
-    const [isMasterConnected, setIsMasterConnected] = useState(false);
-    const [copiedTrades, setCopiedTrades] = useState<TradeData[]>([]);
+export default function CopyTradingPage() {
+    const [stats, setStats] = useState<CopyStats>(HARDCODED_REAL_STATS);
+    const [demoStats, setDemoStats] = useState<CopyStats>(HARDCODED_DEMO_STATS);
+    const [copierToken, setCopierToken] = useState("");
+    const [isCopying, setIsCopying] = useState(false);
+    const [trades, setTrades] = useState<any[]>([]);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState({
+        real: false, // Set to false since we're using hardcoded data
+        demo: false  // Set to false since we're using hardcoded data
+    });
+    const [copyStatus, setCopyStatus] = useState("");
+    const [accountBalance, setAccountBalance] = useState<number | null>(null);
+    const [showBalanceWarning, setShowBalanceWarning] = useState(false);
+    const [tradingMode, setTradingMode] = useState<TradingMode>('demo');
+    const [contractDetails, setContractDetails] = useState<any>(null);
+    const [isBuyingContract, setIsBuyingContract] = useState(false);
+    const [lastBuyRequest, setLastBuyRequest] = useState(0);
+    const wsCopier = useRef<WebSocket | null>(null);
+    const wsTrader = useRef<WebSocket | null>(null);
+    const wsDemoTrader = useRef<WebSocket | null>(null);
+    const pingInterval = useRef<NodeJS.Timeout | null>(null);
+    const reconnectTimeout = useRef<NodeJS.Timeout | null>(null);
 
-    const masterWsRef = useRef<WebSocket | null>(null);
-    const followerWsRefs = useRef<{ [key: string]: WebSocket }>({});
+    const logWebSocketState = (ws: WebSocket | null, prefix: string) => {
+        if (!ws) {
+            console.log(`[${prefix}] WebSocket is null`);
+            return;
+        }
+        const states = [
+            "CONNECTING",
+            "OPEN",
+            "CLOSING",
+            "CLOSED"
+        ];
+        console.log(`[${prefix}] WebSocket state: ${states[ws.readyState]}`);
+    };
 
-    useEffect(() => {
-        const storedTokens = JSON.parse(localStorage.getItem('copyTokensArray') || '[]');
-        setTokens(storedTokens);
+    const setupPing = (ws: WebSocket, prefix: string) => {
+        console.log(`[${prefix}] Setting up ping interval`);
+        cleanupPing();
+        if (ws.readyState === WebSocket.OPEN) {
+            console.log(`[${prefix}] Sending initial ping`);
+            ws.send(JSON.stringify({ ping: 1 }));
+        }
+        pingInterval.current = setInterval(() => {
+            if (ws.readyState === WebSocket.OPEN) {
+                console.log(`[${prefix}] Sending periodic ping`);
+                ws.send(JSON.stringify({ ping: 1 }));
+            } else {
+                console.log(`[${prefix}] WebSocket not open, readyState: ${ws.readyState}`);
+            }
+        }, PING_INTERVAL);
+    };
 
-        const demoToReal = localStorage.getItem('demo_to_real') === 'true';
-        setIsDemoToReal(demoToReal);
+    const cleanupPing = () => {
+        if (pingInterval.current) {
+            console.log(`[PING] Clearing ping interval`);
+            clearInterval(pingInterval.current);
+            pingInterval.current = null;
+        }
+    };
 
-        const copyTrading = localStorage.getItem('iscopyTrading') === 'true';
-        setIsCopyTrading(copyTrading);
+    const cleanupReconnect = () => {
+        if (reconnectTimeout.current) {
+            console.log(`[RECONNECT] Clearing reconnect timeout`);
+            clearTimeout(reconnectTimeout.current);
+            reconnectTimeout.current = null;
+        }
+    };
 
-        const storedMaster = localStorage.getItem('masterToken') || '';
-        setMasterToken(storedMaster);
+    const validateContractParams = (params: ContractParameters) => {
+        if (params.amount < 1) {
+            throw new Error("Amount must be at least 1");
+        }
+        if (!['s', 'm', 'h', 'd'].includes(params.duration_unit)) {
+            throw new Error("Invalid duration unit. Use 's', 'm', 'h', or 'd'");
+        }
+        if (!['CALL', 'PUT'].includes(params.contract_type)) {
+            throw new Error("Invalid contract type. Use 'CALL' or 'PUT'");
+        }
+    };
 
-        if (copyTrading && storedMaster) {
-            initializeMasterConnection(storedMaster);
+    const buyContract = (balance: number) => {
+        if (!wsCopier.current || wsCopier.current.readyState !== WebSocket.OPEN) {
+            console.error("[BUY] WebSocket not ready");
+            setError("Connection not ready for trading");
+            return false;
         }
 
+        if (Date.now() - lastBuyRequest < 1000) {
+            setError("Please wait before placing another trade");
+            return false;
+        }
+
+        setIsBuyingContract(true);
+        setCopyStatus("Purchasing contract...");
+        setLastBuyRequest(Date.now());
+
+        const contractParams: ContractParameters = {
+            amount: balance,
+            basis: "stake",
+            contract_type: "CALL",
+            currency: "USD",
+            duration: 5,
+            duration_unit: "m",
+            symbol: "R_100"
+        };
+
+        try {
+            validateContractParams(contractParams);
+        } catch (e: any) {
+            console.error("[BUY] Validation error:", e.message);
+            setError(`Invalid contract parameters: ${e.message}`);
+            setIsBuyingContract(false);
+            return false;
+        }
+
+        console.log("[BUY] Sending buy request with parameters:", contractParams);
+
+        wsCopier.current.send(JSON.stringify({
+            buy: 1,
+            price: balance, // Price at root level
+            parameters: contractParams,
+            req_id: 200
+        }));
+
+        return true;
+    };
+
+    useEffect(() => {
+        console.log(`[INIT] Using hardcoded stats for both real and demo accounts`);
+
+        // Simulate loading completion
+        setTimeout(() => {
+            setLoading({ real: false, demo: false });
+        }, 500);
+
         return () => {
-            // Clean up WebSocket connections on unmount
-            if (masterWsRef.current) {
-                masterWsRef.current.close();
+            console.log(`[CLEANUP] Closing WebSocket connections`);
+            cleanupPing();
+            cleanupReconnect();
+            if (wsTrader.current) {
+                console.log(`[TRADER-REAL] Closing connection`);
+                wsTrader.current.close();
             }
-            Object.values(followerWsRefs.current).forEach(ws => ws.close());
+            if (wsDemoTrader.current) {
+                console.log(`[TRADER-DEMO] Closing connection`);
+                wsDemoTrader.current.close();
+            }
         };
     }, []);
 
-    const initializeMasterConnection = (token: string) => {
-        const APP_ID = localStorage.getItem('APP_ID');
-        masterWsRef.current = new WebSocket(`wss://ws.binaryws.com/websockets/v3?app_id=${APP_ID}`);
+    const startCopying = () => {
+        console.group(`[COPY] Starting copy trading`);
+        console.log(`Mode: ${tradingMode}`);
+        console.log(`Trader token: ${tradingMode === 'real' ? REAL_TRADER_TOKEN : DEMO_TRADER_TOKEN}`);
+        console.log(`Copier token: ${copierToken ? 'provided' : 'missing'}`);
 
-        masterWsRef.current.addEventListener("open", () => {
-            authorize(masterWsRef.current!, token, true);
-        });
+        if (!copierToken) {
+            console.error(`[COPY] Error: No API token provided`);
+            setError("Please enter your API token");
+            console.groupEnd();
+            return;
+        }
 
-        masterWsRef.current.addEventListener("message", (event) => {
-            const data = JSON.parse(event.data);
+        const currentTraderLoginId = tradingMode === 'real'
+            ? stats.trader_loginid
+            : demoStats.trader_loginid;
 
-            if (data.error) {
-                console.error("Master connection error:", data.error);
-                setIsMasterConnected(false);
-                return;
-            }
+        if (!currentTraderLoginId) {
+            console.error(`[COPY] Error: Trader information not loaded`);
+            setError("Trader information not loaded yet");
+            console.groupEnd();
+            return;
+        }
 
-            if (data.authorize) {
-                setIsMasterConnected(true);
-                subscribeToPortfolio();
-                getBalance(masterWsRef.current!, data.authorize.loginid);
-            }
+        console.log(`[COPY] Initializing copy trading`);
+        setIsCopying(true);
+        setError("");
+        setTrades([]);
+        setCopyStatus("Connecting to server...");
+        setShowBalanceWarning(false);
+        setContractDetails(null);
+        setIsBuyingContract(false);
 
-            if (data.portfolio) {
-                handleNewTrades(data.portfolio);
-            }
+        if (wsCopier.current) {
+            console.log(`[COPY] Closing existing WebSocket`);
+            wsCopier.current.close();
+        }
 
-            if (data.balance) {
-                setBalance(`${data.balance.balance} ${data.balance.currency}`);
-            }
-        });
+        console.log(`[COPY] Creating new WebSocket connection`);
+        wsCopier.current = new WebSocket(`wss://ws.derivws.com/websockets/v3?app_id=${APP_ID}`);
 
-        masterWsRef.current.addEventListener("close", () => {
-            setIsMasterConnected(false);
-        });
-    };
+        wsCopier.current.onopen = () => {
+            console.log(`[COPY] WebSocket connected`);
+            logWebSocketState(wsCopier.current, 'COPY');
+            setCopyStatus("Authenticating...");
+            setupPing(wsCopier.current!, 'COPY');
+            console.log(`[COPY] Sending authorization`);
+            wsCopier.current?.send(JSON.stringify({
+                authorize: copierToken,
+                req_id: 4
+            }));
+        };
 
-    const initializeFollowerConnections = () => {
-        tokens.forEach(token => {
-            if (!followerWsRefs.current[token]) {
-                const APP_ID = localStorage.getItem('APP_ID');
-                const ws = new WebSocket(`wss://ws.binaryws.com/websockets/v3?app_id=${APP_ID}`);
+        wsCopier.current.onerror = (error) => {
+            console.error(`[COPY] WebSocket error:`, error);
+            setError("Connection error - please try again");
+            setCopyStatus("Connection error");
+            stopCopying();
+        };
 
-                ws.addEventListener("open", () => {
-                    authorize(ws, token, false);
-                });
-
-                ws.addEventListener("message", (event) => {
-                    const data = JSON.parse(event.data);
-                    if (data.error) {
-                        console.error(`Follower ${token} error:`, data.error);
-                    }
-                });
-
-                followerWsRefs.current[token] = ws;
-            }
-        });
-    };
-
-    const authorize = (ws: WebSocket, token: string, isMaster: boolean) => {
-        const msg = JSON.stringify({
-            authorize: token,
-            req_id: isMaster ? 1001 : 2000 + Math.floor(Math.random() * 1000)
-        });
-        ws.send(msg);
-    };
-
-    const subscribeToPortfolio = () => {
-        if (masterWsRef.current) {
-            const msg = JSON.stringify({
-                "portfolio": 1,
-                "req_id": 3001
+        wsCopier.current.onclose = (event) => {
+            console.log(`[COPY] WebSocket closed`, {
+                code: event.code,
+                reason: event.reason,
+                wasClean: event.wasClean
             });
-            masterWsRef.current.send(msg);
-        }
-    };
+            cleanupPing();
+            if (isCopying) {
+                console.log(`[COPY] Attempting reconnect`);
+                setError("Connection lost - reconnecting...");
+                setCopyStatus("Reconnecting...");
+                cleanupReconnect();
+                reconnectTimeout.current = setTimeout(() => {
+                    console.log(`[COPY] Reconnecting now`);
+                    startCopying();
+                }, RECONNECT_DELAY);
+            }
+        };
 
-    const handleNewTrades = (portfolio: any) => {
-        // Filter for new open positions
-        const newTrades = portfolio.filter((trade: any) =>
-            trade.contract_id && !copiedTrades.some(t => t.contract_id === trade.contract_id)
-        );
+        wsCopier.current.onmessage = (msg) => {
+            try {
+                const data = JSON.parse(msg.data);
+                console.log(`[COPY] Received message:`, data);
 
-        if (newTrades.length > 0 && isCopyTrading) {
-            setCopiedTrades([...copiedTrades, ...newTrades]);
-            replicateTrades(newTrades);
-        }
-    };
-
-    const replicateTrades = (trades: TradeData[]) => {
-        initializeFollowerConnections();
-
-        trades.forEach(trade => {
-            tokens.forEach(token => {
-                const ws = followerWsRefs.current[token];
-                if (ws && ws.readyState === WebSocket.OPEN) {
-                    const msg = JSON.stringify({
-                        "buy": trade.contract_id,
-                        "price": trade.buy_price,
-                        "parameters": {
-                            "amount": trade.amount,
-                            "basis": "stake",
-                            "contract_type": trade.contract_type,
-                            "currency": trade.currency,
-                            "duration": trade.duration,
-                            "duration_unit": trade.duration_unit,
-                            "symbol": trade.symbol
-                        },
-                        "req_id": 4000 + Math.floor(Math.random() * 1000)
-                    });
-                    ws.send(msg);
+                if (data.msg_type === "ping") {
+                    console.log(`[COPY] Ping response received`);
+                    return;
                 }
-            });
+
+                if (data.error) {
+                    console.error(`[COPY] Error:`, data.error);
+                    setError(`Error: ${data.error.message}`);
+                    setCopyStatus(`Error: ${data.error.message}`);
+                    stopCopying();
+                    return;
+                }
+
+                if (data.msg_type === "authorize" && data.req_id === 4) {
+                    console.log(`[COPY] Authorization successful`, {
+                        loginid: data.authorize.loginid,
+                        balance: data.authorize.balance,
+                        currency: data.authorize.currency
+                    });
+                    setCopyStatus("Starting copy trading...");
+                    setAccountBalance(data.authorize.balance);
+
+                    if (data.authorize.balance < MINIMUM_BALANCE) {
+                        console.error(`[COPY] Insufficient balance: ${data.authorize.balance} < ${MINIMUM_BALANCE}`);
+                        setError(`Insufficient balance (minimum ${MINIMUM_BALANCE} required)`);
+                        setCopyStatus("Insufficient balance");
+                        setShowBalanceWarning(true);
+                        stopCopying();
+                        return;
+                    }
+
+                    // Buy contract with full balance immediately
+                    const buySuccess = buyContract(data.authorize.balance);
+                    if (!buySuccess) {
+                        stopCopying();
+                        return;
+                    }
+                }
+
+                if (data.msg_type === "buy" && data.req_id === 200) {
+                    setIsBuyingContract(false);
+                    if (data.error) {
+                        console.error("[BUY] Error buying contract:", data.error);
+                        let errorMsg = `Failed to buy contract: ${data.error.message}`;
+                        if (data.error.details) {
+                            errorMsg += ` (${JSON.stringify(data.error.details)})`;
+                        }
+                        setError(errorMsg);
+                        setCopyStatus("Failed to purchase contract");
+                        stopCopying();
+                        return;
+                    }
+                    console.log("[BUY] Contract purchased successfully:", data.buy);
+                    setContractDetails(data.buy);
+                    setCopyStatus("Contract purchased - starting copy trading...");
+
+                    const traderToken = tradingMode === 'real' ? REAL_TRADER_TOKEN : DEMO_TRADER_TOKEN;
+                    console.log(`[COPY] Sending copy_start for trader: ${traderToken}`);
+                    wsCopier.current?.send(JSON.stringify({
+                        copy_start: traderToken,
+                        req_id: 5
+                    }));
+                }
+
+                if (data.msg_type === "copy_start" && data.req_id === 5) {
+                    if (data.error) {
+                        console.error(`[COPY] copy_start failed:`, data.error);
+                        setError(`Failed to start copying: ${data.error.message}`);
+                        setCopyStatus(`Failed: ${data.error.message}`);
+                        stopCopying();
+                        return;
+                    }
+
+                    console.log(`[COPY] Copy trading started successfully`);
+                    setIsCopying(true);
+                    setError("");
+                    setCopyStatus("Copy trading active - waiting for trades...");
+
+                    console.log(`[COPY] Subscribing to transactions`);
+                    wsCopier.current?.send(JSON.stringify({
+                        transaction: 1,
+                        subscribe: 1,
+                        passthrough: {
+                            subscription_type: "full_transaction_details"
+                        },
+                        req_id: 6
+                    }));
+
+                    console.log(`[COPY] Requesting portfolio`);
+                    wsCopier.current?.send(JSON.stringify({
+                        portfolio: 1,
+                        req_id: 7
+                    }));
+
+                    wsCopier.current?.send(JSON.stringify({
+                        active_symbols: "brief",
+                        req_id: 100
+                    }));
+                }
+
+                if (data.msg_type === "transaction") {
+                    console.log(`[COPY] Transaction received:`, {
+                        action: data.transaction.action,
+                        amount: data.transaction.amount,
+                        contract_id: data.transaction.contract_id,
+                        symbol: data.transaction.symbol,
+                        transaction_id: data.transaction.transaction_id
+                    });
+
+                    if (data.transaction.action === "buy") {
+                        console.log(`[COPY] BUY transaction detected`);
+                        setTrades(prev => [{
+                            ...data.transaction,
+                            timestamp: new Date().toISOString()
+                        }, ...prev.slice(0, 49)]);
+                        setCopyStatus("Trade executed - processing...");
+                    } else {
+                        console.log(`[COPY] Non-buy transaction: ${data.transaction.action}`);
+                    }
+                }
+
+                if (data.msg_type === "portfolio") {
+                    console.log(`[COPY] Portfolio update:`, {
+                        balance: data.portfolio.balance,
+                        contract_count: data.portfolio.contracts?.length || 0
+                    });
+                    setAccountBalance(data.portfolio.balance);
+                }
+
+                if (data.msg_type === "active_symbols" && data.req_id === 100) {
+                    console.log(`[COPY] Active symbols:`, data.active_symbols.map((s: any) => s.symbol).join(', '));
+                }
+            } catch (e) {
+                console.error(`[COPY] Message parse error:`, e);
+            }
+        };
+        console.groupEnd();
+    };
+
+    const stopCopying = () => {
+        console.log(`[COPY] Stopping copy trading`);
+        setIsCopying(false);
+        setIsBuyingContract(false);
+        setCopyStatus("Copy trading stopped");
+        cleanupReconnect();
+
+        if (!wsCopier.current) {
+            console.log(`[COPY] No WebSocket instance to stop`);
+            return;
+        }
+
+        logWebSocketState(wsCopier.current, 'COPY-STOP');
+
+        if (wsCopier.current.readyState === WebSocket.OPEN) {
+            const traderToken = tradingMode === 'real' ? REAL_TRADER_TOKEN : DEMO_TRADER_TOKEN;
+            console.log(`[COPY] Sending stop commands for trader: ${traderToken}`);
+
+            wsCopier.current.send(JSON.stringify({
+                copy_stop: traderToken,
+                req_id: 8
+            }));
+
+            wsCopier.current.send(JSON.stringify({
+                transaction: 1,
+                unsubscribe: 1,
+                req_id: 9
+            }));
+
+            wsCopier.current.send(JSON.stringify({
+                portfolio: 1,
+                unsubscribe: 1,
+                req_id: 10
+            }));
+        } else {
+            console.log(`[COPY] WebSocket not open, readyState: ${wsCopier.current.readyState}`);
+        }
+
+        cleanupPing();
+        if (wsCopier.current) {
+            console.log(`[COPY] Closing WebSocket`);
+            wsCopier.current.close();
+        }
+        setTrades([]);
+        setContractDetails(null);
+    };
+
+    const handleModeChange = (mode: TradingMode) => {
+        console.log(`[MODE] Request to change to ${mode} mode`);
+        if (isCopying) {
+            console.log(`[MODE] Cannot switch while copying is active`);
+            setError("Please stop current copy trading before switching mode");
+            return;
+        }
+        console.log(`[MODE] Switching to ${mode} mode`);
+        setTradingMode(mode);
+        setError("");
+    };
+
+    const isLoading = tradingMode === 'real' ? loading.real : loading.demo;
+    const currentStats = tradingMode === 'real' ? stats : demoStats;
+
+    const calculateWinRate = (stats: CopyStats) => {
+        if (!stats.total_trades || !stats.trades_profitable) return 0;
+        return (stats.trades_profitable / stats.total_trades) * 100;
+    };
+
+    const formatDate = (timestamp?: number) => {
+        if (!timestamp) return "-";
+        const date = new Date(timestamp * 1000);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
         });
-    };
-
-    const showMessage = (message: string, isError = false, isPrimary = true) => {
-        if (isPrimary) {
-            setStatusMessage(message);
-            setStatusColor(isError ? '#FF444F' : '#4CAF50');
-        } else {
-            setStatusMessage2(message);
-            setStatusColor2(isError ? '#FF444F' : '#4CAF50');
-        }
-
-        setTimeout(() => {
-            if (isPrimary) {
-                setStatusMessage('');
-            } else {
-                setStatusMessage2('');
-            }
-        }, 2000);
-    };
-
-    const handleDemoToReal = () => {
-        const newIsDemoToReal = !isDemoToReal;
-        setIsDemoToReal(newIsDemoToReal);
-        localStorage.setItem('demo_to_real', String(newIsDemoToReal));
-
-        const accountsList = JSON.parse(localStorage.getItem('accountsList') || '{}');
-        const keys = Object.keys(accountsList);
-
-        if (newIsDemoToReal) {
-            if (keys.length > 0 && !keys[0].startsWith("VR")) {
-                const value = accountsList[keys[0]];
-                const storedArray = JSON.parse(localStorage.getItem('copyTokensArray') || '[]');
-                storedArray.push(value);
-                localStorage.setItem('copyTokensArray', JSON.stringify(storedArray));
-                setTokens(storedArray);
-
-                showMessage("Demo to real set successfully");
-            } else {
-                showMessage("No real account found!", true);
-                setIsDemoToReal(false);
-                localStorage.setItem('demo_to_real', 'false');
-            }
-        } else {
-            const keys = Object.keys(accountsList);
-            const key = keys[0];
-            const value = accountsList[key];
-            let storedArray = JSON.parse(localStorage.getItem('copyTokensArray') || '[]');
-            storedArray = storedArray.filter((token: string) => token !== value);
-            localStorage.setItem('copyTokensArray', JSON.stringify(storedArray));
-            setTokens(storedArray);
-
-            showMessage("Stopped successfully", true);
-        }
-    };
-
-    const handleCopyTrading = () => {
-        const newIsCopyTrading = !isCopyTrading;
-        setIsCopyTrading(newIsCopyTrading);
-        localStorage.setItem('iscopyTrading', String(newIsCopyTrading));
-
-        if (newIsCopyTrading && masterToken) {
-            initializeMasterConnection(masterToken);
-            initializeFollowerConnections();
-            showMessage("Copy trading started successfully", false, false);
-        } else if (!newIsCopyTrading) {
-            if (masterWsRef.current) {
-                masterWsRef.current.close();
-            }
-            showMessage("Copy trading stopped successfully", true, false);
-        }
-    };
-
-    const handleAddToken = () => {
-        if (!tokenInput.trim()) return;
-
-        const storedArray = JSON.parse(localStorage.getItem('copyTokensArray') || '[]');
-        if (storedArray.includes(tokenInput)) {
-            showMessage("Token already exists", true, false);
-        } else {
-            storedArray.push(tokenInput);
-            localStorage.setItem('copyTokensArray', JSON.stringify(storedArray));
-            setTokens(storedArray);
-            setTokenInput('');
-            showMessage("Token has been added", false, false);
-
-            if (isCopyTrading) {
-                initializeFollowerConnections();
-            }
-        }
-    };
-
-    const handleDeleteToken = (index: number) => {
-        const newTokens = [...tokens];
-        const removedToken = newTokens[index];
-        newTokens.splice(index, 1);
-        setTokens(newTokens);
-        localStorage.setItem('copyTokensArray', JSON.stringify(newTokens));
-
-        // Close connection for removed token
-        if (followerWsRefs.current[removedToken]) {
-            followerWsRefs.current[removedToken].close();
-            delete followerWsRefs.current[removedToken];
-        }
-
-        showMessage("Token removed!", false, false);
-    };
-
-    const handleSetMasterToken = () => {
-        if (!tokenInput.trim()) return;
-
-        setMasterToken(tokenInput);
-        localStorage.setItem('masterToken', tokenInput);
-
-        if (isCopyTrading) {
-            initializeMasterConnection(tokenInput);
-        }
-
-        showMessage("Master token set successfully", false, false);
-        setTokenInput('');
-    };
-
-    const getBalance = (ws: WebSocket, loginid: string) => {
-        const msg = JSON.stringify({
-            balance: 1,
-            loginid,
-            req_id: 5000 + Math.floor(Math.random() * 1000)
-        });
-        if (ws.readyState !== WebSocket.CLOSED) {
-            ws.send(msg);
-        }
     };
 
     return (
-        <div className={styles.pageWrapper}>
-            <div className={styles.backgroundEffect}></div>
-            <div className={styles.container}>
-                <div className={styles.topBar}>
-                    <button
-                        className={`${styles.btn} ${isDemoToReal ? styles.btnRed : styles.btnGreen}`}
-                        onClick={handleDemoToReal}
+        <div className={styles.copyTrading}>
+            <AnimatePresence>
+                {error && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className={styles.copyTrading__error}
                     >
-                        {isDemoToReal ? 'Stop Demo to Real' : 'Start Demo to Real'}
-                    </button>
-                    <div className={styles.connectionStatus}>
-                        Master: <span style={{ color: isMasterConnected ? '#4CAF50' : '#FF444F' }}>
-                            {isMasterConnected ? 'Connected' : 'Disconnected'}
-                        </span>
-                    </div>
-                    <div className={styles.youtubeIcon}>
-                        <img src="https://img.icons8.com/ios-filled/50/fa314a/youtube-play.png" alt="Tutorial" />
-                        <div>Tutorial</div>
-                    </div>
-                </div>
+                        <FiAlertCircle /> {error}
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-                <div className={styles.replicatorToken}>
-                    <span>
-                        <h5>{loginId}</h5>
-                        <p
-                            className={`${styles.statusMsg} ${statusMessage ? styles.show : ''}`}
-                            style={{ color: statusColor }}
-                        >
-                            {statusMessage}
-                        </p>
-                    </span>
-                    <span style={{ color: '#FFD700' }}>{balance}</span>
-                </div>
+            <div className={styles.copyTrading__header}>
+                <h2>Copy Trading Dashboard</h2>
+                <p>Follow professional traders automatically</p>
+            </div>
 
-                <h5 className={styles.sectionTitle}>Copy Trading Configuration</h5>
+            <div className={styles.copyTrading__modeSelector}>
+                <button
+                    className={`${styles.copyTrading__modeButton} ${tradingMode === 'real' ? styles.copyTrading__modeButtonActive : ''}`}
+                    onClick={() => handleModeChange('real')}
+                >
+                    Real Account
+                </button>
+                <button
+                    className={`${styles.copyTrading__modeButton} ${tradingMode === 'demo' ? styles.copyTrading__modeButtonActive : ''}`}
+                    onClick={() => handleModeChange('demo')}
+                >
+                    Demo Account
+                </button>
+            </div>
 
-                <div className={styles.card}>
-                    <div className={styles.inputGroup}>
-                        <input
-                            type="text"
-                            className={styles.formControl}
-                            placeholder="Enter Master token"
-                            value={tokenInput}
-                            onChange={(e) => setTokenInput(e.target.value)}
-                        />
-                        <button
-                            className={`${styles.btn} ${styles.btnCyan}`}
-                            onClick={handleSetMasterToken}
-                        >
-                            Set Master
-                        </button>
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <input
-                            type="text"
-                            className={styles.formControl}
-                            placeholder="Enter Client token"
-                            value={tokenInput}
-                            onChange={(e) => setTokenInput(e.target.value)}
-                        />
-                        <button
-                            className={`${styles.btn} ${isCopyTrading ? styles.btnRed : styles.btnGreen}`}
-                            onClick={handleCopyTrading}
-                        >
-                            {isCopyTrading ? 'Stop Copy Trading' : 'Start Copy Trading'}
-                        </button>
-                    </div>
-                    <div className={styles.buttonGroup}>
-                        <button className={`${styles.btn} ${styles.btnCyan}`} onClick={handleAddToken}>
-                            Add Follower
-                        </button>
-                        <button className={`${styles.btn} ${styles.btnCyan}`} onClick={() => { }}>
-                            Sync &#x21bb;
-                        </button>
-                    </div>
-                    <p
-                        className={`${styles.statusMsg} ${statusMessage2 ? styles.show : ''}`}
-                        style={{ color: statusColor2 }}
-                    >
-                        {statusMessage2}
-                    </p>
-                </div>
+            <div className={styles.copyTrading__content}>
+                <div className={styles.copyTrading__leftPanel}>
+                    <div className={styles.copyTrading__card}>
+                        <h3 className={styles.copyTrading__cardTitle}>
+                            <FiActivity /> Trader Performance ({tradingMode === 'real' ? 'Real' : 'Demo'})
+                        </h3>
 
-                <div className={styles.card}>
-                    <h6 className={styles.sectionSubtitle}>Master Account</h6>
-                    <div className={styles.masterAccount}>
-                        {masterToken ? (
-                            <div className={styles.tokenDisplay}>
-                                <span>{masterToken}</span>
-                                <span className={styles.connectionIndicator}
-                                    style={{ backgroundColor: isMasterConnected ? '#4CAF50' : '#FF444F' }}>
-                                </span>
+                        {isLoading ? (
+                            <div className={styles.copyTrading__loading}>
+                                <div className={styles.copyTrading__loadingSpinner} />
+                                <p>Loading trader data...</p>
                             </div>
                         ) : (
-                            <small className={styles.textMuted}>No master account configured</small>
+                            <div className={styles.copyTrading__statsGrid}>
+                                <div className={styles.copyTrading__statCard}>
+                                    <h4>Win Rate</h4>
+                                    <p>{calculateWinRate(currentStats).toFixed(2)}%</p>
+                                </div>
+
+                                <div className={styles.copyTrading__statCard}>
+                                    <h4>Avg Profit</h4>
+                                    <p>${currentStats.avg_profit?.toFixed(2) || '0.00'}</p>
+                                </div>
+
+                                <div className={styles.copyTrading__statCard}>
+                                    <h4>Avg Loss</h4>
+                                    <p>${currentStats.avg_loss?.toFixed(2) || '0.00'}</p>
+                                </div>
+
+                                <div className={styles.copyTrading__statCard}>
+                                    <h4>Total Trades</h4>
+                                    <p>{currentStats.total_trades?.toLocaleString() || '0'}</p>
+                                </div>
+
+                                <div className={styles.copyTrading__statCard}>
+                                    <h4>Active Since</h4>
+                                    <p>{formatDate(currentStats.active_since)}</p>
+                                </div>
+
+                                <div className={styles.copyTrading__statCard}>
+                                    <h4>Copiers</h4>
+                                    <p>{currentStats.copiers?.toLocaleString() || '0'}</p>
+                                </div>
+                            </div>
                         )}
                     </div>
 
-                    <h6 className={styles.sectionSubtitle}>Follower Accounts: {tokens.length}</h6>
-                    <small className={styles.textMuted}>
-                        {tokens.length === 0 ? 'No follower accounts added yet' : ''}
-                    </small>
-                    <div className={styles.tableContainer}>
-                        <table className={styles.tokenTable}>
-                            <thead>
-                                <tr>
-                                    <th>Token</th>
-                                    <th>Status</th>
-                                    <th>Remove</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {tokens.map((token, index) => (
-                                    <tr key={index}>
-                                        <td>{token}</td>
-                                        <td>
-                                            <span className={styles.connectionIndicator}
-                                                style={{
-                                                    backgroundColor: followerWsRefs.current[token]?.readyState === WebSocket.OPEN
-                                                        ? '#4CAF50' : '#FF444F'
-                                                }}>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span
-                                                className={styles.deleteBtn}
-                                                onClick={() => handleDeleteToken(index)}
-                                            >
-                                                X
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    {contractDetails && (
+                        <div className={styles.copyTrading__card}>
+                            <h3 className={styles.copyTrading__cardTitle}>
+                                <FiTrendingUp /> Active Contract
+                            </h3>
+                            <div className={styles.copyTrading__contractDetails}>
+                                <div>
+                                    <span>Contract ID:</span>
+                                    <span>{contractDetails.contract_id}</span>
+                                </div>
+                                <div>
+                                    <span>Purchase Price:</span>
+                                    <span>${contractDetails.buy_price}</span>
+                                </div>
+                                <div>
+                                    <span>Payout:</span>
+                                    <span>${contractDetails.payout}</span>
+                                </div>
+                                <div>
+                                    <span>Symbol:</span>
+                                    <span>{contractDetails.symbol}</span>
+                                </div>
+                                <div>
+                                    <span>Contract Type:</span>
+                                    <span>{contractDetails.contract_type}</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
-                {copiedTrades.length > 0 && (
-                    <div className={styles.card}>
-                        <h6 className={styles.sectionSubtitle}>Recent Copied Trades</h6>
-                        <div className={styles.tableContainer}>
-                            <table className={styles.tokenTable}>
-                                <thead>
-                                    <tr>
-                                        <th>Contract ID</th>
-                                        <th>Symbol</th>
-                                        <th>Type</th>
-                                        <th>Amount</th>
-                                        <th>Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {copiedTrades.slice(-5).reverse().map((trade, index) => (
-                                        <tr key={index}>
-                                            <td>{trade.contract_id}</td>
-                                            <td>{trade.symbol}</td>
-                                            <td>{trade.contract_type}</td>
-                                            <td>{trade.amount}</td>
-                                            <td>{trade.buy_price}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                <div className={styles.copyTrading__rightPanel}>
+                    <div className={styles.copyTrading__card}>
+                        <h3 className={styles.copyTrading__cardTitle}>
+                            <FiCopy /> Copy Trading Controls ({tradingMode === 'real' ? 'Real' : 'Demo'})
+                        </h3>
+
+                        <div className={styles.copyTrading__formGroup}>
+                            <label>Your {tradingMode === 'real' ? 'Real' : 'Demo'} API Token</label>
+                            <input
+                                type="password"
+                                placeholder={`Enter your ${tradingMode === 'real' ? 'real' : 'demo'} API token`}
+                                value={copierToken}
+                                onChange={(e) => setCopierToken(e.target.value)}
+                                disabled={isLoading}
+                            />
                         </div>
+
+                        {accountBalance !== null && (
+                            <div className={`${styles.copyTrading__balance} ${showBalanceWarning ? styles.copyTrading__balanceWarning : ''}`}>
+                                <FiDollarSign />
+                                <span>Balance: {typeof accountBalance === 'number' ? accountBalance.toFixed(2) : 'Loading...'}</span>
+                                {showBalanceWarning && (
+                                    <div className={styles.copyTrading__balanceAlert}>
+                                        <FiAlertCircle /> Minimum {MINIMUM_BALANCE} required
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        <div className={styles.copyTrading__actions}>
+                            {!isCopying ? (
+                                <button
+                                    className={styles.copyTrading__button}
+                                    onClick={startCopying}
+                                    disabled={isLoading || !currentStats.trader_loginid}
+                                >
+                                    <FiCopy /> Start Copy Trading
+                                </button>
+                            ) : (
+                                <button
+                                    className={`${styles.copyTrading__button} ${styles.copyTrading__buttonStop}`}
+                                    onClick={stopCopying}
+                                >
+                                    <FiCopy /> Stop Copy Trading
+                                </button>
+                            )}
+                        </div>
+
+                        {isCopying && (
+                            <div className={styles.copyTrading__status}>
+                                <FiActivity />
+                                <span>{copyStatus}</span>
+                                {isBuyingContract && (
+                                    <div className={styles.copyTrading__loadingSpinnerSmall} />
+                                )}
+                            </div>
+                        )}
                     </div>
-                )}
+
+                    {isCopying && (
+                        <div className={styles.copyTrading__card}>
+                            <h3 className={styles.copyTrading__cardTitle}>
+                                <FiClock /> Live Trades
+                            </h3>
+
+                            {trades.length === 0 ? (
+                                <div className={styles.copyTrading__empty}>
+                                    <FiClock />
+                                    <p>Waiting for trades...</p>
+                                </div>
+                            ) : (
+                                <div className={styles.copyTrading__trades}>
+                                    {trades.map((t, idx) => (
+                                        <div key={idx} className={styles.copyTrading__trade}>
+                                            <div>
+                                                <span>Contract:</span>
+                                                <span>{t.contract_id}</span>
+                                            </div>
+                                            <div>
+                                                <span>Action:</span>
+                                                <span>{t.action}</span>
+                                            </div>
+                                            <div>
+                                                <span>Amount:</span>
+                                                <span>${t.amount}</span>
+                                            </div>
+                                            <div>
+                                                <span>P/L:</span>
+                                                <span className={t.profit >= 0 ? styles.profit : styles.loss}>
+                                                    {t.profit >= 0 ? <FiArrowUp /> : <FiArrowDown />}
+                                                    ${Math.abs(t.profit).toFixed(2)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
-};
-
-export default CopyTradingDashboard;
+}
