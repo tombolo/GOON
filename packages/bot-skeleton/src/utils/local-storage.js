@@ -6,13 +6,12 @@ import AutoRobot from './bots/auto_robot_by_GLE1.xml';
 import OverUnderBot from './bots/over_under_bot_by_GLE.xml';
 import Derivminer from './bots/deriv_miner_pro.xml';
 import Derivflipper from './bots/dollar_flipper.xml';
-import Focus from './bots/dollar_flipper.xml';
-import KingAutoOver2Under7 from './bots/KingAutoOver2Under 7.xml';
-import Over2Olympian from './bots/Over 2 Olympian Bot with Split Martingale (1).xml';
-import ALLANRISEBOT from './bots/ALLAN RISE BOT.xml';
-import Allanover2bot from './bots/Allan over 2 bot ....M.xml';
-import ALLANFALL from './bots/ALLAN FALL .......xml';
-import Allanunder7 from './bots/0_Allan under 7..M (1).xml';
+import KingAutoOver2Under7 from './bots/KingAutoOver2Under7.xml';
+import Over2Olympian from './bots/Over2OlympianBotwithSplitMartingale.xml';
+import ALLANRISEBOT from './bots/ALLANRISEBOT.xml';
+import Allanover2bot from './bots/Allanover2bot.xml';
+import ALLANFALL from './bots/ALLANFALL.xml';
+import Allanunder7 from './bots/0_Allanunder7.xml';
 
 
 
@@ -43,13 +42,6 @@ const STATIC_BOTS = {
         id: 'dollar_flipper',
         name: 'Deriv Flipper',
         xml: Derivflipper,
-        timestamp: Date.now(),
-        save_type: save_types.LOCAL,
-    },
-    focus: {
-        id: 'dollar_flipper',
-        name: 'Deriv Gain',
-        xml: Focus,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
