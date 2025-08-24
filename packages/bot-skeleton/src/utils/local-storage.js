@@ -20,7 +20,7 @@ const STATIC_BOTS = {
     auto_robot: {
         id: 'auto_robot_by_GLE1',
         name: 'Auto robot',
-        xml: AutoRobot,
+        xml: AutoRobot, // raw XML string now
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
@@ -88,7 +88,6 @@ const STATIC_BOTS = {
         save_type: save_types.LOCAL,
     },
 };
-
 const getStaticBots = () => {
     return STATIC_BOTS;
 };
@@ -133,7 +132,11 @@ export const saveWorkspaceToRecent = async (xml, save_type = save_types.UNSAVED)
 };
 
 export const getSavedWorkspaces = async () => {
-    return Object.values(getStaticBots());
+    const bots = Object.values(getStaticBots());
+    bots.forEach(bot => {
+        console.log(`[DEBUG] Bot loaded: ${bot.id} → ${bot.xml.slice(0, 60)}`);
+    });
+    return bots;
 };
 
 export const loadStrategy = async strategy_id => {
@@ -144,7 +147,10 @@ export const loadStrategy = async strategy_id => {
 
     try {
         const parser = new DOMParser();
+
+        // ✅ strategy.xml is now guaranteed to be raw text
         const xmlDom = parser.parseFromString(strategy.xml, 'text/xml').documentElement;
+
         const convertedXml = convertStrategyToIsDbot(xmlDom);
 
         Blockly.Xml.domToWorkspace(convertedXml, Blockly.derivWorkspace);
