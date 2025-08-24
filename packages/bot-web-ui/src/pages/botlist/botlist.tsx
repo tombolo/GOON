@@ -40,6 +40,7 @@ const DashboardBotList = observer(() => {
     const { load_modal } = useDBotStore();
     const { ui } = useStore();
     const { is_mobile } = ui;
+
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [isHoveringTitle, setIsHoveringTitle] = useState(false);
@@ -98,6 +99,12 @@ const DashboardBotList = observer(() => {
                                             key={workspace.id}
                                             workspace={workspace}
                                             index={index}
+                                            // ✅ When clicked, load the imported XML into DBot workspace
+                                            onClick={() => {
+                                                if (workspace.xml) {
+                                                    load_modal.loadFileFromXML(workspace.xml, workspace.name);
+                                                }
+                                            }}
                                         />
                                     ))}
                                 </div>
