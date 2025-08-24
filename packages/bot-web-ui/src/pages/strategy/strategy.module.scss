@@ -7,6 +7,10 @@
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   color: #fff;
   padding: 2rem;
+
+   @media (min-width: 1024px) {
+        height: 90vh;
+    }
 }
 
 .animatedBackground {

@@ -3,6 +3,7 @@ import { observer } from '@deriv/stores';
 import { useDBotStore } from 'Stores/useDBotStore';
 import { TRecentStrategy } from './types';
 import './recent-workspace.scss';
+import { loadStrategy } from '../../../../../bot-skeleton/src/utils/local-storage'; 
 
 const BOT_EMOJIS = ['🤖', '👾', '🦾', '🧠', '⚡', '💻', '🔮', '🎮'];
 
@@ -22,8 +23,8 @@ const RecentWorkspace = observer(({ workspace, index }: { workspace: TRecentStra
     const { dashboard, load_modal } = useDBotStore();
 
     const handleClick = async () => {
-        await load_modal.loadFileFromRecent();
-        dashboard.setActiveTab(1); // BOT_BUILDER
+        await loadStrategy(workspace.id);   // ✅ load the clicked bot by ID
+        dashboard.setActiveTab(1);          // open bot builder tab
     };
 
     const randomEmoji = BOT_EMOJIS[index % BOT_EMOJIS.length];

@@ -1,40 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { getSavedWorkspaces } from '@deriv/bot-skeleton';
 import { Text, Icon } from '@deriv/components';
 import { observer, useStore } from '@deriv/stores';
 import { Localize } from '@deriv/translations';
 import { useDBotStore } from 'Stores/useDBotStore';
 import RecentWorkspace from '../dashboard/bot-list/recent-workspace';
 import styles from './botlist.module.scss';
-
-// ✅ Import bots as raw XML strings
-import AutoRobot from './bots/auto_robot_by_GLE1.xml';
-import OverUnderBot from './bots/over_under_bot_by_GLE.xml';
-import Derivminer from './bots/deriv_miner_pro.xml';
-import Derivflipper from './bots/dollar_flipper.xml';
-import KingAutoOver2Under7 from './bots/KingAutoOver2Under7.xml';
-import Over2Olympian from './bots/Over2OlympianBotwithSplitMartingale.xml';
-import ALLANRISEBOT from './bots/ALLANRISEBOT.xml';
-import Allanover2bot from './bots/Allanover2bot.xml';
-import ALLANFALL from './bots/ALLANFALL.xml';
-import Allanunder7 from './bots/0_Allanunder7.xml';
-
-// ✅ Define static bots
-const staticBots = [
-    { id: '1', name: 'Auto Robot by GLE1', xml: AutoRobot },
-    { id: '2', name: 'Over Under Bot by GLE', xml: OverUnderBot },
-    { id: '3', name: 'Deriv Miner Pro', xml: Derivminer },
-    { id: '4', name: 'Dollar Flipper', xml: Derivflipper },
-    { id: '5', name: 'King Auto Over2Under7', xml: KingAutoOver2Under7 },
-    { id: '6', name: 'Over2 Olympian Bot', xml: Over2Olympian },
-    { id: '7', name: 'ALLAN RISE BOT', xml: ALLANRISEBOT },
-    { id: '8', name: 'Allan Over2 Bot', xml: Allanover2bot },
-    { id: '9', name: 'ALLAN FALL', xml: ALLANFALL },
-    { id: '10', name: 'Allan Under7', xml: Allanunder7 },
-].map(bot => ({
-    ...bot,
-    save_type: 'local',
-    timestamp: Date.now(),
-}));
 
 const DashboardBotList = observer(() => {
     const { load_modal } = useDBotStore();
@@ -45,11 +16,14 @@ const DashboardBotList = observer(() => {
     const [isHoveringTitle, setIsHoveringTitle] = useState(false);
 
     useEffect(() => {
-        setIsLoading(true);
-        // ✅ Load only static bots (ignore localStorage)
-        load_modal.setDashboardStrategies(staticBots);
-        setTimeout(() => setIsLoading(false), 500);
-    }, [load_modal]);
+        const loadStrategies = async () => {
+            setIsLoading(true);
+            const strategies = await getSavedWorkspaces();
+            load_modal.setDashboardStrategies(strategies);
+            setTimeout(() => setIsLoading(false), 800);
+        };
+        loadStrategies();
+    }, []);
 
     const filteredBots = load_modal.dashboard_strategies?.filter(bot =>
         bot.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -57,6 +31,23 @@ const DashboardBotList = observer(() => {
 
     return (
         <div className={styles.dashboard}>
+            <div className={styles.particles}>
+                {[...Array(20)].map((_, i) => (
+                    <div
+                        key={i}
+                        className={styles.particle}
+                        style={{
+                            '--size': `${Math.random() * 6 + 3}px`,
+                            '--x': `${Math.random() * 100}%`,
+                            '--y': `${Math.random() * 100}%`,
+                            '--delay': `${Math.random() * 5}s`,
+                            '--duration': `${Math.random() * 15 + 10}s`,
+                            '--color': `hsl(${Math.random() * 60 + 200}, 80%, 70%)`
+                        } as React.CSSProperties}
+                    />
+                ))}
+            </div>
+
             <div className={styles.container}>
                 <div className={styles.header}>
                     <div
@@ -94,23 +85,11 @@ const DashboardBotList = observer(() => {
                             {filteredBots?.length > 0 ? (
                                 <div className={styles.grid}>
                                     {filteredBots.map((workspace, index) => (
-                                        <div
+                                        <RecentWorkspace
                                             key={workspace.id}
-                                            onClick={() => {
-                                                if (workspace.xml) {
-                                                    const file = new File([workspace.xml], `${workspace.name}.xml`, { type: "text/xml" });
-                                                    load_modal.loaded_local_file = file; // ✅ TS happy
-                                                }
-                                            }}
-
-
-                                            className={styles.botCardWrapper} // optional extra styling
-                                        >
-                                            <RecentWorkspace
-                                                workspace={workspace}
-                                                index={index}
-                                            />
-                                        </div>
+                                            workspace={workspace}
+                                            index={index}
+                                        />
                                     ))}
                                 </div>
                             ) : (
@@ -125,7 +104,7 @@ const DashboardBotList = observer(() => {
                                         {searchTerm ? (
                                             <Localize i18n_default_text="Try a different search term" />
                                         ) : (
-                                            <Localize i18n_default_text="No static bots available" />
+                                            <Localize i18n_default_text="Create your first bot to get started" />
                                         )}
                                     </Text>
                                 </div>
