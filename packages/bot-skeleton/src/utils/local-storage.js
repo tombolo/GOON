@@ -81,7 +81,10 @@ export const saveWorkspaceToRecent = async () => {
  */
 export const getSavedWorkspaces = async () => {
     const bots = getStaticBots();
-    bots.forEach(bot => console.log(`[DEBUG] Static bot available: ${bot.id}`));
+    console.log(
+        '[DEBUG] Available static bots:',
+        bots.map(bot => bot.id)
+    );
     return bots;
 };
 
@@ -89,21 +92,55 @@ export const getSavedWorkspaces = async () => {
  * Load a bot by ID (from static list only)
  */
 export const loadStrategy = async strategy_id => {
-    const strategy = getStaticBots().find(bot => bot.id === strategy_id);
+    console.log(`[DEBUG] Attempting to load bot: ${strategy_id}`);
+
+    // Check for duplicate IDs
+    const staticBots = getStaticBots();
+    const duplicateIds = staticBots.filter((bot, index) => staticBots.findIndex(b => b.id === bot.id) !== index);
+
+    if (duplicateIds.length > 0) {
+        console.error(
+            '[ERROR] Duplicate bot IDs found:',
+            duplicateIds.map(b => b.id)
+        );
+    }
+
+    const strategy = staticBots.find(bot => bot.id === strategy_id);
+
     if (!strategy) {
-        console.error(`[ERROR] Bot with id "${strategy_id}" not found in static list.`);
+        console.error(
+            `[ERROR] Bot with id "${strategy_id}" not found. Available bots:`,
+            staticBots.map(b => b.id)
+        );
         return false;
     }
 
     try {
+        // Check if workspace is initialized
+        if (!Blockly.derivWorkspace) {
+            console.error('[ERROR] Blockly workspace not initialized');
+            return false;
+        }
+
+        // Clear existing workspace first
+        console.log('[DEBUG] Clearing existing workspace');
+        Blockly.derivWorkspace.clear();
+
         const parser = new DOMParser();
         const xmlDom = parser.parseFromString(strategy.xml, 'text/xml').documentElement;
+
+        // Check if XML is valid
+        if (xmlDom.querySelector('parsererror')) {
+            console.error('[ERROR] Invalid XML content for bot:', strategy_id);
+            return false;
+        }
+
         const convertedXml = convertStrategyToIsDbot(xmlDom);
 
         Blockly.Xml.domToWorkspace(convertedXml, Blockly.derivWorkspace);
         Blockly.derivWorkspace.current_strategy_id = strategy_id;
 
-        console.log(`[INFO] Loaded static bot: ${strategy.name}`);
+        console.log(`[SUCCESS] Loaded static bot: ${strategy.name} (ID: ${strategy_id})`);
         return true;
     } catch (error) {
         console.error('Error loading static bot:', error);

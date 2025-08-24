@@ -18,9 +18,15 @@ const DashboardBotList = observer(() => {
     useEffect(() => {
         const loadStrategies = async () => {
             setIsLoading(true);
-            const strategies = await getSavedWorkspaces();
-            load_modal.setDashboardStrategies(strategies);
-            setTimeout(() => setIsLoading(false), 800);
+            try {
+                const strategies = await getSavedWorkspaces();
+                console.log('[DASHBOARD] Loaded strategies:', strategies.map(s => s.id));
+                load_modal.setDashboardStrategies(strategies);
+            } catch (error) {
+                console.error('[DASHBOARD] Error loading strategies:', error);
+            } finally {
+                setTimeout(() => setIsLoading(false), 800);
+            }
         };
         loadStrategies();
     }, []);
