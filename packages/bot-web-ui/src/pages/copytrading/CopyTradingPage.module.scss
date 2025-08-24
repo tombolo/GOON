@@ -1,6 +1,6 @@
 .copyTrading {
   width: 100%;
-  height: 65vh;
+  height: 60vh;
   padding: 2.5rem;
   margin: 0 auto;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -8,6 +8,10 @@
   position: relative;
   overflow-y: auto;
   background: linear-gradient(135deg, #f8f9ff 0%, #e6e9ff 100%);
+
+    @media (min-width: 1024px) {
+        height: 90vh;
+    }
 
   &__header {
     margin-bottom: 3rem;

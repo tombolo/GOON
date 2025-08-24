@@ -6,7 +6,7 @@ import { useDBotStore } from 'Stores/useDBotStore';
 import RecentWorkspace from '../dashboard/bot-list/recent-workspace';
 import styles from './botlist.module.scss';
 
-// Import bots as raw XML strings
+// ✅ Import bots as raw XML strings
 import AutoRobot from './bots/auto_robot_by_GLE1.xml';
 import OverUnderBot from './bots/over_under_bot_by_GLE.xml';
 import Derivminer from './bots/deriv_miner_pro.xml';
@@ -18,7 +18,7 @@ import Allanover2bot from './bots/Allanover2bot.xml';
 import ALLANFALL from './bots/ALLANFALL.xml';
 import Allanunder7 from './bots/0_Allanunder7.xml';
 
-// ✅ Define static bots with required TStrategy fields
+// ✅ Define static bots
 const staticBots = [
     { id: '1', name: 'Auto Robot by GLE1', xml: AutoRobot },
     { id: '2', name: 'Over Under Bot by GLE', xml: OverUnderBot },
@@ -32,22 +32,21 @@ const staticBots = [
     { id: '10', name: 'Allan Under7', xml: Allanunder7 },
 ].map(bot => ({
     ...bot,
-    save_type: 'local', // or "imported"
-    timestamp: Date.now(), // required field
+    save_type: 'local',
+    timestamp: Date.now(),
 }));
 
 const DashboardBotList = observer(() => {
     const { load_modal } = useDBotStore();
     const { ui } = useStore();
     const { is_mobile } = ui;
-
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [isHoveringTitle, setIsHoveringTitle] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
-        // ✅ Use static bots instead of localStorage
+        // ✅ Load only static bots (ignore localStorage)
         load_modal.setDashboardStrategies(staticBots);
         setTimeout(() => setIsLoading(false), 500);
     }, [load_modal]);
@@ -95,17 +94,23 @@ const DashboardBotList = observer(() => {
                             {filteredBots?.length > 0 ? (
                                 <div className={styles.grid}>
                                     {filteredBots.map((workspace, index) => (
-                                        <RecentWorkspace
+                                        <div
                                             key={workspace.id}
-                                            workspace={workspace}
-                                            index={index}
-                                            // ✅ When clicked, load the imported XML into DBot workspace
                                             onClick={() => {
                                                 if (workspace.xml) {
-                                                    load_modal.loadFileFromXML(workspace.xml, workspace.name);
+                                                    const file = new File([workspace.xml], `${workspace.name}.xml`, { type: "text/xml" });
+                                                    load_modal.loaded_local_file = file; // ✅ TS happy
                                                 }
                                             }}
-                                        />
+
+
+                                            className={styles.botCardWrapper} // optional extra styling
+                                        >
+                                            <RecentWorkspace
+                                                workspace={workspace}
+                                                index={index}
+                                            />
+                                        </div>
                                     ))}
                                 </div>
                             ) : (
