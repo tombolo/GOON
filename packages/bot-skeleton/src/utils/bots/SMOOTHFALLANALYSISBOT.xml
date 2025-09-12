@@ -14,7 +14,16 @@
     <variable id=";gq[e_TmsNLAbmRP}y,1">text3</variable>
     <variable id="Wkzjrdq6g/~/N!5]l`A{">text4</variable>
   </variables>
-  <block type="trade_definition" id="=*/ur!(QR{bx!DId[pWL" deletable="false" x="0" y="60">
+  <block type="during_purchase" id="#y}5:_wOB*xRh8)LZ[Ko" x="854" y="-131">
+    <statement name="DURING_PURCHASE_STACK">
+      <block type="controls_if" id="Q[%*mE(`%TvrIQWVEPR~">
+        <value name="IF0">
+          <block type="check_sell" id="QtU]Ejf4kMFtBYl=M,[S"></block>
+        </value>
+      </block>
+    </statement>
+  </block>
+  <block type="trade_definition" id="=*/ur!(QR{bx!DId[pWL" deletable="false" x="0" y="0">
     <statement name="TRADE_OPTIONS">
       <block type="trade_definition_market" id="~9EMb7)(_]k6=gy7OA|a" deletable="false" movable="false">
         <field name="MARKET_LIST">synthetic_index</field>
@@ -26,7 +35,7 @@
             <field name="TRADETYPE_LIST">callput</field>
             <next>
               <block type="trade_definition_contracttype" id="U2WUW4S$MBX]*apJE]|6" deletable="false" movable="false">
-                <field name="TYPE_LIST">both</field>
+                <field name="TYPE_LIST">PUT</field>
                 <next>
                   <block type="trade_definition_candleinterval" id="cPFW,[IuR.zxt;7mD9?7" deletable="false" movable="false">
                     <field name="CANDLEINTERVAL_LIST">60</field>
@@ -121,16 +130,7 @@
       </block>
     </statement>
   </block>
-  <block type="during_purchase" id="#y}5:_wOB*xRh8)LZ[Ko" collapsed="true" x="823" y="60">
-    <statement name="DURING_PURCHASE_STACK">
-      <block type="controls_if" id="Q[%*mE(`%TvrIQWVEPR~">
-        <value name="IF0">
-          <block type="check_sell" id="QtU]Ejf4kMFtBYl=M,[S"></block>
-        </value>
-      </block>
-    </statement>
-  </block>
-  <block type="after_purchase" id="#mrq9a/(b$B.Ck(,ze+," collapsed="true" x="823" y="156">
+  <block type="after_purchase" id="#mrq9a/(b$B.Ck(,ze+," x="818" y="96">
     <statement name="AFTERPURCHASE_STACK">
       <block type="controls_if" id="!=rYdVGFqU!Pe_dnbg1S">
         <mutation xmlns="http://www.w3.org/1999/xhtml" else="1"></mutation>
@@ -407,7 +407,7 @@
                                 <field name="TEXT"></field>
                               </shadow>
                               <block type="text" id="YpfGv0OtsDv.B9WYUA@`">
-                                <field name="TEXT">🟢Congratulations! Target Profit Achieved! Get More Premium bots on Telegram @  t.me/tradegenicguru</field>
+                                <field name="TEXT">DERIV KING 24 SAY CONGRANTS</field>
                               </block>
                             </value>
                             <next>
@@ -457,7 +457,7 @@
       </block>
     </statement>
   </block>
-  <block type="before_purchase" id="^v.?{(CV%7-m9*h@}G*a" deletable="false" x="0" y="928">
+  <block type="before_purchase" id="^v.?{(CV%7-m9*h@}G*a" deletable="false" x="0" y="820">
     <statement name="BEFOREPURCHASE_STACK">
       <block type="controls_if" id="PT*PM!y,k/@Z]f.tHboH">
         <value name="IF0">

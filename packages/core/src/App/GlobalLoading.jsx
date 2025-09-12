@@ -7,13 +7,39 @@ const GlobalLoading = () => {
     const [progress, setProgress] = useState(0);
     const controls = useAnimation();
     const [showElements, setShowElements] = useState(false);
+    const [hackingText, setHackingText] = useState('');
+    const [binaryRain, setBinaryRain] = useState([]);
     const [marketData, setMarketData] = useState({
         eurusd: `1.08${Math.floor(Math.random() * 9)}`,
         btcusd: `6${Math.floor(Math.random() * 9000) + 1000}`,
         volatility: `75.${Math.floor(Math.random() * 9)}%`,
     });
 
+    // Hacking phrases for the typing effect
+    const hackingPhrases = [
+        'Initializing system...',
+        'Bypassing security protocols...',
+        'Accessing mainframe...',
+        'Decrypting data streams...',
+        'Establishing secure connection...',
+        'Loading crypto modules...',
+        'Synchronizing market data...',
+        'Compiling trading algorithms...',
+        'Finalizing encryption...',
+        'Launching application...',
+    ];
+
     useEffect(() => {
+        // Initialize binary rain
+        const initialBinary = Array.from({ length: 30 }, (_, i) => ({
+            id: i,
+            value: Math.random() > 0.5 ? '1' : '0',
+            x: Math.random() * 100,
+            delay: Math.random() * 5,
+            speed: 0.5 + Math.random() * 2,
+        }));
+        setBinaryRain(initialBinary);
+
         // Update market data every 1.5 seconds
         const marketInterval = setInterval(() => {
             setMarketData({
@@ -35,6 +61,47 @@ const GlobalLoading = () => {
             });
         }, 100);
 
+        // Hacking text animation
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let currentPhrase = '';
+        let deleteMode = false;
+
+        const textInterval = setInterval(() => {
+            if (phraseIndex >= hackingPhrases.length) return;
+
+            if (!deleteMode) {
+                // Typing mode
+                if (charIndex < hackingPhrases[phraseIndex].length) {
+                    currentPhrase += hackingPhrases[phraseIndex][charIndex];
+                    charIndex++;
+                    setHackingText(currentPhrase);
+                } else {
+                    // Switch to delete mode after a pause
+                    setTimeout(() => {
+                        deleteMode = true;
+                    }, 1000);
+                }
+            } else {
+                // Deleting mode
+                if (currentPhrase.length > 0) {
+                    currentPhrase = currentPhrase.slice(0, -1);
+                    setHackingText(currentPhrase);
+                } else {
+                    // Move to next phrase
+                    deleteMode = false;
+                    phraseIndex++;
+                    charIndex = 0;
+
+                    // If we've shown all phrases, keep the last one
+                    if (phraseIndex >= hackingPhrases.length) {
+                        setHackingText('Launch complete. Ready.');
+                        clearInterval(textInterval);
+                    }
+                }
+            }
+        }, 80);
+
         // Animated entrance
         setTimeout(() => {
             controls.start('visible');
@@ -44,6 +111,7 @@ const GlobalLoading = () => {
         return () => {
             clearInterval(progressInterval);
             clearInterval(marketInterval);
+            clearInterval(textInterval);
         };
     }, []);
 
@@ -61,27 +129,43 @@ const GlobalLoading = () => {
 
     return (
         <div className='global-loading'>
-            {/* Geometric background elements */}
-            <div className='geometric-layer'>
-                {Array.from({ length: 12 }).map((_, i) => (
+            {/* Matrix-style binary rain background */}
+            <div className='binary-rain'>
+                {binaryRain.map(binary => (
                     <motion.div
-                        key={i}
-                        className={`shape shape-${i % 3}`}
-                        initial={{ opacity: 0, scale: 0.8 }}
+                        key={binary.id}
+                        className='binary-digit'
+                        style={{ left: `${binary.x}%` }}
+                        initial={{ y: -20, opacity: 0 }}
                         animate={{
-                            opacity: [0, 0.1, 0],
-                            scale: [0.8, 1, 0.8],
-                            rotate: [0, 180],
+                            y: '100vh',
+                            opacity: [0, 1, 0],
                         }}
                         transition={{
-                            duration: 8 + Math.random() * 10,
+                            duration: binary.speed * 10,
                             repeat: Infinity,
-                            delay: Math.random() * 3,
+                            delay: binary.delay,
                             ease: 'linear',
                         }}
-                    />
+                    >
+                        {binary.value}
+                    </motion.div>
                 ))}
             </div>
+
+            {/* Hacking grid overlay */}
+            <div className='grid-overlay'>
+                {Array.from({ length: 20 }).map((_, i) => (
+                    <div key={i} className='grid-line' />
+                ))}
+            </div>
+
+            {/* Scanning effect */}
+            <motion.div
+                className='scan-line'
+                animate={{ y: ['0%', '100%'] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+            />
 
             {/* Main content */}
             <motion.div
@@ -99,7 +183,18 @@ const GlobalLoading = () => {
                     },
                 }}
             >
-                <img src={LOGO} alt='Logo' className='logo' />
+                <motion.div
+                    animate={{
+                        filter: [
+                            'drop-shadow(0 0 2px #00ff00) drop-shadow(0 0 5px #00ff00)',
+                            'drop-shadow(0 0 5px #00ff00) drop-shadow(0 0 10px #00ff00)',
+                            'drop-shadow(0 0 2px #00ff00) drop-shadow(0 0 5px #00ff00)',
+                        ],
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                >
+                    <img src={LOGO} alt='Logo' className='logo' />
+                </motion.div>
                 <motion.div
                     className='logo-underline'
                     initial={{ scaleX: 0 }}
@@ -110,6 +205,20 @@ const GlobalLoading = () => {
 
             {showElements && (
                 <div className='content-wrapper'>
+                    {/* Hacking terminal text */}
+                    <motion.div
+                        className='hacking-terminal'
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5 }}
+                    >
+                        <div className='terminal-header'>
+                            <span className='prompt'>root@trading-system:~$</span>
+                            <span className='typing-cursor'>_</span>
+                        </div>
+                        <div className='terminal-text'>{hackingText}</div>
+                    </motion.div>
+
                     {/* Data visualization */}
                     <motion.div
                         className='data-visualization'
@@ -121,15 +230,23 @@ const GlobalLoading = () => {
                             <svg width='100%' height='120' viewBox='0 0 1000 100'>
                                 <defs>
                                     <linearGradient id='chartGradient' x1='0%' y1='0%' x2='100%' y2='0%'>
-                                        <stop offset='0%' stopColor='#4A6CF7' />
-                                        <stop offset='100%' stopColor='#8A63F2' />
+                                        <stop offset='0%' stopColor='#00ff00' />
+                                        <stop offset='100%' stopColor='#00cc00' />
                                     </linearGradient>
+                                    <filter id='glow'>
+                                        <feGaussianBlur stdDeviation='3.5' result='coloredBlur' />
+                                        <feMerge>
+                                            <feMergeNode in='coloredBlur' />
+                                            <feMergeNode in='SourceGraphic' />
+                                        </feMerge>
+                                    </filter>
                                 </defs>
                                 <motion.path
                                     d={chartPath}
                                     stroke='url(#chartGradient)'
                                     strokeWidth='2'
                                     fill='none'
+                                    filter='url(#glow)'
                                     initial={{ pathLength: 0 }}
                                     animate={{ pathLength: 1 }}
                                     transition={{ duration: 2.5, ease: 'easeInOut' }}
@@ -228,7 +345,7 @@ const GlobalLoading = () => {
                                 animate={{ width: `${progress}%` }}
                                 transition={{ duration: 10, ease: 'linear' }}
                             />
-                            <div className='progress-labels'>
+                            <div className='progress-text-container'>
                                 <span className='progress-text'>{progress}%</span>
                                 <span className='progress-message'>Loading application components...</span>
                             </div>
@@ -282,6 +399,31 @@ const GlobalLoading = () => {
                     </motion.span>
                 </motion.div>
             </AnimatePresence>
+
+            {/* Hacking particles */}
+            <div className='hacking-particles'>
+                {Array.from({ length: 15 }).map((_, i) => (
+                    <motion.div
+                        key={i}
+                        className='particle'
+                        initial={{
+                            x: Math.random() * 100 + 'vw',
+                            y: Math.random() * 100 + 'vh',
+                            opacity: 0,
+                        }}
+                        animate={{
+                            x: [null, Math.random() * 100 + 'vw'],
+                            y: [null, Math.random() * 100 + 'vh'],
+                            opacity: [0, 1, 0],
+                        }}
+                        transition={{
+                            duration: 2 + Math.random() * 3,
+                            repeat: Infinity,
+                            delay: Math.random() * 2,
+                        }}
+                    />
+                ))}
+            </div>
         </div>
     );
 };
