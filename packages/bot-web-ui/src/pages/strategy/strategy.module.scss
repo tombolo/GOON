@@ -1,7 +1,7 @@
 // CopyTrading.module.scss
 .container {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 70vh;
   overflow-y: auto; // Make the whole page scrollable
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);

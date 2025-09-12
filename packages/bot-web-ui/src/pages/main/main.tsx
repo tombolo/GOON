@@ -27,6 +27,7 @@ import Botlist from '../botlist';
 import Dptool from '../dptool';
 
 import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt, FaCopy, FaLightbulb } from 'react-icons/fa';
+import { MdSchema, MdGridOn } from 'react-icons/md';
 
 
 const AppWrapper = observer(() => {
@@ -57,7 +58,7 @@ const AppWrapper = observer(() => {
     const { url_hashed_values, is_desktop } = ui;
 
 
-    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial', 'botlist', 'finesttool', 'copytrading', 'risk_management_calculator', 'strategy'];
+    const hash = ['dashboard', 'bot_builder', 'chart', 'dptool', 'botlist', 'finesttool', 'copytrading', 'risk_management_calculator', 'strategy'];
 
     let tab_value: number | string = active_tab;
     const GetHashedValue = (tab: number) => {
@@ -172,7 +173,7 @@ const AppWrapper = observer(() => {
                         <div
 
                             label={
-                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
+                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
                                     <FaTachometerAlt size={14} />
                                     Dashboard
                                 </span>
@@ -184,7 +185,7 @@ const AppWrapper = observer(() => {
                         <div
 
                             label={
-                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
+                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
                                     <FaRobot size={14} />
                                     Bot Builder
                                 </span>
@@ -193,7 +194,7 @@ const AppWrapper = observer(() => {
                         />
                         <div
                             label={
-                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
+                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
                                     <FaChartLine size={14} />
                                     Charts
                                 </span>
@@ -208,8 +209,8 @@ const AppWrapper = observer(() => {
                         </div>
                         <div
                             label={
-                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
-                                    <FaChessKnight size={14} />
+                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
+                                    <MdSchema size={14} />
                                     Dptool
                                 </span>
                             }
@@ -223,7 +224,7 @@ const AppWrapper = observer(() => {
 
                         <div
                             label={
-                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
+                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
                                     <FaExchangeAlt size={14} />
                                     Free Bots
                                 </span>
@@ -235,7 +236,7 @@ const AppWrapper = observer(() => {
 
                         <div
                             label={
-                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
+                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
                                     <FaChartBar size={14} />
                                     Analysis Tool
                                 </span>
@@ -247,7 +248,7 @@ const AppWrapper = observer(() => {
 
                         <div
                             label={
-                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
+                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
                                     <FaCopy size={14} />
                                     Copy Trading
                                 </span>
@@ -261,7 +262,7 @@ const AppWrapper = observer(() => {
 
                         <div
                             label={
-                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
+                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
                                     <FaShieldAlt size={14} />
                                     Risk Management
                                 </span>
@@ -275,7 +276,7 @@ const AppWrapper = observer(() => {
 
                         <div
                             label={
-                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
+                                <span style={{ color: '#001ac4', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
                                     <FaLightbulb size={14} />
                                     Strategy
                                 </span>

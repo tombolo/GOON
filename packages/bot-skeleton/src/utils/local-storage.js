@@ -9,54 +9,70 @@ import ALLANRISEBOT from './bots/DOLLARNESTOVER3AUTOBOT.xml';
 import Allanover2bot from './bots/SAFEOVER1DIGITBOT.xml';
 import ALLANFALL from './bots/SMOOTHFALLANALYSISBOT.xml';
 import Allanunder7 from './bots/SUPERDIFFERSBOTX4.xml';
+import SUPERSPEEDBOTV1 from './bots/SUPERSPEEDBOT.V1.xml';
+import THEWEBOVER2UNDER7BOT from './bots/THEWEBOVER2&UNDER7BOT.xml';
 
 // ✅ Static bot configs only
 const STATIC_BOTS = {
     auto_robot: {
         id: 'auto_robot_by_GLE1',
-        name: 'Auto robot',
+        name: 'ACCUMULATOR BOT',
         xml: AutoRobot,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
     deriv_miner_pro: {
         id: 'deriv_miner_pro',
-        name: 'Deriv Miner Pro',
+        name: 'AUTO UNDER 6 BOT',
         xml: Derivminer,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
     Over2Olympian: {
         id: 'Over2Olympian',
-        name: 'Over 2 Olympian Bot (Split Martingale)',
+        name: 'CANDLEMINE V#6',
         xml: Over2Olympian,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
     ALLANRISEBOT: {
         id: 'ALLANRISEBOT',
-        name: 'ALLAN RISE BOT',
+        name: 'DOLLAR NEST OVER 3 AUTO BOT',
         xml: ALLANRISEBOT,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
     Allanover2bot: {
         id: 'Allanover2bot',
-        name: 'Allan over2 bot',
+        name: 'SAFE OVER 1 DIGIT BOT',
         xml: Allanover2bot,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
     ALLANFALL: {
         id: 'ALLANFALL',
-        name: 'ALLAN FALL',
+        name: 'SMOOTH FALL ANALYSIS BOT',
         xml: ALLANFALL,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
     Allanunder7: {
         id: 'Allanunder7',
-        name: 'Allan under7 bot',
+        name: 'SUPER DIFFERS BOTX4',
+        xml: Allanunder7,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    SUPERSPEEDBOTV1: {
+        id: 'SUPERSPEEDBOTV1',
+        name: 'SUPER SPEED BOT V1',
+        xml: Allanunder7,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    THEWEBOVER2UNDER7BOT: {
+        id: 'THEWEBOVER2UNDER7BOT',
+        name: 'THE WEB OVER 2 UNDER 7 BOT',
         xml: Allanunder7,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
