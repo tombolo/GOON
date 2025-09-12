@@ -1,0 +1,888 @@
+.quantumPredictor {
+  --primary: #00ff41; /* Matrix green */
+  --primary-dark: #008f20;
+  --secondary: #ff003c; /* Hacker red */
+  --accent: #00b3ff; /* Cyber blue */
+  --dark: #0a0a0a;
+  --darker: #000000;
+  --light: #ffffff;
+  --text: #00ff41;
+  --text-secondary: #00b3ff;
+  --card-bg: rgba(10, 15, 10, 0.9);
+  --card-border: rgba(0, 255, 65, 0.3);
+  --card-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+  --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-sm: 4px;
+
+  width: 100%;
+  height: 70vh;
+  padding: 1rem;
+  background: var(--darker);
+  color: var(--text);
+  font-family: 'Courier New', 'Fira Code', monospace;
+  position: relative;
+  overflow-y: auto;
+
+  /* Hacking Animation Background */
+  .hackingAnimation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+
+    .codeMatrix {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 255, 65, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 65, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.9) 20%, transparent 70%);
+      animation: matrixMove 20s infinite linear;
+    }
+
+    .binaryRain {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(transparent 90%, var(--darker) 99%);
+      mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.7) 20%, transparent 70%);
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 200%;
+        background-image: 
+          linear-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 255, 65, 0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+        animation: binaryFall 15s infinite linear;
+      }
+    }
+
+    .scanLines {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0, 255, 65, 0.03) 51%,
+        transparent 52%
+      );
+      background-size: 100% 4px;
+      animation: scanMove 8s infinite linear;
+    }
+
+    .pulseEffect {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, transparent 10%, var(--darker) 90%);
+      animation: pulseGlow 5s infinite alternate;
+    }
+    
+    .hackingOverlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(0, 255, 65, 0.2) 0%, transparent 70%);
+      animation: hackPulse 0.5s infinite alternate;
+    }
+    
+    .matrixRain {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    
+    .matrixColumn {
+      position: absolute;
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      pointer-events: none;
+      user-select: none;
+    }
+    
+    .matrixChar {
+      display: block;
+      animation: matrixFlicker 1s infinite;
+      opacity: 0.7;
+    }
+  }
+
+  .predictorContainer {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    z-index: 2;
+  }
+
+  .predictorHeader {
+    margin-bottom: 2rem;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+
+    .headerContent {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    .mainTitle {
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin: 0;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .titleGlitch {
+      color: var(--primary);
+      text-shadow: 2px 2px 0 var(--secondary), -2px -2px 0 var(--accent);
+      animation: glitch 5s infinite;
+      display: block;
+    }
+
+    .titleHack {
+      color: var(--light);
+      display: block;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      margin: 0.5rem 0 0 0;
+      font-size: 1rem;
+      font-weight: 300;
+    }
+
+    .headerStats {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .stat {
+      text-align: right;
+    }
+
+    .statValue {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+    }
+
+    .statLabel {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  .navigationTabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--card-border);
+
+    .tab {
+      flex: 1;
+      padding: 1rem;
+      background: transparent;
+      border: none;
+      border-radius: var(--border-radius-sm);
+      color: var(--text-secondary);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      justify-content: center;
+      font-family: 'Courier New', monospace;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+
+      &:hover {
+        background: rgba(0, 255, 65, 0.1);
+        color: var(--text);
+      }
+
+      &.active {
+        background: var(--primary);
+        color: var(--dark);
+        box-shadow: 0 0 10px var(--primary);
+      }
+    }
+  }
+
+  .contentGrid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 1.5rem;
+    min-height: 600px;
+  }
+
+  .marketPanel, .analysisPanel {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    border: 1px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+  }
+
+  .panelHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+
+    h2 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: var(--light);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .panelBadge {
+      background: rgba(0, 255, 65, 0.2);
+      color: var(--primary);
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  .marketSelectContainer {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .marketSelect {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--card-border);
+    border-radius: var(--border-radius);
+    color: var(--text);
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    appearance: none;
+    cursor: pointer;
+    transition: var(--transition);
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    option {
+      background: var(--dark);
+      color: var(--text);
+    }
+  }
+
+  .selectArrow {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary);
+    pointer-events: none;
+    font-size: 0.8rem;
+  }
+
+  .actionButtons {
+    display: flex;
+    gap: 1rem;
+
+    .analyzeBtn, .resetBtn {
+      flex: 1;
+      padding: 1rem;
+      border: none;
+      border-radius: var(--border-radius);
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      justify-content: center;
+      font-family: 'Courier New', monospace;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .analyzeBtn {
+      background: var(--primary);
+      color: var(--dark);
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      &:not(:disabled):hover {
+        box-shadow: 0 0 20px var(--primary);
+        transform: translateY(-2px);
+      }
+    }
+
+    .resetBtn {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      border: 1px solid var(--card-border);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+
+  /* Progress Visualization */
+  .progressVisualization {
+    margin-bottom: 1.5rem;
+    
+    .hackingProgress {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      
+      .progressBar {
+        flex: 1;
+        height: 8px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+        
+        .progressFill {
+          height: 100%;
+          background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+          border-radius: 4px;
+          box-shadow: 0 0 10px var(--primary);
+        }
+      }
+      
+      .progressText {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        .progressValue {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: var(--primary);
+        }
+        
+        .progressLabel {
+          font-size: 0.7rem;
+          color: var(--text-secondary);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+      }
+    }
+    
+    .progressStages {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      padding-top: 1rem;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: rgba(0, 255, 65, 0.2);
+      }
+      
+      .stage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        position: relative;
+        color: var(--text-secondary);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        
+        &.active {
+          color: var(--primary);
+          
+          .stageDot {
+            background: var(--primary);
+            box-shadow: 0 0 8px var(--primary);
+          }
+        }
+        
+        .stageDot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: rgba(0, 255, 65, 0.3);
+          transition: var(--transition);
+        }
+      }
+    }
+  }
+
+  /* Quantum Terminal */
+  .quantumTerminal {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--primary);
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+    
+    .terminalHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 255, 65, 0.1);
+      border-bottom: 1px solid var(--primary);
+      
+      .terminalTitle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        color: var(--primary);
+        
+        .pulseDot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: var(--secondary);
+          animation: pulse 1s infinite;
+        }
+      }
+      
+      .terminalActions {
+        display: flex;
+        gap: 0.5rem;
+        
+        button {
+          width: 20px;
+          height: 20px;
+          border: none;
+          border-radius: 2px;
+          background: rgba(0, 255, 65, 0.2);
+          color: var(--text);
+          cursor: pointer;
+          font-size: 0.7rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          
+          &:hover {
+            background: rgba(0, 255, 65, 0.3);
+          }
+        }
+      }
+    }
+    
+    .terminalContent {
+      padding: 1rem;
+      height: 200px;
+      overflow-y: auto;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      
+      &::-webkit-scrollbar {
+        width: 5px;
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: rgba(0, 255, 65, 0.1);
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 2px;
+      }
+      
+      .terminalLine {
+        margin-bottom: 0.2rem;
+        
+        .linePrefix {
+          color: var(--accent);
+        }
+        
+        .lineText {
+          color: var(--text);
+        }
+        
+        .terminalCursor {
+          color: var(--primary);
+          animation: blink 1s infinite;
+        }
+      }
+    }
+  }
+
+  /* Results Display */
+  .resultsDisplay {
+    margin-top: 1.5rem;
+    
+    .resultsHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      
+      h3 {
+        margin: 0;
+        font-size: 1rem;
+        color: var(--light);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      
+      .resultBadge {
+        padding: 0.3rem 0.8rem;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        
+        &.success {
+          background: rgba(0, 255, 65, 0.2);
+          color: var(--primary);
+        }
+      }
+    }
+    
+    .predictionCard {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--card-border);
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      
+      .predictionHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+        
+        .marketInfo {
+          .marketSymbol {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.2rem;
+          }
+          
+          .marketName {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+          }
+        }
+        
+        .directionIndicator {
+          padding: 0.5rem 1rem;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          
+          &.bullish {
+            background: rgba(0, 255, 65, 0.2);
+            color: var(--primary);
+          }
+          
+          &.bearish {
+            background: rgba(255, 0, 60, 0.2);
+            color: var(--secondary);
+          }
+        }
+      }
+      
+      .confidenceMeter {
+        margin-bottom: 1.5rem;
+        
+        .meterHeader {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.5rem;
+          font-size: 0.8rem;
+          color: var(--text-secondary);
+        }
+        
+        .meterBar {
+          height: 8px;
+          background: rgba(0, 0, 0, 0.5);
+          border-radius: 4px;
+          overflow: hidden;
+          
+          .meterFill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--primary);
+          }
+        }
+      }
+      
+      .predictionDetails {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        
+        .detailRow {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.5rem 0;
+          border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+          
+          .detailLabel {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+          }
+          
+          .detailValue {
+            font-weight: 600;
+            color: var(--text);
+          }
+        }
+      }
+      
+      .predictionFooter {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        .timestamp {
+          font-size: 0.8rem;
+          color: var(--text-secondary);
+        }
+        
+        .tradeBtn {
+          padding: 0.5rem 1.5rem;
+          background: var(--primary);
+          color: var(--dark);
+          border: none;
+          border-radius: var(--border-radius-sm);
+          font-weight: 700;
+          cursor: pointer;
+          transition: var(--transition);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          
+          &:hover {
+            box-shadow: 0 0 10px var(--primary);
+          }
+        }
+      }
+    }
+  }
+
+  .analysisPlaceholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    text-align: center;
+    color: var(--text-secondary);
+    
+    .placeholderIcon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+    
+    h3 {
+      margin: 0 0 0.5rem 0;
+      color: var(--light);
+    }
+    
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+  }
+
+  // Animations
+  @keyframes matrixMove {
+    0% {
+      transform: translateY(0) translateX(0);
+    }
+    100% {
+      transform: translateY(-40px) translateX(-40px);
+    }
+  }
+
+  @keyframes binaryFall {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scanMove {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 0 100%;
+    }
+  }
+
+  @keyframes pulseGlow {
+    0% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 0.8;
+    }
+  }
+  
+  @keyframes hackPulse {
+    0% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 0.4;
+    }
+  }
+  
+  @keyframes matrixFlicker {
+    0%, 100% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 0.2;
+    }
+  }
+
+  @keyframes glitch {
+    0% {
+      text-shadow: 2px 2px 0 var(--secondary), -2px -2px 0 var(--accent);
+    }
+    25% {
+      text-shadow: -2px 2px 0 var(--secondary), 2px -2px 0 var(--accent);
+    }
+    50% {
+      text-shadow: 2px -2px 0 var(--secondary), -2px 2px 0 var(--accent);
+    }
+    75% {
+      text-shadow: -2px -2px 0 var(--secondary), 2px 2px 0 var(--accent);
+    }
+    100% {
+      text-shadow: 2px 2px 0 var(--secondary), -2px -2px 0 var(--accent);
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 1200px) {
+    .contentGrid {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+
+    .predictorHeader .headerContent {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .headerStats {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+
+    .predictorHeader .mainTitle {
+      font-size: 1.8rem;
+    }
+
+    .actionButtons {
+      flex-direction: column;
+    }
+
+    .progressVisualization {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .predictionDetails {
+      grid-template-columns: 1fr;
+    }
+  }
+}
