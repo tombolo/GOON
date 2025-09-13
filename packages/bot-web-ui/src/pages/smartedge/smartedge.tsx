@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './CopyTradingPage.module.scss';
+import styles from './dptool.module.scss';
 
 const AiPage: React.FC = () => {
     return (
         <div className={styles.container}>
             <iframe
-                src="https://copytradingdemoreal.netlify.app/"
+                src="https://unrivaled-boba-44b870.netlify.app/"
                 title="AiPage"
                 className={styles.iframe}
                 loading="lazy"
