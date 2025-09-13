@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './dptool.module.scss';
+import styles from './smartedge.module.scss';
 
 const AiPage: React.FC = () => {
     return (
