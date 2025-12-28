@@ -1,0 +1,1312 @@
+// Professional Global Loading Styles
+.globalLoading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+
+    // Background image with very low opacity
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('./Logo/bgpotrait.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 1; // Full opacity for background
+        z-index: 0;
+    }
+
+    @media (orientation: landscape) {
+        &::before {
+            background-image: url('./Logo/bglandscape.jpg');
+        }
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+// Background overlay for better readability
+.backgroundOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.7) 0%, 
+        rgba(30, 41, 59, 0.65) 100%
+    );
+    z-index: 1;
+}
+
+// Subtle geometric background elements
+.backgroundElements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.1;
+}
+
+.geometricShape1, .geometricShape2, .geometricShape3 {
+    position: absolute;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 8px;
+    opacity: 0.1;
+}
+
+.geometricShape1 {
+    width: 120px;
+    height: 120px;
+    top: 10%;
+    right: 10%;
+    transform: rotate(45deg);
+    animation: float 15s infinite ease-in-out;
+}
+
+.geometricShape2 {
+    width: 80px;
+    height: 80px;
+    bottom: 20%;
+    left: 10%;
+    transform: rotate(30deg);
+    animation: float 12s infinite ease-in-out reverse;
+}
+
+.geometricShape3 {
+    width: 60px;
+    height: 60px;
+    top: 50%;
+    left: 80%;
+    border-radius: 50%;
+    animation: float 18s infinite ease-in-out;
+}
+
+// Festive Text Styles
+.festiveTextContainer {
+    position: fixed; 
+    top: 15%; 
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 10000; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    pointer-events: none;
+    
+    @media (max-width: 768px) {
+        top: 3%;
+        gap: 0.5rem;
+    }
+}
+
+.merryChristmas, .happyNewYear {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    
+    .festiveText {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(
+            135deg,
+            var(--christmas-red) 0%,
+            var(--festive-gold) 50%,
+            var(--christmas-green) 100%
+        );
+        background-size: 200% 200%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 0.05em;
+        text-align: center;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        padding: 0.5rem 2rem;
+        
+        @media (max-width: 768px) {
+            font-size: 1.8rem;
+            padding: 0.5rem 1rem;
+        }
+        
+        @media (max-width: 480px) {
+            font-size: 1.5rem;
+            padding: 0.25rem 0.75rem;
+        }
+    }
+    
+    .festiveUnderline {
+        width: 80%;
+        height: 4px;
+        background: linear-gradient(90deg, 
+            transparent, 
+            var(--festive-gold), 
+            var(--christmas-red),
+            var(--festive-gold),
+            transparent
+        );
+        border-radius: 2px;
+        opacity: 0.8;
+        
+        @media (max-width: 768px) {
+            height: 3px;
+            width: 70%;
+        }
+    }
+}
+
+.happyNewYear .festiveText {
+    background: linear-gradient(
+        135deg,
+        var(--festive-gold) 0%,
+        var(--festive-silver) 50%,
+        var(--primary) 100%
+    );
+    background-size: 200% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+// Christmas Tree Styles - Improved for mobile
+.christmasTree {
+    position: fixed; 
+    right: 5%;
+    bottom: 5%;
+    width: 140px;
+    z-index: 10000; 
+    height: 220px;
+    transform-origin: bottom center;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.4));
+
+    .treeTrunk {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 24px;
+        height: 35px;
+        background: linear-gradient(to bottom, #8B4513, #A0522D);
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .treeLayer1, .treeLayer2, .treeLayer3, .treeLayer4 {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        border-bottom: solid transparent;
+        border-left: solid transparent;
+        border-right: solid transparent;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    }
+
+    .treeLayer1 {
+        bottom: 35px;
+        border-bottom-width: 90px;
+        border-left-width: 45px;
+        border-right-width: 45px;
+        border-bottom-color: var(--christmas-green);
+        filter: brightness(1);
+    }
+
+    .treeLayer2 {
+        bottom: 70px;
+        border-bottom-width: 75px;
+        border-left-width: 38px;
+        border-right-width: 38px;
+        border-bottom-color: var(--christmas-green);
+        filter: brightness(0.95);
+    }
+
+    .treeLayer3 {
+        bottom: 105px;
+        border-bottom-width: 65px;
+        border-left-width: 32px;
+        border-right-width: 32px;
+        border-bottom-color: var(--christmas-green);
+        filter: brightness(0.9);
+    }
+
+    .treeLayer4 {
+        bottom: 135px;
+        border-bottom-width: 50px;
+        border-left-width: 25px;
+        border-right-width: 25px;
+        border-bottom-color: var(--christmas-green);
+        filter: brightness(0.85);
+    }
+
+    .ornament {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #fff, var(--primary), var(--secondary));
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+        z-index: 4;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        
+        &.ornament1 {
+            top: 20%;
+            left: 35%;
+            background: radial-gradient(circle at 30% 30%, #fff, var(--christmas-red), #DC2626);
+            width: 16px;
+            height: 16px;
+        }
+        
+        &.ornament2 {
+            top: 35%;
+            left: 65%;
+            background: radial-gradient(circle at 30% 30%, #fff, var(--balloon-blue), #2563EB);
+        }
+        
+        &.ornament3 {
+            top: 50%;
+            left: 30%;
+            background: radial-gradient(circle at 30% 30%, #fff, var(--festive-gold), #F59E0B);
+            width: 18px;
+            height: 18px;
+        }
+        
+        &.ornament4 {
+            top: 60%;
+            left: 70%;
+            background: radial-gradient(circle at 30% 30%, #fff, var(--accent), #06D6A0);
+        }
+        
+        &.ornament5 {
+            top: 70%;
+            left: 45%;
+            background: radial-gradient(circle at 30% 30%, #fff, #EC4899, var(--gradient2));
+            width: 16px;
+            height: 16px;
+        }
+        
+        &.ornament6 {
+            top: 80%;
+            left: 55%;
+            background: radial-gradient(circle at 30% 30%, #fff, var(--secondary), var(--primary));
+        }
+    }
+
+    .treeStar {
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 32px;
+        height: 32px;
+        background: var(--festive-gold);
+        clip-path: polygon(
+            50% 0%, 
+            61% 35%, 
+            98% 35%, 
+            68% 57%, 
+            79% 91%, 
+            50% 70%, 
+            21% 91%, 
+            32% 57%, 
+            2% 35%, 
+            39% 35%
+        );
+        filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.8));
+        z-index: 5;
+    }
+
+    .treeBase {
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        z-index: 2;
+        
+        .gift1, .gift2, .gift3 {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 80%;
+                height: 4px;
+                background: var(--festive-gold);
+                border-radius: 2px;
+            }
+            
+            &::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 4px;
+                height: 80%;
+                background: var(--festive-gold);
+                border-radius: 2px;
+            }
+        }
+        
+        .gift1 {
+            background: var(--christmas-red);
+        }
+        
+        .gift2 {
+            background: var(--balloon-blue);
+        }
+        
+        .gift3 {
+            background: var(--accent);
+        }
+    }
+}
+
+// Balloon Styles - Optimized for mobile
+.balloon {
+    position: absolute;
+    width: var(--balloon-size);
+    height: calc(var(--balloon-size) * 1.3);
+    z-index: 3;
+    pointer-events: none;
+    transform-origin: bottom center;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+    
+    // Priority classes for responsive display
+    &.high {
+        display: block;
+    }
+    
+    &.medium {
+        @media (max-width: 768px) {
+            display: none;
+        }
+    }
+    
+    &.low {
+        @media (max-width: 1024px) {
+            display: none;
+        }
+    }
+
+    .balloonBody {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 25px);
+        background: var(--balloon-color);
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        box-shadow: 
+            inset -15px -15px 30px rgba(0, 0, 0, 0.3),
+            inset 15px 15px 30px rgba(255, 255, 255, 0.4);
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 12px;
+            background: var(--balloon-color);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    .balloonString {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 80px;
+        background: linear-gradient(to bottom, #4B5563, #9CA3AF);
+        border-radius: 1px;
+    }
+
+    .balloonHighlight {
+        position: absolute;
+        top: 20%;
+        left: 25%;
+        width: 35%;
+        height: 35%;
+        background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), transparent 70%);
+        border-radius: 50%;
+        filter: blur(1px);
+    }
+    
+    .balloonReflection {
+        position: absolute;
+        top: 15%;
+        left: 60%;
+        width: 20%;
+        height: 20%;
+        background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.6), transparent 70%);
+        border-radius: 50%;
+    }
+}
+
+// Snowflakes
+.snowflakes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.snowflake {
+    position: absolute;
+    top: -10px;
+    width: var(--snowflake-size);
+    height: var(--snowflake-size);
+    background: white;
+    border-radius: 50%;
+    opacity: var(--snowflake-opacity);
+    left: var(--snowflake-left);
+    animation: snowFall linear infinite;
+    animation-duration: calc(var(--snowflake-delay) + 10s);
+    animation-delay: var(--snowflake-delay);
+    filter: blur(0.5px);
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: 2px;
+        width: calc(var(--snowflake-size) * 0.8);
+        height: calc(var(--snowflake-size) * 0.8);
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        filter: blur(1px);
+    }
+}
+
+// Main loading container - transparent glass effect
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    z-index: 4;
+    
+    // Elegant glass morphism effect
+    background: var(--surface);
+    backdrop-filter: blur(25px) saturate(180%);
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.3),
+        0 0 120px rgba(59, 130, 246, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+// Logo container
+.logoContainer {
+    width: 110px;
+    height: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    
+    .logo {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: 
+            drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4))
+            drop-shadow(0 0 30px rgba(59, 130, 246, 0.3));
+        user-select: none;
+        position: relative;
+        z-index: 3;
+    }
+    
+    .logoGlow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 140px;
+        height: 140px;
+        background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+        opacity: 0.2;
+        filter: blur(25px);
+        animation: gentlePulse 4s infinite ease-in-out;
+    }
+    
+    .logoFestiveRing {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 130px;
+        height: 130px;
+        border: 2px solid transparent;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--christmas-red), var(--festive-gold), var(--christmas-green), var(--balloon-blue)) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0.6;
+        animation: rotate 20s linear infinite;
+    }
+}
+
+// Texts container
+.textsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.textSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// Partnership styling
+.partnershipContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    
+    .prefix {
+        font-size: 0.9rem;
+        color: var(--silver);
+        opacity: 0.8;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+    
+    .companyName {
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--festive-gold) 0%, var(--christmas-red) 50%, var(--festive-gold) 100%);
+        background-size: 200% 200%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.02em;
+    }
+}
+
+// Powered by styling
+.poweredContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    
+    .prefix {
+        font-size: 0.9rem;
+        color: var(--silver);
+        opacity: 0.8;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+    
+    .techName {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--light);
+        letter-spacing: -0.01em;
+    }
+}
+
+// Journey styling
+.journeyContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    
+    .journeyText {
+        font-size: 1.1rem;
+        color: var(--silver);
+        opacity: 0.9;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+    
+    .highlightText {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(
+            135deg,
+            var(--primary) 0%,
+            var(--festive-gold) 50%,
+            var(--accent) 100%
+        );
+        background-size: 200% 200%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.01em;
+    }
+}
+
+// Progress container
+.progressContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+// Professional progress bar
+.progressBar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.progressFill {
+    height: 100%;
+    width: 0;
+    border-radius: 4px;
+    background: linear-gradient(90deg, 
+        var(--christmas-red) 0%, 
+        var(--festive-gold) 50%,
+        var(--christmas-green) 100%);
+    position: relative;
+    transition: width 0.3s ease;
+    
+    .progressGlow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.6), 
+            transparent);
+        animation: shimmer 2s infinite;
+        transform: translateX(-100%);
+    }
+    
+    .progressSparkles {
+        position: absolute;
+        top: 50%;
+        left: 95%;
+        transform: translate(-50%, -50%);
+        width: 16px;
+        height: 16px;
+        background: var(--festive-gold);
+        border-radius: 50%;
+        filter: drop-shadow(0 0 8px var(--festive-gold));
+        animation: sparkle 1s infinite alternate;
+    }
+}
+
+.progressText {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--light);
+    font-feature-settings: 'tnum';
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+// Elegant loading indicator
+.loadingIndicator {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--silver);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    
+    .spinnerCircle {
+        width: 100%;
+        height: 100%;
+        border: 2px solid transparent;
+        border-top: 2px solid var(--festive-gold);
+        border-right: 2px solid var(--christmas-red);
+        border-radius: 50%;
+        animation: spin 1.5s linear infinite;
+    }
+    
+    .spinnerOrnament {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        background: var(--christmas-green);
+        border-radius: 50%;
+        animation: pulse 1s infinite alternate;
+    }
+}
+
+// Professional Animations
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(45deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(45deg);
+    }
+}
+
+@keyframes gentlePulse {
+    0%, 100% {
+        opacity: 0.15;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.25;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes starTwinkle {
+    0% {
+        opacity: 0.8;
+        transform: translateX(-50%) scale(1);
+        filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.1);
+        filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.8));
+    }
+}
+
+@keyframes balloonFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    33% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+    66% {
+        transform: translateY(-15px) rotate(-5deg);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes sparkle {
+    0% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.3);
+    }
+}
+
+@keyframes snowFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: var(--snowflake-opacity);
+    }
+    80% {
+        opacity: var(--snowflake-opacity);
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+// Balloon animation
+.balloon {
+    animation: balloonFloat 4s infinite ease-in-out;
+    animation-delay: var(--delay);
+}
+
+// Responsive design - Mobile First Approach
+@media (max-width: 768px) {
+    .globalLoading {
+        padding: 1rem;
+    }
+    
+    .festiveTextContainer {
+        top: 2%;
+        gap: 0.25rem;
+        
+        .merryChristmas, .happyNewYear {
+            .festiveText {
+                font-size: 1.5rem;
+                padding: 0.25rem 0.75rem;
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            }
+            
+            .festiveUnderline {
+                height: 2px;
+                width: 60%;
+            }
+        }
+    }
+    
+    .christmasTree {
+        width: 100px;
+        height: 160px;
+        right: 3%;
+        bottom: 3%;
+        
+        .treeLayer1 {
+            border-bottom-width: 65px;
+            border-left-width: 32px;
+            border-right-width: 32px;
+        }
+        
+        .treeLayer2 {
+            border-bottom-width: 55px;
+            border-left-width: 27px;
+            border-right-width: 27px;
+        }
+        
+        .treeLayer3 {
+            border-bottom-width: 45px;
+            border-left-width: 22px;
+            border-right-width: 22px;
+        }
+        
+        .treeLayer4 {
+            border-bottom-width: 35px;
+            border-left-width: 17px;
+            border-right-width: 17px;
+        }
+        
+        .ornament {
+            width: 10px;
+            height: 10px;
+            border-width: 1px;
+            
+            &.ornament1 {
+                width: 12px;
+                height: 12px;
+            }
+            
+            &.ornament3 {
+                width: 13px;
+                height: 13px;
+            }
+            
+            &.ornament5 {
+                width: 12px;
+                height: 12px;
+            }
+        }
+        
+        .treeStar {
+            width: 24px;
+            height: 24px;
+            top: -12px;
+        }
+        
+        .treeBase {
+            bottom: -15px;
+            gap: 5px;
+            
+            .gift1, .gift2, .gift3 {
+                width: 22px;
+                height: 22px;
+                border-radius: 6px;
+            }
+        }
+    }
+    
+    .loadingContainer {
+        padding: 1.5rem;
+        max-width: 95%;
+        margin: 0.5rem;
+        gap: 2rem;
+        border-radius: 20px;
+        backdrop-filter: blur(20px) saturate(180%);
+    }
+    
+    .logoContainer {
+        width: 85px;
+        height: 85px;
+        
+        .logoGlow {
+            width: 110px;
+            height: 110px;
+        }
+        
+        .logoFestiveRing {
+            width: 100px;
+            height: 100px;
+        }
+    }
+    
+    .textsContainer {
+        gap: 1rem;
+    }
+    
+    .partnershipContent {
+        .prefix {
+            font-size: 0.8rem;
+        }
+        
+        .companyName {
+            font-size: 1.6rem;
+        }
+    }
+    
+    .poweredContent {
+        .prefix {
+            font-size: 0.8rem;
+        }
+        
+        .techName {
+            font-size: 1.4rem;
+        }
+    }
+    
+    .journeyContent {
+        .journeyText {
+            font-size: 0.9rem;
+        }
+        
+        .highlightText {
+            font-size: 1.4rem;
+        }
+    }
+    
+    .progressText {
+        font-size: 1.1rem;
+    }
+    
+    .balloon {
+        // Increase size for better visibility on mobile
+        --balloon-size: 45px !important;
+        filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.4));
+        
+        .balloonString {
+            height: 60px;
+        }
+    }
+    
+    .geometricShape1 {
+        width: 60px;
+        height: 60px;
+        top: 5%;
+        right: 5%;
+    }
+    
+    .geometricShape2 {
+        width: 40px;
+        height: 40px;
+        bottom: 10%;
+        left: 5%;
+    }
+    
+    .geometricShape3 {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .festiveTextContainer {
+        .merryChristmas, .happyNewYear {
+            .festiveText {
+                font-size: 1.2rem;
+                padding: 0.2rem 0.5rem;
+            }
+            
+            .festiveUnderline {
+                height: 2px;
+                width: 50%;
+            }
+        }
+    }
+    
+    .christmasTree {
+        width: 80px;
+        height: 140px;
+        right: 2%;
+        bottom: 2%;
+        
+        .treeLayer1 {
+            border-bottom-width: 55px;
+            border-left-width: 27px;
+            border-right-width: 27px;
+        }
+        
+        .treeLayer2 {
+            border-bottom-width: 45px;
+            border-left-width: 22px;
+            border-right-width: 22px;
+        }
+        
+        .treeLayer3 {
+            border-bottom-width: 35px;
+            border-left-width: 17px;
+            border-right-width: 17px;
+        }
+        
+        .treeLayer4 {
+            border-bottom-width: 25px;
+            border-left-width: 12px;
+            border-right-width: 12px;
+        }
+        
+        .ornament {
+            width: 8px;
+            height: 8px;
+            
+            &.ornament1 {
+                width: 10px;
+                height: 10px;
+            }
+            
+            &.ornament3 {
+                width: 11px;
+                height: 11px;
+            }
+            
+            &.ornament5 {
+                width: 10px;
+                height: 10px;
+            }
+        }
+        
+        .treeStar {
+            width: 20px;
+            height: 20px;
+            top: -10px;
+        }
+        
+        .treeBase {
+            bottom: -12px;
+            gap: 4px;
+            
+            .gift1, .gift2, .gift3 {
+                width: 18px;
+                height: 18px;
+                border-radius: 4px;
+            }
+        }
+    }
+    
+    .loadingContainer {
+        padding: 1.25rem;
+        gap: 1.5rem;
+    }
+    
+    .logoContainer {
+        width: 70px;
+        height: 70px;
+        
+        .logoGlow {
+            width: 90px;
+            height: 90px;
+        }
+        
+        .logoFestiveRing {
+            width: 85px;
+            height: 85px;
+        }
+    }
+    
+    .partnershipContent {
+        .companyName {
+            font-size: 1.4rem;
+        }
+    }
+    
+    .poweredContent,
+    .journeyContent {
+        .techName,
+        .highlightText {
+            font-size: 1.2rem;
+        }
+    }
+    
+    .balloon {
+        --balloon-size: 40px !important;
+        
+        .balloonString {
+            height: 50px;
+        }
+    }
+}
+
+// Landscape mode adjustments
+@media (orientation: landscape) and (max-height: 600px) {
+    .festiveTextContainer {
+        top: 1%;
+        flex-direction: row;
+        justify-content: center;
+        gap: 1rem;
+        
+        .merryChristmas, .happyNewYear {
+            .festiveText {
+                font-size: 1.2rem;
+                padding: 0.2rem 0.75rem;
+            }
+        }
+    }
+    
+    .christmasTree {
+        width: 70px;
+        height: 120px;
+        right: 2%;
+        bottom: 2%;
+        
+        .treeLayer1 {
+            border-bottom-width: 45px;
+            border-left-width: 22px;
+            border-right-width: 22px;
+        }
+        
+        .treeLayer2 {
+            border-bottom-width: 35px;
+            border-left-width: 17px;
+            border-right-width: 17px;
+        }
+        
+        .treeLayer3 {
+            border-bottom-width: 25px;
+            border-left-width: 12px;
+            border-right-width: 12px;
+        }
+        
+        .treeLayer4 {
+            display: none;
+        }
+        
+        .ornament {
+            width: 6px;
+            height: 6px;
+        }
+        
+        .treeStar {
+            width: 18px;
+            height: 18px;
+            top: -8px;
+        }
+    }
+    
+    .loadingContainer {
+        padding: 1rem;
+        gap: 1rem;
+        max-width: 80%;
+    }
+    
+    .balloon {
+        --balloon-size: 35px !important;
+        
+        &.medium, &.low {
+            display: none;
+        }
+    }
+}
+
+// Tablet adjustments
+@media (min-width: 769px) and (max-width: 1024px) {
+    .christmasTree {
+        width: 120px;
+        height: 190px;
+        right: 4%;
+        bottom: 4%;
+    }
+    
+    .loadingContainer {
+        max-width: 450px;
+    }
+}
