@@ -22,13 +22,7 @@ export const GlobalLoading = () => {
         surface: 'rgba(30, 41, 59, 0.4)', // Glass surface
         gradient1: '#6366F1',  // Indigo
         gradient2: '#EC4899',  // Pink
-        gradient3: '#10B981',  // Emerald
-        christmasRed: '#DC2626', // Christmas red
-        christmasGreen: '#16A34A', // Christmas green
-        balloonBlue: '#2563EB', // Balloon blue
-        balloonRed: '#EF4444',  // Balloon red
-        festiveGold: '#FBBF24', // Festive gold
-        festiveSilver: '#E5E7EB' // Festive silver
+        gradient3: '#10B981'   // Emerald
     };
 
     // Professional loading content
@@ -37,22 +31,6 @@ export const GlobalLoading = () => {
         powered: { text: "Powered by", company: "DERIV", type: "powered" },
         journey: { text: "Simplifying your", highlight: "trading journey", type: "journey" }
     };
-
-    // Balloon data - optimized for mobile
-    const balloons = [
-        // Top balloons (above content)
-        { id: 1, color: colors.balloonBlue, size: 50, delay: 0, x: '10%', y: '15%', priority: 'high' },
-        { id: 2, color: colors.balloonRed, size: 60, delay: 0.3, x: '90%', y: '10%', priority: 'high' },
-        // Middle balloons
-        { id: 3, color: colors.balloonBlue, size: 45, delay: 0.6, x: '20%', y: '25%', priority: 'medium' },
-        { id: 4, color: colors.balloonRed, size: 55, delay: 0.9, x: '80%', y: '20%', priority: 'medium' },
-        // Bottom balloons
-        { id: 5, color: colors.balloonBlue, size: 40, delay: 1.2, x: '5%', y: '85%', priority: 'high' },
-        { id: 6, color: colors.balloonRed, size: 50, delay: 1.5, x: '95%', y: '80%', priority: 'high' },
-        // Extra balloons for larger screens
-        { id: 7, color: colors.balloonBlue, size: 35, delay: 1.8, x: '15%', y: '40%', priority: 'low' },
-        { id: 8, color: colors.balloonRed, size: 45, delay: 2.1, x: '85%', y: '35%', priority: 'low' }
-    ];
 
     useEffect(() => {
         // Smooth progress animation with easing over 5 seconds
@@ -135,70 +113,6 @@ export const GlobalLoading = () => {
         }
     };
 
-    const balloonVariants = {
-        float: {
-            y: [0, -25, 0],
-            rotate: [0, 8, -8, 0],
-            transition: {
-                y: {
-                    duration: 3.5,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                },
-                rotate: {
-                    duration: 4.5,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                }
-            }
-        }
-    };
-
-    const treeVariants = {
-        initial: { scale: 0, opacity: 0, x: -50 },
-        animate: {
-            scale: 1,
-            opacity: 1,
-            x: 0,
-            transition: {
-                duration: 1,
-                ease: "backOut"
-            }
-        }
-    };
-
-    const ornamentVariants = {
-        twinkle: {
-            scale: [1, 1.2, 1],
-            opacity: [0.7, 1, 0.7],
-            transition: {
-                duration: 2.5,
-                repeat: Infinity,
-                ease: "easeInOut"
-            }
-        }
-    };
-
-    const festiveTextVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.8,
-                ease: "easeOut"
-            }
-        },
-        float: {
-            y: [0, -5, 0],
-            transition: {
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-            }
-        }
-    };
-
     const progressWidth = Math.max(5, progress);
 
     return (
@@ -217,13 +131,7 @@ export const GlobalLoading = () => {
                         '--surface': colors.surface,
                         '--gradient1': colors.gradient1,
                         '--gradient2': colors.gradient2,
-                        '--gradient3': colors.gradient3,
-                        '--christmas-red': colors.christmasRed,
-                        '--christmas-green': colors.christmasGreen,
-                        '--balloon-blue': colors.balloonBlue,
-                        '--balloon-red': colors.balloonRed,
-                        '--festive-gold': colors.festiveGold,
-                        '--festive-silver': colors.festiveSilver
+                        '--gradient3': colors.gradient3
                     }}
                     variants={containerVariants}
                     initial="hidden"
@@ -240,158 +148,6 @@ export const GlobalLoading = () => {
                         <div className={styles.geometricShape3} />
                     </div>
 
-                    {/* Festive Text Overlay */}
-                    <div className={styles.festiveTextContainer}>
-                        <motion.div 
-                            className={styles.merryChristmas}
-                            variants={festiveTextVariants}
-                            initial="hidden"
-                            animate={["visible", "float"]}
-                            style={{ transitionDelay: '0.2s' }}
-                        >
-                            <span className={styles.festiveText}>Merry Christmas</span>
-                            <div className={styles.festiveUnderline} />
-                        </motion.div>
-                        
-                        <motion.div 
-                            className={styles.happyNewYear}
-                            variants={festiveTextVariants}
-                            initial="hidden"
-                            animate={["visible", "float"]}
-                            style={{ transitionDelay: '0.4s' }}
-                        >
-                            <span className={styles.festiveText}>Happy New Year</span>
-                            <div className={styles.festiveUnderline} />
-                        </motion.div>
-                    </div>
-
-                    {/* Christmas Tree - Better positioned for mobile */}
-                    <motion.div 
-                        className={styles.christmasTree}
-                        variants={treeVariants}
-                        initial="initial"
-                        animate="animate"
-                    >
-                        {/* Tree trunk */}
-                        <div className={styles.treeTrunk} />
-                        
-                        {/* Tree layers */}
-                        <div className={styles.treeLayer1} />
-                        <div className={styles.treeLayer2} />
-                        <div className={styles.treeLayer3} />
-                        <div className={styles.treeLayer4} />
-                        
-                        {/* Tree ornaments */}
-                        <motion.div 
-                            className={`${styles.ornament} ${styles.ornament1}`}
-                            variants={ornamentVariants}
-                            animate="twinkle"
-                        />
-                        <motion.div 
-                            className={`${styles.ornament} ${styles.ornament2}`}
-                            variants={ornamentVariants}
-                            animate="twinkle"
-                            style={{ animationDelay: '0.5s' }}
-                        />
-                        <motion.div 
-                            className={`${styles.ornament} ${styles.ornament3}`}
-                            variants={ornamentVariants}
-                            animate="twinkle"
-                            style={{ animationDelay: '1s' }}
-                        />
-                        <motion.div 
-                            className={`${styles.ornament} ${styles.ornament4}`}
-                            variants={ornamentVariants}
-                            animate="twinkle"
-                            style={{ animationDelay: '1.5s' }}
-                        />
-                        <motion.div 
-                            className={`${styles.ornament} ${styles.ornament5}`}
-                            variants={ornamentVariants}
-                            animate="twinkle"
-                            style={{ animationDelay: '2s' }}
-                        />
-                        <motion.div 
-                            className={`${styles.ornament} ${styles.ornament6}`}
-                            variants={ornamentVariants}
-                            animate="twinkle"
-                            style={{ animationDelay: '2.5s' }}
-                        />
-                        
-                        {/* Tree star */}
-                        <motion.div 
-                            className={styles.treeStar}
-                            animate={{
-                                rotate: 360,
-                                scale: [1, 1.1, 1],
-                            }}
-                            transition={{
-                                rotate: {
-                                    duration: 20,
-                                    repeat: Infinity,
-                                    ease: "linear"
-                                },
-                                scale: {
-                                    duration: 2,
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                }
-                            }}
-                        />
-                        
-                        {/* Tree base decorations */}
-                        <div className={styles.treeBase}>
-                            <div className={styles.gift1} />
-                            <div className={styles.gift2} />
-                            <div className={styles.gift3} />
-                        </div>
-                    </motion.div>
-
-                    {/* Balloons - Optimized for mobile visibility */}
-                    {balloons.map((balloon) => (
-                        <motion.div
-                            key={balloon.id}
-                            className={`${styles.balloon} ${styles[balloon.priority]}`}
-                            style={{
-                                left: balloon.x,
-                                top: balloon.y,
-                                '--balloon-size': `${balloon.size}px`,
-                                '--balloon-color': balloon.color,
-                                '--delay': `${balloon.delay}s`
-                            }}
-                            variants={balloonVariants}
-                            initial={{ y: 100, opacity: 0, scale: 0.5 }}
-                            animate={{
-                                ...balloonVariants.float,
-                                y: 0,
-                                opacity: 1,
-                                scale: 1,
-                                transition: {
-                                    delay: balloon.delay,
-                                    duration: 1,
-                                    ease: "backOut"
-                                }
-                            }}
-                        >
-                            <div className={styles.balloonBody} />
-                            <div className={styles.balloonString} />
-                            <div className={styles.balloonHighlight} />
-                            <div className={styles.balloonReflection} />
-                        </motion.div>
-                    ))}
-
-                    {/* Snowflakes for festive effect */}
-                    <div className={styles.snowflakes}>
-                        {[...Array(15)].map((_, i) => (
-                            <div key={i} className={styles.snowflake} style={{
-                                '--snowflake-size': `${Math.random() * 5 + 2}px`,
-                                '--snowflake-delay': `${Math.random() * 5}s`,
-                                '--snowflake-left': `${Math.random() * 100}%`,
-                                '--snowflake-opacity': `${Math.random() * 0.7 + 0.3}`
-                            }} />
-                        ))}
-                    </div>
-
                     <div className={styles.loadingContainer}>
                         {/* Elegant Logo */}
                         <motion.div
@@ -406,7 +162,6 @@ export const GlobalLoading = () => {
                                 className={styles.logo}
                             />
                             <div className={styles.logoGlow} />
-                            <div className={styles.logoFestiveRing} />
                         </motion.div>
                         
                         {/* Professional Text Content */}
@@ -450,7 +205,6 @@ export const GlobalLoading = () => {
                                         className={styles.techName}
                                         animate={{
                                             opacity: [0.8, 1, 0.8],
-                                            scale: [1, 1.05, 1],
                                         }}
                                         transition={{
                                             duration: 2,
@@ -502,7 +256,6 @@ export const GlobalLoading = () => {
                                     }}
                                 >
                                     <div className={styles.progressGlow} />
-                                    <div className={styles.progressSparkles} />
                                 </motion.div>
                             </div>
                             <motion.div 
@@ -526,7 +279,6 @@ export const GlobalLoading = () => {
                         >
                             <div className={styles.spinner}>
                                 <div className={styles.spinnerCircle} />
-                                <div className={styles.spinnerOrnament} />
                             </div>
                             <span className={styles.loadingLabel}>Loading</span>
                         </motion.div>

@@ -4,16 +4,12 @@ import DBotStore from '../scratch/dbot-store';
 import { save_types } from '../constants/save-type';
 
 // Import bots from master folder
-import AutoV1ByStateFX from './master/AUTOV1BYSTATESFX.xml';
 import DerivWizard from './master/Derivwizard.xml';
-import EnhancedV1ByStateFX from './master/ENHANCEDV1BYSTATEFX.xml';
 import MasterG8ByStateFX from './master/MasterG8ByStateFx.xml';
 import MetroV4EvenOddBot from './master/Metrov4EvenandOddDigitBotUpdated.xml';
 import StateHNR from './master/STATEHNR.xml';
 import StateXV1 from './master/STATEXV1.xml';
-import V4EvenOddBot from './master/V4EvenandOddDigitBot.xml';
-import Dollarflipper from './buru/Dollarflipper2.0.xml';
-import Dollarminer from './buru/Dollarminer.xml';
+import BRAMSPEEDBOT from './buru/BRAMSPEEDBOT.xml';
 import EvenOddAutoSwitcher from './buru/EvenOddAutoSwitcher.xml';
 import VxAutoSwitcher from './buru/Vx.xml';
 
@@ -29,38 +25,11 @@ const getBlockly = () => {
 // Static bot configurations - Master bots
 const STATIC_BOTS = {
 
-    dollar_flipper: {
-        id: 'dollar_flipper',
-        name: 'Dollar Flipper',
-        xml: Dollarflipper,
-        timestamp: Date.now(),
-        save_type: save_types.LOCAL,
-    },
-    dollar_miner: {
-        id: 'dollar_miner',
-        name: 'Dollar Miner',
-        xml: Dollarminer,
-        timestamp: Date.now(),
-        save_type: save_types.LOCAL,
-    },
-    even_odd_auto_switcher: {
-        id: 'even_odd_auto_switcher',
-        name: 'Even Odd Auto Switcher',
-        xml: EvenOddAutoSwitcher,
-        timestamp: Date.now(),
-        save_type: save_types.LOCAL,
-    },
+    
     vx_auto_switcher: {
         id: 'vx_auto_switcher',
-        name: 'Vx Auto Switcher',
+        name: 'Bram Entrypoint V1',
         xml: VxAutoSwitcher,
-        timestamp: Date.now(),
-        save_type: save_types.LOCAL,
-    },
-    auto_v1: {
-        id: 'auto_v1',
-        name: 'Auto V1 By State FX',
-        xml: AutoV1ByStateFX,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
@@ -71,16 +40,9 @@ const STATIC_BOTS = {
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
-    enhanced_v1: {
-        id: 'enhanced_v1',
-        name: 'Enhanced V1',
-        xml: EnhancedV1ByStateFX,
-        timestamp: Date.now(),
-        save_type: save_types.LOCAL,
-    },
     master_g8: {
         id: 'master_g8',
-        name: 'Gainer xvt scun entry point',
+        name: 'V3',
         xml: MasterG8ByStateFX,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
@@ -94,22 +56,29 @@ const STATIC_BOTS = {
     },
     state_hnr: {
         id: 'state_hnr',
-        name: 'Entry HNR',
+        name: 'Begginer Bot',
         xml: StateHNR,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
     state_xv1: {
         id: 'state_xv1',
-        name: 'Entry XV1',
+        name: 'Bram Entrypoint V2',
         xml: StateXV1,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
-    v4_even_odd: {
-        id: 'v4_even_odd',
-        name: 'V4 Even Odd Bot',
-        xml: V4EvenOddBot,
+    bram_speed_bot: {
+        id: 'bram_speed_bot',
+        name: 'Bram Speed Bot',
+        xml: BRAMSPEEDBOT,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    even_odd_auto_switcher: {
+        id: 'even_odd_auto_switcher',
+        name: 'Even Odd Auto Switcher',
+        xml: EvenOddAutoSwitcher,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     }
