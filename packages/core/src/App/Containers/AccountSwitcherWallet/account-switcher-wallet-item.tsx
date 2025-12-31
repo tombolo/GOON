@@ -41,8 +41,8 @@ export const AccountSwitcherWalletItem = observer(
             closeAccountsDialog();
             if (is_dtrade_active) return;
             await switchAccount(dtrade_loginid);
-            localStorage.setItem('active_loginid', loginid);
-            sessionStorage.setItem('active_loginid', loginid);
+            localStorage.setItem('active_wallet_loginid', loginid);
+            sessionStorage.setItem('active_wallet_loginid', loginid);
         };
 
         return (
