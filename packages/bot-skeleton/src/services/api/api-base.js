@@ -14,13 +14,13 @@ class APIBase {
     has_activeSymbols = false;
     is_stopping = false;
 
-    async init(force_update = false) {
+    async init(force_update = false, account_id) {
         if (getLoginId()) {
             this.toggleRunButton(true);
             if (force_update) this.terminate();
             this.api = generateDerivApiInstance();
             this.initEventListeners();
-            await this.authorizeAndSubscribe();
+            await this.authorizeAndSubscribe(account_id);
             if (this.time_interval) clearInterval(this.time_interval);
             this.time_interval = null;
             this.getTime();
@@ -50,7 +50,7 @@ class APIBase {
 
     async createNewInstance(account_id) {
         if (this.account_id !== account_id) {
-            await this.init(true);
+            await this.init(true, account_id);
         }
     }
 
@@ -64,11 +64,11 @@ class APIBase {
         }
     };
 
-    async authorizeAndSubscribe() {
-        const { token, account_id } = getToken();
+    async authorizeAndSubscribe(account_id) {
+        const { token, account_id: active_account_id } = getToken(account_id);
         if (token) {
             this.token = token;
-            this.account_id = account_id;
+            this.account_id = active_account_id;
             this.api.authorize(this.token);
             try {
                 const { authorize } = await this.api.expectResponse('authorize');

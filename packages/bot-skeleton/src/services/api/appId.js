@@ -21,8 +21,8 @@ export const getLoginId = () => {
     return null;
 };
 
-export const getToken = () => {
-    let active_loginid = getLoginId();
+export const getToken = loginid => {
+    let active_loginid = loginid || getLoginId();
     const client_accounts = JSON.parse(localStorage.getItem('client.accounts')) || undefined;
     let active_account = (client_accounts && client_accounts[active_loginid]) || {};
 
