@@ -220,7 +220,7 @@ const AppWrapper = observer(() => {
                             label={
                                 <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
                                     <FaGlobe style={{ marginRight: '8px' }} />
-                                    <Localize i18n_default_text='Trader' />
+                                    <Localize i18n_default_text='D Trader' />
                                 </span>
                             }
                             id='id-trader'

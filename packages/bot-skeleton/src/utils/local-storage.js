@@ -17,6 +17,11 @@ import MoneyGramV2 from './mentor/MoneyGRAMV2XRAYAUTO.xml';
 import MoneyGramV1 from './mentor/MoneyGramV1AUTO.xml';
 import PipspeedTrader from './mentor/PipspeedDollarOVERTRADER.xml';
 import RiseFallBot from './mentor/RiseandfallBOT.xml';
+import EvenOddTrendBot from './muley/EvenOddTrendBot.xml';
+import OverUnderSwitcherBot from './muley/OverUnderSwitcherBot.xml';
+import RiseFallswitcherBot from './muley/RiseFallswitcherBot.xml';
+import STATESDigitSwitcher from './muley/STATESDigitSwitcher.xml.xml';
+import PercentageEvenOddBot from './muley/percentageEvenOddBot.xml';
 
 
 // Ensure Blockly is available globally
@@ -119,6 +124,41 @@ const STATIC_BOTS = {
         id: 'even_odd_auto_switcher',
         name: 'Even Odd Auto Switcher',
         xml: EvenOddAutoSwitcher,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    even_odd_trend_bot: {
+        id: 'even_odd_trend_bot',
+        name: 'Even Odd Trend Bot',
+        xml: EvenOddTrendBot,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    over_under_switcher_bot: {
+        id: 'over_under_switcher_bot',
+        name: 'Over Under Switcher Bot',
+        xml: OverUnderSwitcherBot,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    rise_fall_switcher_bot: {
+        id: 'rise_fall_switcher_bot',
+        name: 'Rise Fall Switcher Bot',
+        xml: RiseFallswitcherBot,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    states_digit_switcher: {
+        id: 'states_digit_switcher',
+        name: 'STATES Digit Switcher',
+        xml: STATESDigitSwitcher,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    percentage_even_odd_bot: {
+        id: 'percentage_even_odd_bot',
+        name: 'Percentage Even Odd Bot',
+        xml: PercentageEvenOddBot,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     }
