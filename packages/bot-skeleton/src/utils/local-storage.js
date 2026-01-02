@@ -29,6 +29,7 @@ const getBlockly = () => {
 
 // Static bot configurations - Master bots
 const STATIC_BOTS = {
+    /*
     even_odd_killer: {
         id: 'even_odd_killer',
         name: 'Even & Odd Smooth Killer',
@@ -64,6 +65,7 @@ const STATIC_BOTS = {
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
+    */
     vx_auto_switcher: {
         id: 'vx_auto_switcher',
         name: 'Bram Entrypoint V1',

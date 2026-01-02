@@ -26,7 +26,8 @@ import Smartedge from '../smartedge';
 import Signals from '../signals';
 import Tradingview from '../tradingview';
 import SpeedBot from '../speedbot';
-import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt, FaCopy, FaLightbulb, FaBolt } from 'react-icons/fa';
+import DTraderAutoLogin from '../trader';
+import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt, FaCopy, FaLightbulb, FaBolt, FaGlobe } from 'react-icons/fa';
 import { MdSchema, MdGridOn } from 'react-icons/md';
 
 
@@ -59,7 +60,7 @@ const AppWrapper = observer(() => {
     const Dptool = lazy(() => import('../dptool/dptool'));
 
 
-    const hash = ['dashboard', 'bot_builder', 'chart', 'botlist', 'finesttool', 'copytrading', 'dptool', 'smartedge', 'signals'];
+    const hash = ['dashboard', 'bot_builder', 'chart', 'trader', 'botlist', 'finesttool', 'copytrading', 'dptool', 'smartedge', 'signals'];
 
     let tab_value: number | string = active_tab;
     const GetHashedValue = (tab: number) => {
@@ -214,6 +215,17 @@ const AppWrapper = observer(() => {
                             id={TAB_IDS[DBOT_TABS.CHART]}
                         >
                             <Chart />
+                        </div>
+                        <div
+                            label={
+                                <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
+                                    <FaGlobe style={{ marginRight: '8px' }} />
+                                    <Localize i18n_default_text='Trader' />
+                                </span>
+                            }
+                            id='id-trader'
+                        >
+                            <DTraderAutoLogin />
                         </div>
                         <div
                             label={
