@@ -41,7 +41,7 @@ const TradersHubLoggedOut = observer(() => {
                     <GetStartedTradingBanner />
                     <Text size={isDesktop ? 'm' : 'xsm'} weight='bold' color='prominent'>
                         <a href=''>
-                            <Localize i18n_default_text="CALEKYZ" />
+                            <Localize i18n_default_text="KOD TRADERS" />
                         </a>
                     </Text>
                     {isDesktop ? (

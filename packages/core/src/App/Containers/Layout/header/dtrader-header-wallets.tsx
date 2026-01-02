@@ -49,14 +49,7 @@ const MenuLeft = observer(() => {
                         setTogglePlatformType={setTogglePlatformType}
                         current_language={current_language}
                     />
-                    <a
-                        href="https://play.google.com/store/apps/details?id=com.mpesafx.app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="header__mpesa-btn"
-                    >
-                        Mpesa Fx
-                    </a>
+
                 </React.Fragment>
             ) : (
                 <React.Fragment>

@@ -149,14 +149,7 @@ const DTraderHeader = observer(() => {
                                 </a>
                             </div>
 
-                            <a
-                                href="https://play.google.com/store/apps/details?id=com.mpesafx.app"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="header__mpesa-btn"
-                            >
-                                Mpesa Fx
-                            </a>
+
                         </React.Fragment>
                     )}
                     <MenuLinks />

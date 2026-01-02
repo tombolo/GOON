@@ -362,15 +362,7 @@ const ToggleMenuDrawer = observer(({ platform_config }) => {
                                             current_language={current_language}
                                             setTogglePlatformType={setTogglePlatformType}
                                         />
-                                        <a 
-                                            href="https://play.google.com/store/apps/details?id=com.mpesafx.app" 
-                                            target="_blank" 
-                                            rel="noopener noreferrer"
-                                            className="header__mpesa-btn"
-                                            style={{ margin: '8px 16px', display: 'flex', width: 'auto' }}
-                                        >
-                                            Mpesa Fx
-                                        </a>
+
                                         {/* Social icons (mobile) */}
                                         <div className='header__socials'>
                                             <a href='' target='_blank' rel='noopener noreferrer' aria-label='Telegram'>
@@ -392,7 +384,7 @@ const ToggleMenuDrawer = observer(({ platform_config }) => {
                                         onClick={toggleDrawer}
                                     >
                                         <Icon icon={TradersHubIcon} className='dc-menu-link__icon' />
-                                        <span className='dc-menu-link__text'>{localize('CALEKYZ')}</span>
+                                        <span className='dc-menu-link__text'>{localize('KOD TRADERS')}</span>
                                     </a>
                                 </MobileDrawer.Item>
 

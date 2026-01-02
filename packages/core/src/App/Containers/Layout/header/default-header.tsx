@@ -102,22 +102,7 @@ const DefaultHeader = observer(() => {
                             <ToggleMenuDrawer platform_config={filterPlatformsForClients(platform_config)} />
                             <div className='header__left-stack'>
 
-                                <a
-                                    href="https://play.google.com/store/apps/details?id=com.mpesafx.app"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="header__mpesa-btn"
-                                >
-                                    Mpesa Fx
-                                </a>
-                                <a
-                                    href="https://play.google.com/store/apps/details?id=com.mpesafx.app"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="header__mpesa-btn"
-                                >
-                                    Mpesa Fx
-                                </a>
+
                                 <div className='header__socials'>
 
                                     <a href='https://chat.whatsapp.com/JouzjTwJ25c4wnKoz4Wzbf' target='_blank' rel='noopener noreferrer' aria-label='WhatsApp'>
@@ -141,14 +126,7 @@ const DefaultHeader = observer(() => {
 
                                 </div>
 
-                                <a
-                                    href="https://play.google.com/store/apps/details?id=com.mpesafx.app"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="header__mpesa-btn"
-                                >
-                                    Mpesa Fx
-                                </a>
+
                             </div>
                         </React.Fragment>
                     )}
