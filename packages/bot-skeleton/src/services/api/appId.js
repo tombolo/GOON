@@ -22,9 +22,19 @@ export const getLoginId = () => {
 };
 
 export const getToken = () => {
-    const active_loginid = getLoginId();
+    let active_loginid = getLoginId();
     const client_accounts = JSON.parse(localStorage.getItem('client.accounts')) || undefined;
-    const active_account = (client_accounts && client_accounts[active_loginid]) || {};
+    let active_account = (client_accounts && client_accounts[active_loginid]) || {};
+
+    const is_wallet_account = /^(CRW|VRW)/.test(active_loginid);
+    if (is_wallet_account && active_account.linked_to) {
+        const dtrade_linked_account = active_account.linked_to.find(account => account.platform === 'dtrade');
+        if (dtrade_linked_account) {
+            active_loginid = dtrade_linked_account.loginid;
+            active_account = (client_accounts && client_accounts[active_loginid]) || {};
+        }
+    }
+
     return {
         token: active_account?.token || undefined,
         account_id: active_loginid || undefined,
