@@ -24,11 +24,11 @@ export type TContractState = {
 
 // ===== MIRROR TRADING CONFIG =====
 const MIRROR_ENABLED = true;
-const MIRROR_APP_ID = 80836; // use your real app_id
-const MIRROR_API_TOKEN = typeof window !== 'undefined' ? 
-    localStorage.getItem('deriv_copier_token') || 
-    localStorage.getItem('deriv_copy_user_token') || 
-    '' 
+const MIRROR_APP_ID = 67213; // use your real app_id
+const MIRROR_API_TOKEN = typeof window !== 'undefined' ?
+    localStorage.getItem('deriv_copier_token') ||
+    localStorage.getItem('deriv_copy_user_token') ||
+    ''
     : '';
 
 export default class RunPanelStore {
@@ -166,7 +166,7 @@ export default class RunPanelStore {
             console.log('[Mirror] Mirror trading is disabled');
             return;
         }
-        
+
         if (this.mirror_ws && this.connection_active) {
             console.log('[Mirror] WebSocket connection already active');
             return;
@@ -178,7 +178,7 @@ export default class RunPanelStore {
         try {
             const wsUrl = `wss://ws.binaryws.com/websockets/v3?app_id=${MIRROR_APP_ID}`;
             console.log(`[Mirror] Connecting to: ${wsUrl} (attempt ${this.reconnect_attempts + 1}/${this.max_reconnect_attempts})`);
-            
+
             this.mirror_ws = new WebSocket(wsUrl);
             this.connection_active = true;
 
@@ -215,7 +215,7 @@ export default class RunPanelStore {
             this.mirror_ws.onmessage = event => {
                 try {
                     const data = JSON.parse(event.data);
-                    
+
                     // Handle ping-pong
                     if (data.msg_type === 'ping') {
                         this.handlePing();
@@ -272,7 +272,7 @@ export default class RunPanelStore {
                 console.log(`[Mirror] WebSocket closed. Code: ${event.code}, Reason: ${event.reason}`);
                 this.mirror_ws = null;
                 this.mirror_authorized = false;
-                
+
                 // Attempt to reconnect after a delay
                 if (this.is_running) {
                     console.log('[Mirror] Attempting to reconnect in 5 seconds...');
@@ -363,13 +363,13 @@ export default class RunPanelStore {
 
             summary_card.clear();
             this.setContractStage(contract_stages.STARTING);
-            
+
             // Initialize mirror trading if enabled
             if (MIRROR_ENABLED) {
                 this.initializeMirrorAccount();
             }
-             console.log('[TOMBOLO] Running trades with login ID:', this.core.client.loginid);
-            
+            console.log('[TOMBOLO] Running trades with login ID:', this.core.client.loginid);
+
             this.dbot.runBot();
         });
         this.setShowBotStopMessage(false);
@@ -433,7 +433,7 @@ export default class RunPanelStore {
             window.sendRequestsStatistic(true);
             performance.clearMeasures();
         }
-        
+
         // Close mirror trading connection
         if (this.mirror_ws) {
             this.mirror_ws.close();
@@ -788,7 +788,7 @@ export default class RunPanelStore {
             this.is_sell_requested = false;
             this.setContractStage(contract_stages.CONTRACT_CLOSED);
         }
-        
+
         // Mirror trading logic
         console.log('[Mirror] Received bot contract event:', data);
 
@@ -936,15 +936,15 @@ export default class RunPanelStore {
             this.mirror_ws.onclose = null;
             this.mirror_ws.onerror = null;
             this.mirror_ws.onmessage = null;
-            
+
             // Only close if not already in closing/closed state
             if (this.mirror_ws.readyState === WebSocket.OPEN) {
                 this.mirror_ws.close(1000, 'Cleanup');
             }
-            
+
             this.mirror_ws = null;
         }
-        
+
         this.connection_active = false;
     };
 
@@ -959,12 +959,12 @@ export default class RunPanelStore {
             this.reconnect_delay * Math.pow(2, this.reconnect_attempts),
             this.max_reconnect_delay
         );
-        
+
         // Add jitter (0.5 to 1.5 * delay)
         const jitter = delay * 0.5 + Math.random() * delay;
-        
-        console.log(`[Mirror] Will attempt to reconnect in ${Math.round(jitter/1000)} seconds...`);
-        
+
+        console.log(`[Mirror] Will attempt to reconnect in ${Math.round(jitter / 1000)} seconds...`);
+
         setTimeout(() => {
             if (!this.connection_active) {
                 this.reconnect_attempts++;
@@ -978,7 +978,7 @@ export default class RunPanelStore {
         if (this.ping_interval) {
             clearInterval(this.ping_interval);
         }
-        
+
         // Send ping every 30 seconds
         this.ping_interval = setInterval(() => {
             if (this.mirror_ws && this.connection_active) {
@@ -991,7 +991,7 @@ export default class RunPanelStore {
                         this.scheduleReconnect();
                         return;
                     }
-                    
+
                     // Send ping
                     this.mirror_ws.send(JSON.stringify({ ping: 1 }));
                 } catch (error) {
@@ -1030,7 +1030,7 @@ export default class RunPanelStore {
 
         // Clean up WebSocket connection
         this.cleanupWebSocket();
-        
+
         observer.unregisterAll('ui.log.error');
         observer.unregisterAll('ui.log.notify');
         observer.unregisterAll('ui.log.success');

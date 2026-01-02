@@ -29,22 +29,22 @@ const TradersHubHomeButton = observer(() => {
             const account_currency = url_params.get('account') || window.sessionStorage.getItem('account');
 
             window.location.href = `${redirectUrl}/redirect?action=redirect_to&redirect_to=home${account_currency ? `&account=${account_currency}` : ''}`;
-        } 
-        
+        }
+
     };
 
     return (
         <div
             data-testid='dt_traders_hub_home_button'
-            
-            
+
+
             onClick={handleTradershubRedirect}
         >
-            
+
             <Text className='traders-hub-header__tradershub--text'>
-                
-                    <Localize i18n_default_text="BRAM FX" />
-            
+
+                <Localize i18n_default_text="CALEKYZ" />
+
             </Text>
         </div>
     );

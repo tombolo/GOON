@@ -608,7 +608,7 @@
     }
 }
 
-// BRAM FX styling for navigation menu
+// CALEKYZ styling for navigation menu
 .dc-menu-link {
     padding: 0.4rem 0.8rem !important;
     transition: all 0.2s ease !important;
@@ -644,5 +644,38 @@
         transition: background 0.2s ease, transform 0.2s ease;
 
         &:hover { background: rgba(0, 0, 0, 0.2); transform: translateY(-1px); }
+    }
+}
+
+// Mpesa Fx Button
+.header__mpesa-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    height: 32px;
+    background-color: #25d366; // WhatsApp/Mpesa green-ish color
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-left: 8px;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+    &:hover {
+        background-color: #128c7e;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        color: #ffffff;
+        text-decoration: none;
+    }
+    
+    @include mobile {
+        width: 100%;
+        margin: 8px 0;
+        height: 40px;
+        border-radius: 8px;
     }
 }

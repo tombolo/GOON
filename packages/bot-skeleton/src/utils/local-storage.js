@@ -12,6 +12,11 @@ import StateXV1 from './master/STATEXV1.xml';
 import BRAMSPEEDBOT from './buru/BRAMSPEEDBOT.xml';
 import EvenOddAutoSwitcher from './buru/EvenOddAutoSwitcher.xml';
 import VxAutoSwitcher from './buru/Vx.xml';
+import EvenOddSmoothKiller from './mentor/EVEN&ODDsmoothKILLER.xml';
+import MoneyGramV2 from './mentor/MoneyGRAMV2XRAYAUTO.xml';
+import MoneyGramV1 from './mentor/MoneyGramV1AUTO.xml';
+import PipspeedTrader from './mentor/PipspeedDollarOVERTRADER.xml';
+import RiseFallBot from './mentor/RiseandfallBOT.xml';
 
 
 // Ensure Blockly is available globally
@@ -24,8 +29,41 @@ const getBlockly = () => {
 
 // Static bot configurations - Master bots
 const STATIC_BOTS = {
-
-    
+    even_odd_killer: {
+        id: 'even_odd_killer',
+        name: 'Even & Odd Smooth Killer',
+        xml: EvenOddSmoothKiller,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    money_gram_v2: {
+        id: 'money_gram_v2',
+        name: 'Money Gram V2 XRAY Auto',
+        xml: MoneyGramV2,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    money_gram_v1: {
+        id: 'money_gram_v1',
+        name: 'Money Gram V1 Auto',
+        xml: MoneyGramV1,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    pipspeed_trader: {
+        id: 'pipspeed_trader',
+        name: 'Pipspeed Dollar Overtrader',
+        xml: PipspeedTrader,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    rise_fall_bot: {
+        id: 'rise_fall_bot',
+        name: 'Rise and Fall Bot',
+        xml: RiseFallBot,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
     vx_auto_switcher: {
         id: 'vx_auto_switcher',
         name: 'Bram Entrypoint V1',

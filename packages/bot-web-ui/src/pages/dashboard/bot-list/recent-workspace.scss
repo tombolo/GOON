@@ -45,6 +45,26 @@
         text-transform: uppercase;
     }
 
+    /* YouTube Icon */
+    &__youtube-icon {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        z-index: 5;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        
+        svg {
+            display: block;
+            width: 28px;
+            height: 28px;
+        }
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
     @media (max-width: 768px) {
         width: 100%;
         max-width: 100%;

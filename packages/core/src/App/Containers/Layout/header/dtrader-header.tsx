@@ -9,15 +9,15 @@ const InstagramIcon: React.FC<{ width?: number; height?: number; className?: str
     <svg width={width} height={height} viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' className={className} aria-hidden='true'>
         <defs>
             <linearGradient id='igGrad' x1='0%' y1='0%' x2='100%' y2='100%'>
-                <stop offset='0%' stopColor='#F58529'/>
-                <stop offset='30%' stopColor='#DD2A7B'/>
-                <stop offset='60%' stopColor='#8134AF'/>
-                <stop offset='100%' stopColor='#515BD4'/>
+                <stop offset='0%' stopColor='#F58529' />
+                <stop offset='30%' stopColor='#DD2A7B' />
+                <stop offset='60%' stopColor='#8134AF' />
+                <stop offset='100%' stopColor='#515BD4' />
             </linearGradient>
         </defs>
-        <rect x='3' y='3' width='18' height='18' rx='5' ry='5' fill='none' stroke='url(#igGrad)' strokeWidth='2'/>
-        <circle cx='12' cy='12' r='4.2' fill='none' stroke='url(#igGrad)' strokeWidth='2'/>
-        <circle cx='17.2' cy='6.8' r='1.3' fill='url(#igGrad)'/>
+        <rect x='3' y='3' width='18' height='18' rx='5' ry='5' fill='none' stroke='url(#igGrad)' strokeWidth='2' />
+        <circle cx='12' cy='12' r='4.2' fill='none' stroke='url(#igGrad)' strokeWidth='2' />
+        <circle cx='17.2' cy='6.8' r='1.3' fill='url(#igGrad)' />
     </svg>
 );
 import { observer, useStore } from '@deriv/stores';
@@ -125,11 +125,11 @@ const DTraderHeader = observer(() => {
                                     current_language={current_language}
                                 />
                                 <div className='header__socials'>
-                                    
+
                                     <a href='https://chat.whatsapp.com/JouzjTwJ25c4wnKoz4Wzbf' target='_blank' rel='noopener noreferrer' aria-label='WhatsApp'>
                                         <Icon icon='IcWhatsappFilled' width={20} height={20} />
                                     </a>
-                                   
+
                                 </div>
                             </div>
                         </React.Fragment>
@@ -159,6 +159,14 @@ const DTraderHeader = observer(() => {
                                 setTogglePlatformType={setTogglePlatformType}
                                 current_language={current_language}
                             />
+                            <a
+                                href="https://play.google.com/store/apps/details?id=com.mpesafx.app"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="header__mpesa-btn"
+                            >
+                                Mpesa Fx
+                            </a>
                         </React.Fragment>
                     )}
                     <MenuLinks />
