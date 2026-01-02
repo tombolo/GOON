@@ -13,7 +13,6 @@ jest.mock('@deriv-com/ui', () => ({
 
 jest.mock('App/Components/Layout/Header', () => ({
     MenuLinks: jest.fn(() => <div>Mocked Menu Links</div>),
-    PlatformSwitcher: jest.fn(() => <div>Mocked Platform Switcher</div>),
 }));
 jest.mock('App/Containers/RealAccountSignup', () => jest.fn(() => <div>Mocked Real Account SignUp</div>));
 jest.mock('App/Components/Layout/Header/toggle-menu-drawer.jsx', () =>
@@ -37,12 +36,12 @@ describe('DefaultHeader', () => {
             </StoreProvider>
         );
 
-    it('should render Platform switcher, Menu Links, Account action and Real Account SignUp components, in Desktop view for non-tradershub route', () => {
+    it('should render Menu Links, Account action and Real Account SignUp components, in Desktop view for non-tradershub route', () => {
         (useLocation as jest.Mock).mockReturnValue({
             pathname: routes.bot,
         });
         renderComponent();
-        expect(screen.getByText('Mocked Platform Switcher')).toBeInTheDocument();
+
         expect(screen.getByText('Mocked Menu Links')).toBeInTheDocument();
         expect(screen.getByText('Mocked Header Account Action')).toBeInTheDocument();
         expect(screen.getByText('Mocked Real Account SignUp')).toBeInTheDocument();
@@ -53,7 +52,7 @@ describe('DefaultHeader', () => {
             pathname: routes.traders_hub,
         });
         renderComponent();
-        expect(screen.queryByText('Mocked Platform Switcher')).not.toBeInTheDocument();
+
         expect(screen.getByText('Mocked Menu Links')).toBeInTheDocument();
         expect(screen.getByText('Mocked Header Account Action')).toBeInTheDocument();
         expect(screen.getByText('Mocked Real Account SignUp')).toBeInTheDocument();

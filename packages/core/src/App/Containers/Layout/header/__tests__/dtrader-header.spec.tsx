@@ -11,7 +11,6 @@ jest.mock('@deriv-com/ui', () => ({
 
 jest.mock('App/Components/Layout/Header', () => ({
     MenuLinks: jest.fn(() => <div>Mocked Menu Links</div>),
-    PlatformSwitcher: jest.fn(() => <div>Mocked Platform Switcher</div>),
 }));
 jest.mock('App/Containers/RealAccountSignup', () => jest.fn(() => <div>Mocked Real Account SignUp</div>));
 jest.mock('App/Components/Layout/Header/toggle-menu-drawer.jsx', () =>
@@ -30,10 +29,10 @@ describe('DTraderHeader', () => {
             </StoreProvider>
         );
 
-    it('should render Platform switcher, Traders Home button, Menu Links, Account actions and Real Account SignUp components, in Desktop view', () => {
+    it('should render Traders Home button, Menu Links, Account actions and Real Account SignUp components, in Desktop view', () => {
         renderComponent();
         const desktop_view_text_content = [
-            'Mocked Platform Switcher',
+
             'Mocked Traders Home Button',
             'Mocked Menu Links',
             'Mocked Header Account Action',

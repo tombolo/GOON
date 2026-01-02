@@ -23,7 +23,7 @@ const InstagramIcon: React.FC<{ width?: number; height?: number; className?: str
 import { observer, useStore } from '@deriv/stores';
 import { useDevice } from '@deriv-com/ui';
 
-import { MenuLinks, PlatformSwitcher } from 'App/Components/Layout/Header';
+import { MenuLinks } from 'App/Components/Layout/Header';
 import { AccountsInfoLoader } from 'App/Components/Layout/Header/Components/Preloader';
 import ToggleMenuDrawer from 'App/Components/Layout/Header/toggle-menu-drawer.jsx';
 import ToggleMenuDrawerAccountsOS from 'App/Components/Layout/Header/toggle-menu-drawer-accounts-os.jsx';
@@ -118,12 +118,7 @@ const DTraderHeader = observer(() => {
                                 </>
                             )}
                             <div className='header__left-stack'>
-                                <PlatformSwitcher
-                                    app_routing_history={app_routing_history}
-                                    platform_config={filterPlatformsForClients(platform_config)}
-                                    setTogglePlatformType={setTogglePlatformType}
-                                    current_language={current_language}
-                                />
+
                                 <div className='header__socials'>
 
                                     <a href='https://chat.whatsapp.com/JouzjTwJ25c4wnKoz4Wzbf' target='_blank' rel='noopener noreferrer' aria-label='WhatsApp'>
@@ -153,12 +148,7 @@ const DTraderHeader = observer(() => {
                                     <InstagramIcon />
                                 </a>
                             </div>
-                            <PlatformSwitcher
-                                app_routing_history={app_routing_history}
-                                platform_config={filterPlatformsForClients(platform_config)}
-                                setTogglePlatformType={setTogglePlatformType}
-                                current_language={current_language}
-                            />
+
                             <a
                                 href="https://play.google.com/store/apps/details?id=com.mpesafx.app"
                                 target="_blank"

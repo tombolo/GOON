@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { getDecimalPlaces, platforms, routes } from '@deriv/shared';
 import { observer, useStore } from '@deriv/stores';
-import { MenuLinks, PlatformSwitcher } from 'App/Components/Layout/Header';
+import { MenuLinks } from 'App/Components/Layout/Header';
 import { AccountsInfoLoader } from 'App/Components/Layout/Header/Components/Preloader';
 import NewVersionNotification from 'App/Containers/new-version-notification.jsx';
 import RealAccountSignup from 'App/Containers/RealAccountSignup';
@@ -59,7 +59,7 @@ const DefaultHeader = observer(() => {
     const history = useHistory();
     const { isDesktop } = useDevice();
     const location = useLocation();
-    const should_hide_platform_switcher = location.pathname === routes.traders_hub;
+
 
     const addUpdateNotification = () => addNotificationMessage(client_notifications?.new_version_available);
     const removeUpdateNotification = React.useCallback(
@@ -101,17 +101,7 @@ const DefaultHeader = observer(() => {
                         <React.Fragment>
                             <ToggleMenuDrawer platform_config={filterPlatformsForClients(platform_config)} />
                             <div className='header__left-stack'>
-                                {!should_hide_platform_switcher && (
-                                    <PlatformSwitcher
-                                        app_routing_history={app_routing_history}
-                                        is_landing_company_loaded={is_landing_company_loaded}
-                                        is_logged_in={is_logged_in}
-                                        is_logging_in={is_logging_in}
-                                        platform_config={filterPlatformsForClients(platform_config)}
-                                        setTogglePlatformType={setTogglePlatformType}
-                                        current_language={current_language}
-                                    />
-                                )}
+
                                 <a
                                     href="https://play.google.com/store/apps/details?id=com.mpesafx.app"
                                     target="_blank"
@@ -150,17 +140,7 @@ const DefaultHeader = observer(() => {
                                     </a>
 
                                 </div>
-                                {!should_hide_platform_switcher && (
-                                    <PlatformSwitcher
-                                        app_routing_history={app_routing_history}
-                                        is_landing_company_loaded={is_landing_company_loaded}
-                                        is_logged_in={is_logged_in}
-                                        is_logging_in={is_logging_in}
-                                        platform_config={filterPlatformsForClients(platform_config)}
-                                        setTogglePlatformType={setTogglePlatformType}
-                                        current_language={current_language}
-                                    />
-                                )}
+
                                 <a
                                     href="https://play.google.com/store/apps/details?id=com.mpesafx.app"
                                     target="_blank"
