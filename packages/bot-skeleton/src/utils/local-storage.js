@@ -63,6 +63,8 @@ const STATIC_BOTS = {
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
+    */
+   
     rise_fall_bot: {
         id: 'rise_fall_bot',
         name: 'Rise and Fall Bot',
@@ -70,7 +72,7 @@ const STATIC_BOTS = {
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
-    */
+    
     vx_auto_switcher: {
         id: 'vx_auto_switcher',
         name: 'Bram Entrypoint V1',
